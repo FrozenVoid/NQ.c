@@ -78,6 +78,17 @@ for(size_t i=0;i<N;i++){if(qccount(i))return i;};return N;}
 
 //--------------------------
 void printboard(){print("\n");for(size_t i=0;i<N;i++)print(board[i]+1,"\n");}
+
+void fileboard(){char* fname=malloc(126);
+sprintf(fname,"%u.nq",N);
+FILE*out=fopen(fname,"wb");
+print("\nWriting board into",fname);
+size_t rfwout=fwrite(board,4,N,out);
+if(rfwout==N){print("\nFile:",fname,"\nRecorded board as file\n");}
+else{print("\nFile:",fname,"\nWrite mismatch\n",N,"!=",rfwout);}
+}
+
+
 //https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
 
  val_t modreduce(uint32_t x, uint32_t N) {
@@ -208,4 +219,5 @@ verify+=(diagR[board[i]+(N-i)])!=1;
 //halt on error(stops nqtest.sh) (fix:disable NONLINEAR search
 if(verify){print("Invalid solution to N=",N,"Collisions:",verify);char __attribute__((unused))  tt=getchar();}
 if((argc==3 && (argv[2][0]=='p'))){printboard();}
+if((argc==3 && (argv[2][0]=='f'))){fileboard();}
 return 0;}
