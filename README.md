@@ -5,7 +5,9 @@ Fast N-Queen Puzzle solver
 # Syntax
 
 nq N [p]
+
 N=Board size 8+
+
 Optional:p=print board as sequence of row addresses from 1+
 
 
