@@ -4,7 +4,7 @@
 #define NCYCLES 8 //report each NCYCLES
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #define tsctime(c) ((__rdtsc()-c)>>30)
-#define SCRAMBLE 8//scramble iters 0-N
+#define SCRAMBLE 1//scramble rows to avoid clumping
 #define QDEBUG 1//print debug/iteration data
 #define NONLINEAR 1//ending search if (cols<log(N))
 #define val_t u32
@@ -15,9 +15,9 @@ x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 
 //from https://arxiv.org/abs/1704.00358
 static uint32_t msws() {
-static uint64_t x = 0, w = 0, s = 0xb5ad4eceda1ce2a9;
+static uint64_t x = 266346241, w = 0, s = 0xb5ad4eceda1ce2a9;
    x *= x; x += (w += s); return x = (x>>32) | (x<<32);}
-static u64 tseedw=0;
+
 
 
 
@@ -174,7 +174,7 @@ if(cur>0){goto loop;;}
 //-----------Success-----
 endl:; //end loop
 #if QDEBUG
- print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n",tseedw," calls\n");
+ print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
 #endif
 }
 //===================Solver===========================
@@ -189,7 +189,7 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
 linearsolve();}
 
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p]\n N=Board size min=8 \n p=printboard");exit(1);}
+if(argc<2){syntax:;puts("Syntax:nq N [p|f]\n N=Board size min=8 \n p=printboard f=write as file");exit(1);}
  N=atoi(argv[1]);if(N<8)goto syntax;
 board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
 
@@ -199,13 +199,9 @@ diagR=malloc(sizeof(val_t)*(N+2)*2);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
 for(size_t i=0;i<N;i++)board[i]=i;//unique rows/cols to swap.
 #if SCRAMBLE //speedup board solutions
-u64 timeseed=1111;
-setrseed(timeseed,1-~timeseed,timeseed-~timeseed,~timeseed+timeseed);
 for(val_t z=0;z<SCRAMBLE;z++){
 for(val_t i=0;i<N;i++){
-u64 valr=randuint64();
-A=(valr>>32);B=valr&0xffffffff;
-A=modreduce(A,N);B=modreduce(B,N);
+A=modreduce(rndgen32(),N);B=modreduce(rndgen32(),N);
 swapq(board[A],board[B]);
 }}
 #endif
@@ -217,7 +213,7 @@ verify+=(diagL[board[i]+i])!=1;
 verify+=(diagR[board[i]+(N-i)])!=1;
 }
 //halt on error(stops nqtest.sh) (fix:disable NONLINEAR search
-if(verify){print("Invalid solution to N=",N,"Collisions:",verify);char __attribute__((unused))  tt=getchar();}
+if(verify){print("Invalid solution to N=",N,"Collisions:",verify);char __attribute__((unused))  tt=getchar();}else{
 if((argc==3 && (argv[2][0]=='p'))){printboard();}
-if((argc==3 && (argv[2][0]=='f'))){fileboard();}
+if((argc==3 && (argv[2][0]=='f'))){fileboard();}}
 return 0;}
