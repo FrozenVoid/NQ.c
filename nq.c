@@ -168,7 +168,6 @@ endl:; //end loop
 }
 //===================Solver===========================
 void solve(void){
-u64 A,B;
 //fill queen location counts
 for(size_t i=0;i<N;i++){diagL[board[i]+i]++;}
 for(size_t i=0;i<N;i++){diagR[board[i]+(N-i)]++;}
@@ -207,6 +206,6 @@ verify+=(diagL[board[i]+i])!=1;
 verify+=(diagR[board[i]+(N-i)])!=1;
 }
 //halt on error(stops nqtest.sh) (fix:disable NONLINEAR search
-if(verify){print("Invalid solution to N=",N,"Collisions:",verify);char tt=getchar();}
+if(verify){print("Invalid solution to N=",N,"Collisions:",verify);char __attribute__((unused))  tt=getchar();}
 if((argc==3 && (argv[2][0]=='p'))){printboard();}
 return 0;}
