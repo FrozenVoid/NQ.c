@@ -6,7 +6,6 @@
 #define tsctime(c) ((__rdtsc()-c)>>30)
 #define SCRAMBLE 1//scramble rows to avoid clumping
 #define QDEBUG 1//print debug/iteration data
-#define NONLINEAR 1//ending search if (cols<log(N))
 #define val_t u32
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
@@ -94,7 +93,7 @@ else{print("\nFile:",fname,"\nWrite mismatch\n",N,"!=",rfwout);}
  val_t modreduce(uint32_t x, uint32_t N) {
   return ((uint64_t) x * (uint64_t) N) >> 32 ;
 }
-val_t rndcell(){return modreduce(randuint32(),N);}
+val_t rndcell(){return modreduce(rndgen32(),N);}
 //-----------linear collission count----------
 #define countudiag() (sumL+sumR)
 //------------------------
@@ -107,8 +106,8 @@ val_t rndcell(){return modreduce(randuint32(),N);}
 void linearsolve(){
  A=0,B=0,valr=0;
  //large board speedup
- val_t minsearch=N>200000?log2index(N)/3:0;
-cend=__rdtsc();u64 lc=0,lcmax=N/2;
+ val_t minsearch=N>200000?log2index(N)/2:0,endsearch=minsearch<<7;
+cend=__rdtsc();u64 lc=0,lcmax=(N*5)/log2index(N);
  cur=countudiag(),best=cur;
 #if QDEBUG
 print("\nT:",mstime()," ms Collisions:",cur," SearchLim:",minsearch);
@@ -118,8 +117,8 @@ loop:;
 #if QDEBUG
 loops++;
 #endif
-do{A=modreduce(rndgen32(),N);}while(!qccount(A));
-duploc:;lc=0;do{B=modreduce(rndgen32(),N); lc++;}while( !qccount(B) && (lc<lcmax) );
+do{A=rndcell();}while(!qccount(A));
+duploc:;lc=0;do{B=rndcell(); lc++;}while( !qccount(B) && (lc<lcmax) );
 if(A==B)goto duploc;
 #if QDEBUG
 dir=1;
@@ -141,15 +140,14 @@ fail=0;;swaps=0;
 #endif
 best=cur;
 //=================Search at ending========================
-#if NONLINEAR
-if( best<minsearch ){//ending speedup for N>1024
+if( best<minsearch ){//ending speedup for N > L2 cache
 #if QDEBUG
 print("\nEnd search:",mstime()," ms Collisions:",best);
 #endif
 innerloop:;
 B=fstcols();
-innerloop2:;lc=0,lcmax=1023;
-do{A=modreduce(rndgen32(),N);lc++;}while(!qccount(A) && lc<lcmax );
+innerloop2:;lc=0;
+do{A=rndcell();lc++;}while(!qccount(A) && lc<endsearch );
 if(A==B)goto innerloop2;
 
 #if QDEBUG
@@ -168,7 +166,7 @@ dir=-1;fail++;
 swapc(A,B);goto innerloop2;
 
 }
-#endif
+
 
 if(cur>0){goto loop;;}
 //-----------Success-----
@@ -198,10 +196,10 @@ diagL=malloc(sizeof(val_t)*(N+2)*2);
 diagR=malloc(sizeof(val_t)*(N+2)*2);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
 for(size_t i=0;i<N;i++)board[i]=i;//unique rows/cols to swap.
-#if SCRAMBLE //speedup board solutions
+#if SCRAMBLE //speedup board solutions(reduce first diagonal)
 for(val_t z=0;z<SCRAMBLE;z++){
 for(val_t i=0;i<N;i++){
-A=modreduce(rndgen32(),N);B=modreduce(rndgen32(),N);
+A=rndcell();B=rndcell();
 swapq(board[A],board[B]);
 }}
 #endif
