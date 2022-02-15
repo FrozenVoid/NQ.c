@@ -109,7 +109,7 @@ val_t rndcell(){return modreduce(rndgen32(),N);}
   print("\nT:",Ntime,"ms Col%",100.0*(N-cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps);cend=__rdtsc();}}
 //--------------------------------------------
 void linearsolve(){
- A=0,B=0,valr=0;
+ A=0,B=0;
  //large board speedup
  val_t minsearch=N>200000?log2index(N)/2:0,endsearch=minsearch<<7;
 cend=__rdtsc();u64 lc=0,lcmax=(N*5)/log2index(N);
@@ -123,7 +123,10 @@ loop:;
 loops++;
 #endif
 do{A=rndcell();}while(zerocols(A));
-lc=0;do{B=rndcell(); lc++;}while( zerocols(B) && (lc<lcmax) );
+loop2:;lc=0;do{B=rndcell(); lc++;}while( zerocols(B) && (lc<lcmax) );
+
+
+//-------begin swap-----------
 #if QDEBUG
 dir=1;
 #endif
@@ -134,7 +137,7 @@ if(cur>best){
 dir=-1;fail++;
 #endif
 swapc(A,B);
-goto loop;}
+goto loop2;}
  if(cur==best){;goto loop;}
 //-----good swap------
 #if QDEBUG
