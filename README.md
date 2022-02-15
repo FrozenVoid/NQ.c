@@ -15,5 +15,9 @@ in working directory.
 
 # Compilation
 
-gcc nq.c -Ofast  -march=native -mtune=native -Wall -onq
+get C-headers from https://github.com/FrozenVoid/C-headers
+place them in /Util sub-directory
 
+gcc nq.c -Ofast -march=native -mtune=native -Wall -pipe -onq
+
+or use nqtest.sh which will compile automatically before test.
