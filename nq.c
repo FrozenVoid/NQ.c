@@ -66,6 +66,10 @@ sumR+=!!(cry-1);
 //cannot be zero due being set from q[]
 val_t s=board[P];
 return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
+int zerocols(u32 P){//1= no collision,0==has cols
+val_t s=board[P];
+return ((diagL[s+P])==1)&&((diagR[s+(N-P)])==1);
+}
 
  val_t qccount2(u32 P,u32 P2){
 //cannot be zero due being set from q[]
@@ -117,9 +121,8 @@ loop:;
 #if QDEBUG
 loops++;
 #endif
-do{A=rndcell();}while(!qccount(A));
-duploc:;lc=0;do{B=rndcell(); lc++;}while( !qccount(B) && (lc<lcmax) );
-if(A==B)goto duploc;
+do{A=rndcell();}while(zerocols(A));
+lc=0;do{B=rndcell(); lc++;}while( zerocols(B) && (lc<lcmax) );
 #if QDEBUG
 dir=1;
 #endif
