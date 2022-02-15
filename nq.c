@@ -4,8 +4,6 @@
 #define NCYCLES 8 //report each NCYCLES
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #define tsctime(c) ((__rdtsc()-c)>>30)
-#define SCRAMBLE 1//scramble rows to avoid clumping
-#define SCRAMBLEN (N)//scramble amount of rows
 #define QDEBUG 1//print debug/iteration data
 #define val_t u32
 #define rotate(num,bits) ({ typeof(num) x=num;\
@@ -69,6 +67,7 @@ val_t s=board[P];
 return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
 int zerocols(u32 P){//1= no collision,0==has cols
 val_t s=board[P];
+
 return ((diagL[s+P])==1)&&((diagR[s+(N-P)])==1);
 }
 
@@ -203,12 +202,6 @@ diagL=malloc(sizeof(val_t)*(N+2)*2);
 diagR=malloc(sizeof(val_t)*(N+2)*2);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
 for(size_t i=0;i<N;i++)board[i]=i;//unique rows/cols to swap.
-#if SCRAMBLE //speedup board solutions(reduce first diagonal)
-for(val_t i=0;i<SCRAMBLEN;i++){
-A=rndcell();B=rndcell();
-swapq(board[A],board[B]);
-}
-#endif
 solve();
 //verify no collisions (diagonals contain x=1)
 size_t verify=0;
