@@ -15,8 +15,7 @@ in working directory.
 
 # Compilation
 
-get C-headers from https://github.com/FrozenVoid/C-headers
-place them in /Util sub-directory
+(included) C-headers /Util sub-directory
 
 gcc nq.c -Ofast -march=native -mtune=native -Wall -pipe -onq
 
