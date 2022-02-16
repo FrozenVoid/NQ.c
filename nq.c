@@ -188,8 +188,7 @@ endl:; //end loop
 #endif
 }
 
-size_t diags(u32*board,size_t len){//optimization metric
-size_t sum=0;
+size_t diags(u32*board,size_t len){//first collision
 for(size_t i=0;i<len;i++){size_t cur=board[i];
  for(size_t z=i+1;z<len;z++){
   size_t zqueen=board[z];
@@ -213,7 +212,7 @@ if(diags(board,N)){print("Invalid diags to N=",N,"Collisions:",sumL+sumR);fflush
 linearsolve();}
 
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f]\n N=Board size min=8 \n p=printboard f=write as file");exit(1);}
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|b]\n N=Board size min=8 \n p=printboard f=write as file b=bench(0-N array)");exit(1);}
 
  N=atoi(argv[1]);if(N<8)goto syntax;
 board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
@@ -223,8 +222,10 @@ fflush(stdout);
 diagL=malloc(sizeof(val_t)*(N+2)*2);
 diagR=malloc(sizeof(val_t)*(N+2)*2);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
-
-if(N%6<2||N%6>=4){// place knight diagonals
+if((argc==3 && (argv[2][0]=='b'))){
+for(size_t i=0;i<N;i++){board[i]=i;}
+}else{
+if(N%6<2||N%6>=4){// presolved: place knight diagonals
 for(size_t i=0,z=1;i<N;i++,z+=2){
 if(z>=N){z=0;}board[i]=z;;}
 }else if(N%6==2){
@@ -241,10 +242,7 @@ for(c9=0,z=3;z<N-1;c9++,z+=2){board[c9]=z;}
 board[c9++]=1;
 for(z=4;c9<N-2;c9++,z+=2){board[c9]=z;}
 board[c9++]=0;board[c9++]=2;
-
-
-
-}
+}}
 
 
 //for(size_t i=0;i<N;i++)board[i]=N-i-1;//r-diagonal
