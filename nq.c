@@ -187,6 +187,14 @@ endl:; //end loop
  print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");fflush(stdout);
 #endif
 }
+
+size_t diags(u32*board,size_t len){//optimization metric
+size_t sum=0;
+for(size_t i=0;i<len;i++){size_t cur=board[i];
+ for(size_t z=i+1;z<len;z++){
+  size_t zqueen=board[z];
+ if(((z-i)==(zqueen-cur))||((z-i)==(cur-zqueen))){return 1; };   }  }
+return 0;}
 //===================Solver===========================
 void solve(void){
 //fill queen location counts
@@ -196,8 +204,12 @@ for(size_t i=0;i<N;i++){diagR[board[i]+(N-i)]++;}
 
 for(size_t i=0;i<N*2;i++){sumL+=(diagL[i]-1)*(diagL[i]>1);}
 for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
+/*
+if(sumL+sumR){print("Invalid sumL+sumR to N=",N,"Collisions:",sumL+sumR);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
+//test
 
-
+if(diags(board,N)){print("Invalid diags to N=",N,"Collisions:",sumL+sumR);fflush(stdout);char __attribute__((unused))  tt=getchar();}
+}*/
 linearsolve();}
 
 int main(int argc,char**argv){
@@ -216,11 +228,22 @@ if(N%6<2||N%6>=4){// place knight diagonals
 for(size_t i=0,z=1;i<N;i++,z+=2){
 if(z>=N){z=0;}board[i]=z;;}
 }else if(N%6==2){
-for(size_t i=0,z=0;i<N;i++,z+=2){
-if(z>=N){z=1;}board[i]=z;;}
-}else if(N%6==3){
-for(size_t i=0,z=4,k=4;i<N;i++,z+=2){
-if(z>=N){k/=2;z=k;}board[i]=z;}
+//2, 4, 6, 8, 10, 12, 14, 3, 1, 7, 9, 11, 13, 5.
+//1,3,5, 7,9,11, 13, 2,0, 6,8,10,12, 4
+for(size_t i=0,z=1;z<N;i++,z+=2){board[i]=z;}
+for(size_t i=N/2,z=2;z &&i<N;i++,z-=2){board[i]=z;}
+for(size_t i=2+N/2,z=6;z<N-1 &&i<N;i++,z+=2){board[i]=z;}
+board[N-1]=4;
+}else if(N%6==3){size_t c9,z;
+//4, 6, 8, 10, 12, 14, 2, 5, 7, 9, 11, 13, 15, 1, 3.
+//3,5,7, 9,11,13 ,1,4,6,8,10,12,14,0,2
+for(c9=0,z=3;z<N-1;c9++,z+=2){board[c9]=z;}
+board[c9++]=1;
+for(z=4;c9<N-2;c9++,z+=2){board[c9]=z;}
+board[c9++]=0;board[c9++]=2;
+
+
+
 }
 
 
