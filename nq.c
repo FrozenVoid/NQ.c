@@ -278,6 +278,7 @@ verify+=(diagR[board[i]+(N-i)])!=1;
 if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
 if((argc>=3 && strchr(argv[2],'p'))){
 char* sep=argc>3?argv[3]:"\n";
-printboard(sep);}
+printboard(sep);}else{
 if((argc>=3 && strchr(argv[2],'f'))){fileboard();}}
+}
 return 0;}
