@@ -212,9 +212,12 @@ if(diags(board,N)){print("Invalid diags to N=",N,"Collisions:",sumL+sumR);fflush
 linearsolve();}
 
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|b]\n N=Board size min=8 \n p=printboard f=write as file b=bench(0-N array)");exit(1);}
-
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|b]\n N=Board size min=8 \n p=printboard f=write as file t=test presolved array i=load u32 queen array filename");exit(1);}
+int nosolve=(argc==3 && (argv[2][0]=='t'));//presolved(test function for integrity)
  N=atoi(argv[1]);if(N<8)goto syntax;
+int fileload= (argc==4 && (argv[2][0]=='i'));//load file with
+//u32 queen rows in sequence( queenrow 0-N) size N*4;
+
 board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
 
 if(!board){perror("Queen array size too large for malloc");exit(2);}
@@ -222,22 +225,25 @@ fflush(stdout);
 diagL=malloc(sizeof(val_t)*(N+2)*2);
 diagR=malloc(sizeof(val_t)*(N+2)*2);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
-if((argc==3 && (argv[2][0]=='b'))){
-for(size_t i=0;i<N;i++){board[i]=i;}
+if(!nosolve){
+if(fileload){FILE* in=fopen(argv[3],"rb");
+if(!in){print("File:",argv[3]," cannot be opened");perror("");exit(111);}
+size_t vfqsize=fread(board,4,N,in);
+if(vfqsize!=N){ print("File:",argv[3],"reading failed at  queen#",vfqsize);perror("");exit(112);}
+print("Loaded:",argv[3]," N=",N);
+}else{//normal order queens
+for(size_t i=0;i<N;i++){board[i]=i;}}
 }else{
 if(N%6<2||N%6>=4){// presolved: place knight diagonals
 for(size_t i=0,z=1;i<N;i++,z+=2){
 if(z>=N){z=0;}board[i]=z;;}
 }else if(N%6==2){
-//2, 4, 6, 8, 10, 12, 14, 3, 1, 7, 9, 11, 13, 5.
-//1,3,5, 7,9,11, 13, 2,0, 6,8,10,12, 4
 for(size_t i=0,z=1;z<N;i++,z+=2){board[i]=z;}
 for(size_t i=N/2,z=2;z &&i<N;i++,z-=2){board[i]=z;}
 for(size_t i=2+N/2,z=6;z<N-1 &&i<N;i++,z+=2){board[i]=z;}
 board[N-1]=4;
 }else if(N%6==3){size_t c9,z;
-//4, 6, 8, 10, 12, 14, 2, 5, 7, 9, 11, 13, 15, 1, 3.
-//3,5,7, 9,11,13 ,1,4,6,8,10,12,14,0,2
+
 for(c9=0,z=3;z<N-1;c9++,z+=2){board[c9]=z;}
 board[c9++]=1;
 for(z=4;c9<N-2;c9++,z+=2){board[c9]=z;}
