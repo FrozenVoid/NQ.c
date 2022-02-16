@@ -24,7 +24,7 @@ val_t N,A=0,B=1;
 val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
-i64 swapt=0,swaps=0;//valid swaps total(set if QDEBUG enabled)
+i64 swapt=0,swaps=0,checkb=0;//valid swaps total(set if QDEBUG enabled)
 size_t loops=0,fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 uint64_t log2index(size_t X){return ((unsigned) (63 - __builtin_clzll((X)) ))      ;}
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
@@ -91,6 +91,7 @@ print("\nWriting board into",fname);
 size_t rfwout=fwrite(board,4,N,out);
 if(rfwout==N){print("\nFile:",fname,"\nRecorded board as file\n");}
 else{print("\nFile:",fname,"\nWrite mismatch\n",N,"!=",rfwout);}
+fclose(out);
 }
 
 void fileloadfrom(char* name){
@@ -99,7 +100,7 @@ if(!in){print("File:",name," cannot be opened");perror("");exit(111);}
 size_t vfqsize=fread(board,4,N,in);
 if(vfqsize!=N){ print("File:",name,"reading failed at  queen#",vfqsize);perror("");exit(112);}
 print("Loaded:",name," N=",N);
-
+fclose(in);
 }
 
 
@@ -199,9 +200,12 @@ endl:; //end loop
 
 size_t diags(u32*board,size_t len){//first collision
 for(size_t i=0;i<len;i++){size_t cur=board[i];
+#if QDEBUG
+if(!(i&0xff)){putchar('+');fflush(stdout);}
+#endif
  for(size_t z=i+1;z<len;z++){
   size_t zqueen=board[z];
- if(((z-i)==(zqueen-cur))||((z-i)==(cur-zqueen))){return 1; };   }  }
+ if(((z-i)==(zqueen-cur))||((z-i)==(cur-zqueen))){return i; };   }  }
 return 0;}
 //===================Solver===========================
 void solve(void){
@@ -212,14 +216,21 @@ for(size_t i=0;i<N;i++){diagR[board[i]+(N-i)]++;}
 
 for(size_t i=0;i<N*2;i++){sumL+=(diagL[i]-1)*(diagL[i]>1);}
 for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
-/*
-if(sumL+sumR){print("Invalid sumL+sumR to N=",N,"Collisions:",sumL+sumR);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
-//test
+linearsolve();
 
-if(diags(board,N)){print("Invalid diags to N=",N,"Collisions:",sumL+sumR);fflush(stdout);char __attribute__((unused))  tt=getchar();}
-}*/
-linearsolve();}
 
+
+}
+
+void integrity(){
+//pedantic checks
+char __attribute__((unused))  tt2;
+if(sumL+sumR){print("\nInvalid sumL+sumR to N=",N,"Collisions:",sumL+sumR);fflush(stdout); tt2=getchar();exit(31);}else{
+if(N>100000){print("\nWarning:",N," >100000 slow checks");}
+size_t fdg=diags(board,N);
+if(fdg){print("\nUnsolved collision at column:",fdg,"/",N,"Reported Collisions:",sumL+sumR);fflush(stdout); tt2=getchar();exit(32);}
+} print("\nAll checks passed!\n");
+}
 void setpresolved(){
 if(N%6<2||N%6>=4){// presolved: place knight diagonals
 for(size_t i=0,z=1;i<N;i++,z+=2){
@@ -245,10 +256,11 @@ for(size_t z=0;z<num;z++){
 for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
 }}
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t] [filename|num|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32 queen array filename\n num+s =scramble rows num times(N*num)");exit(1);}
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t|c|i] [filename|num|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
  N=atoi(argv[1]);if(N<8)goto syntax;
 int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
+checkb=(argc>=3 && strchr(argv[2],'c'));//additional checks
 int scram=(argc>=4 && strchr(argv[2],'s'));//scramble rows
 //u32 queen rows in sequence( queenrow 0-N) size N*4;
 
@@ -275,10 +287,13 @@ verify+=(diagL[board[i]+i])!=1;
 verify+=(diagR[board[i]+(N-i)])!=1;
 }
 //halt on error(stops nqtest.sh)
-if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
+if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();exit(89);}
+if(checkb){integrity();}
+
 if((argc>=3 && strchr(argv[2],'p'))){
 char* sep=argc>3?argv[3]:"\n";
-printboard(sep);}else{
-if((argc>=3 && strchr(argv[2],'f'))){fileboard();}}
-}
+printboard(sep);return 250;}
+
+if((argc>=3 && strchr(argv[2],'f'))){fileboard();}
+
 return 0;}
