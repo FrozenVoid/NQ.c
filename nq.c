@@ -236,11 +236,20 @@ board[c9++]=1;
 for(z=4;c9<N-2;c9++,z+=2){board[c9]=z;}
 board[c9++]=0;board[c9++]=2;
 }}
+
+void scramble(size_t num){
+#if QDEBUG
+ print("\nScrambling N=",N," Times:",num,"\n");fflush(stdout);
+#endif
+for(size_t z=0;z<num;z++){
+for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
+}}
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t] [filename]\n N=Board size min=8 \n p=printboard f=write as file t=test presolved array i=load u32 queen array filename");exit(1);}
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t] [filename]\n N=Board size min=8 \n p=printboard \n f=write result as file \nt=test presolved array\n i=load u32 queen array filename\n s num =scramble rows num times(N*num)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
  N=atoi(argv[1]);if(N<8)goto syntax;
 int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
+int scram=(argc>=4 && strchr(argv[2],'s'));//scramble rows
 //u32 queen rows in sequence( queenrow 0-N) size N*4;
 
 board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
@@ -256,7 +265,7 @@ if(fileload){fileloadfrom(argv[3]);
 for(size_t i=0;i<N;i++){board[i]=i;}}
 }else{ setpresolved();}
 
-
+if(scram){size_t scrnum=atoi(argv[3]);scramble(scrnum);}
 //for(size_t i=0;i<N;i++)board[i]=N-i-1;//r-diagonal
 solve();
 //verify no collisions (diagonals contain Q=1)
