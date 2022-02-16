@@ -16,7 +16,7 @@ c= additional pedantic O(N^2) checks for diagonals
 f=write board as sequence of uint32's to file N.nq
 in working directory.
 
-t=test integrity(nqtest.sh)
+t=generates presolved boards, use to test integrity(nqtest.sh)
 
 i filename=load nqueens file(u32 sequence of row addresses)
 
