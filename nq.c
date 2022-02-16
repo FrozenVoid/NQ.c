@@ -93,6 +93,15 @@ if(rfwout==N){print("\nFile:",fname,"\nRecorded board as file\n");}
 else{print("\nFile:",fname,"\nWrite mismatch\n",N,"!=",rfwout);}
 }
 
+void fileloadfrom(char* name){
+FILE* in=fopen(name,"rb");
+if(!in){print("File:",name," cannot be opened");perror("");exit(111);}
+size_t vfqsize=fread(board,4,N,in);
+if(vfqsize!=N){ print("File:",name,"reading failed at  queen#",vfqsize);perror("");exit(112);}
+print("Loaded:",name," N=",N);
+
+}
+
 
 //https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
 
@@ -211,29 +220,7 @@ if(diags(board,N)){print("Invalid diags to N=",N,"Collisions:",sumL+sumR);fflush
 }*/
 linearsolve();}
 
-int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|b]\n N=Board size min=8 \n p=printboard f=write as file t=test presolved array i=load u32 queen array filename");exit(1);}
-int nosolve=(argc==3 && (argv[2][0]=='t'));//presolved(test function for integrity)
- N=atoi(argv[1]);if(N<8)goto syntax;
-int fileload= (argc==4 && (argv[2][0]=='i'));//load file with
-//u32 queen rows in sequence( queenrow 0-N) size N*4;
-
-board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
-
-if(!board){perror("Queen array size too large for malloc");exit(2);}
-fflush(stdout);
-diagL=malloc(sizeof(val_t)*(N+2)*2);
-diagR=malloc(sizeof(val_t)*(N+2)*2);
-if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
-if(!nosolve){
-if(fileload){FILE* in=fopen(argv[3],"rb");
-if(!in){print("File:",argv[3]," cannot be opened");perror("");exit(111);}
-size_t vfqsize=fread(board,4,N,in);
-if(vfqsize!=N){ print("File:",argv[3],"reading failed at  queen#",vfqsize);perror("");exit(112);}
-print("Loaded:",argv[3]," N=",N);
-}else{//normal order queens
-for(size_t i=0;i<N;i++){board[i]=i;}}
-}else{
+void setpresolved(){
 if(N%6<2||N%6>=4){// presolved: place knight diagonals
 for(size_t i=0,z=1;i<N;i++,z+=2){
 if(z>=N){z=0;}board[i]=z;;}
@@ -249,6 +236,25 @@ board[c9++]=1;
 for(z=4;c9<N-2;c9++,z+=2){board[c9]=z;}
 board[c9++]=0;board[c9++]=2;
 }}
+int main(int argc,char**argv){
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t] [filename]\n N=Board size min=8 \n p=printboard f=write as file t=test presolved array i=load u32 queen array filename");exit(1);}
+int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
+ N=atoi(argv[1]);if(N<8)goto syntax;
+int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
+//u32 queen rows in sequence( queenrow 0-N) size N*4;
+
+board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
+
+if(!board){perror("Queen array size too large for malloc");exit(2);}
+fflush(stdout);
+diagL=malloc(sizeof(val_t)*(N+2)*2);
+diagR=malloc(sizeof(val_t)*(N+2)*2);
+if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
+if(!nosolve){
+if(fileload){fileloadfrom(argv[3]);
+}else{//normal order queens
+for(size_t i=0;i<N;i++){board[i]=i;}}
+}else{ setpresolved();}
 
 
 //for(size_t i=0;i<N;i++)board[i]=N-i-1;//r-diagonal
@@ -261,6 +267,6 @@ verify+=(diagR[board[i]+(N-i)])!=1;
 }
 //halt on error(stops nqtest.sh)
 if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
-if((argc==3 && (argv[2][0]=='p'))){printboard();}
-if((argc==3 && (argv[2][0]=='f'))){fileboard();}}
+if((argc>=3 && strchr(argv[2],'p'))){printboard();}
+if((argc>=3 && strchr(argv[2],'f'))){fileboard();}}
 return 0;}
