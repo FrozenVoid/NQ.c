@@ -256,7 +256,7 @@ for(size_t z=0;z<num;z++){
 for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
 }}
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t|c|i] [filename|num|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
  N=atoi(argv[1]);if(N<8)goto syntax;
 int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
