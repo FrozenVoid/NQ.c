@@ -20,7 +20,7 @@ static uint64_t x = 266346241, w = 0, s = 0xb5ad4eceda1ce2a9;
 
 
 
-val_t N,A,B;
+val_t N,A=0,B=1;
 val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
@@ -79,6 +79,8 @@ return ((diagL[s+P]))+((diagR[s+(N-P)]))+ ((diagL[s2+P2]))+((diagR[s2+(N-P2)]))-
 val_t fstcols(){
 for(size_t i=0;i<N;i++){if(qccount(i))return i;};return N;}
 
+val_t fstgcols(val_t G){//first greater then
+for(size_t i=G+1;i<N;i++){if(qccount(i))return i;};return N;}
 //--------------------------
 void printboard(){print("\n");for(size_t i=0;i<N;i++)print(board[i]+1,"\n");}
 
@@ -105,16 +107,17 @@ val_t rndcell(){return modreduce(rndgen32(),N);}
   if(tsctime(cend)>NCYCLES ){
   clock_t Ntime=mstime();
   print("\n cols=",cur,"A=",A,"valid/fail:",swaps,"/",(fail),"\nswap:",1.0*swapt/Ntime,"fail:",1.0*tfail/Ntime,"loops:",1.0*loops/Ntime);
-  print("\nT:",Ntime,"ms Col%",100.0*(N-cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps);cend=__rdtsc();}}
+  print("\nT:",Ntime,"ms Col%",100.0*(N-cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps);cend=__rdtsc();fflush(stdout);}}
 //--------------------------------------------
 void linearsolve(){
  A=0,B=0;
  //large board speedup
- val_t minsearch=N>200000?log2index(N)/2:0,endsearch=minsearch<<7;
+ val_t minsearch=N>10000?log2index(N)/2:0,endsearch=minsearch<<7;
 cend=__rdtsc();u64 lc=0,lcmax=(N*5)/log2index(N);
- cur=countudiag(),best=cur;
+ cur=countudiag(),best=cur;if(cur==0){;goto endl;/*presolved*/}
+ if(cur<minsearch)goto endsearch;
 #if QDEBUG
-print("\nT:",mstime()," ms Collisions:",cur," SearchLim:",minsearch);
+print("\nT:",mstime()," ms Collisions:",cur," SearchLim:",minsearch);fflush(stdout);
 #endif
 //--------Main loop-------------
 loop:;
@@ -123,7 +126,6 @@ loops++;
 #endif
 do{A=rndcell();}while(zerocols(A));
 loop2:;lc=0;do{B=rndcell(); lc++;}while( zerocols(B) && (lc<lcmax) );
-
 
 //-------begin swap-----------
 #if QDEBUG
@@ -146,15 +148,19 @@ fail=0;;swaps=0;
 #endif
 best=cur;
 //=================Search at ending========================
+
+endsearch:;
 if( best<minsearch ){//ending speedup for N > L2 cache
 #if QDEBUG
-print("\nEnd search:",mstime()," ms Collisions:",best);
+print("\nEnd search:",mstime()," ms Collisions:",best);fflush(stdout);
 #endif
 innerloop:;
 B=fstcols();
+
 innerloop2:;lc=0;
+if(best<5){A=fstgcols(A);if(A==N)A=rndcell();}else{
 do{A=rndcell();lc++;}while(!qccount(A) && lc<endsearch );
-if(A==B)goto innerloop2;
+if(A==B)goto innerloop2;}
 
 #if QDEBUG
 dir=1;
@@ -178,7 +184,7 @@ if(cur>0){goto loop;;}
 //-----------Success-----
 endl:; //end loop
 #if QDEBUG
- print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
+ print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");fflush(stdout);
 #endif
 }
 //===================Solver===========================
@@ -190,27 +196,44 @@ for(size_t i=0;i<N;i++){diagR[board[i]+(N-i)]++;}
 
 for(size_t i=0;i<N*2;i++){sumL+=(diagL[i]-1)*(diagL[i]>1);}
 for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
+
+
 linearsolve();}
 
 int main(int argc,char**argv){
 if(argc<2){syntax:;puts("Syntax:nq N [p|f]\n N=Board size min=8 \n p=printboard f=write as file");exit(1);}
+
  N=atoi(argv[1]);if(N<8)goto syntax;
 board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
 
 if(!board){perror("Queen array size too large for malloc");exit(2);}
+fflush(stdout);
 diagL=malloc(sizeof(val_t)*(N+2)*2);
 diagR=malloc(sizeof(val_t)*(N+2)*2);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
-for(size_t i=0;i<N;i++)board[i]=i;//unique rows/cols to swap.
+
+if(N%6<2||N%6>=4){// place knight diagonals
+for(size_t i=0,z=1;i<N;i++,z+=2){
+if(z>=N){z=0;}board[i]=z;;}
+}else if(N%6==2){
+for(size_t i=0,z=0;i<N;i++,z+=2){
+if(z>=N){z=1;}board[i]=z;;}
+}else if(N%6==3){
+for(size_t i=0,z=4,k=4;i<N;i++,z+=2){
+if(z>=N){k/=2;z=k;}board[i]=z;}
+}
+
+
+//for(size_t i=0;i<N;i++)board[i]=N-i-1;//r-diagonal
 solve();
-//verify no collisions (diagonals contain x=1)
+//verify no collisions (diagonals contain Q=1)
 size_t verify=0;
 for(size_t i=0;i<N;i++){
 verify+=(diagL[board[i]+i])!=1;
 verify+=(diagR[board[i]+(N-i)])!=1;
 }
 //halt on error(stops nqtest.sh) (fix:disable NONLINEAR search
-if(verify){print("Invalid solution to N=",N,"Collisions:",verify);char __attribute__((unused))  tt=getchar();}else{
+if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
 if((argc==3 && (argv[2][0]=='p'))){printboard();}
 if((argc==3 && (argv[2][0]=='f'))){fileboard();}}
 return 0;}
