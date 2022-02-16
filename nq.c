@@ -82,7 +82,7 @@ for(size_t i=0;i<N;i++){if(qccount(i))return i;};return N;}
 val_t fstgcols(val_t G){//first greater then
 for(size_t i=G+1;i<N;i++){if(qccount(i))return i;};return N;}
 //--------------------------
-void printboard(){print("\n");for(size_t i=0;i<N;i++)print(board[i]+1,"\n");}
+void printboard(char* sep){print("\n");for(size_t i=0;i<N-1;i++)print(board[i]+1,sep);print(board[N-1],"\n");}
 
 void fileboard(){char* fname=malloc(126);
 sprintf(fname,"%u.nq",N);
@@ -245,7 +245,7 @@ for(size_t z=0;z<num;z++){
 for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
 }}
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t] [filename]\n N=Board size min=8 \n p=printboard \n f=write result as file \nt=test presolved array\n i=load u32 queen array filename\n s num =scramble rows num times(N*num)");exit(1);}
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|b|t] [filename|num|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32 queen array filename\n num+s =scramble rows num times(N*num)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
  N=atoi(argv[1]);if(N<8)goto syntax;
 int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
@@ -265,7 +265,7 @@ if(fileload){fileloadfrom(argv[3]);
 for(size_t i=0;i<N;i++){board[i]=i;}}
 }else{ setpresolved();}
 
-if(scram){size_t scrnum=atoi(argv[3]);scramble(scrnum);}
+if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 //for(size_t i=0;i<N;i++)board[i]=N-i-1;//r-diagonal
 solve();
 //verify no collisions (diagonals contain Q=1)
@@ -276,6 +276,8 @@ verify+=(diagR[board[i]+(N-i)])!=1;
 }
 //halt on error(stops nqtest.sh)
 if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
-if((argc>=3 && strchr(argv[2],'p'))){printboard();}
+if((argc>=3 && strchr(argv[2],'p'))){
+char* sep=argc>3?argv[3]:"\n";
+printboard(sep);}
 if((argc>=3 && strchr(argv[2],'f'))){fileboard();}}
 return 0;}
