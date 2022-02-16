@@ -158,7 +158,7 @@ innerloop:;
 B=fstcols();
 
 innerloop2:;lc=0;
-if(best<5){A=fstgcols(A);if(A==N)A=rndcell();}else{
+if(1){A=fstgcols(A);if(A==N)goto skip;}else{skip:;
 do{A=rndcell();lc++;}while(!qccount(A) && lc<endsearch );
 if(A==B)goto innerloop2;}
 
@@ -232,7 +232,7 @@ for(size_t i=0;i<N;i++){
 verify+=(diagL[board[i]+i])!=1;
 verify+=(diagR[board[i]+(N-i)])!=1;
 }
-//halt on error(stops nqtest.sh) (fix:disable NONLINEAR search
+//halt on error(stops nqtest.sh)
 if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();}else{
 if((argc==3 && (argv[2][0]=='p'))){printboard();}
 if((argc==3 && (argv[2][0]=='f'))){fileboard();}}
