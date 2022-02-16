@@ -4,14 +4,19 @@ Fast N-Queen Puzzle solver
 
 # Syntax
 
-nq N [p|f]
+nq N [p|f|t] [filename]
 
 N=Board size 8+
 
-Optional:p=print board as sequence of row addresses from 1+
+Optional:
+p=print board as sequence of row addresses from 1+
 
-Optional:f=write board as sequence of uint32's to file N.nq
+f=write board as sequence of uint32's to file N.nq
 in working directory.
+
+t=test integrity(nqtest.sh)
+
+i filename=load nqueens file(u32 sequence of row addresses)
 
 # Compilation
 
