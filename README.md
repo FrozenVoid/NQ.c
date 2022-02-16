@@ -4,7 +4,7 @@ Fast N-Queen Puzzle solver
 
 # Syntax
 
-nq N [p|f|t] [filename]
+nq N [pftsi] [filename|num]
 
 N=Board size 8+
 
@@ -17,6 +17,8 @@ in working directory.
 t=test integrity(nqtest.sh)
 
 i filename=load nqueens file(u32 sequence of row addresses)
+
+s num = scramble num times(N*num)
 
 # Compilation
 
