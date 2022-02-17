@@ -1,0 +1,21 @@
+The speed of algorithm depends 
+on minimizing the update of collision
+sums: all diagonal collisions are
+stored in two arrays(DiagL/R) and each 
+queen swap(x,y) (y,x) will 
+update('swapc' function)
+both collision counts for (x,y) (y,x) 
+and the sums of DiagL/DiagR arrays,
+without further calculation:
+normally a loop through the arrays.
+
+
+A critical factor
+reducing 
+useless queen swaps is testing
+each queen location(in diagonal arrays)
+for number 
+of collisions and rejecting swaps
+where queens have no collisions
+(start of main loop).
+
