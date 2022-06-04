@@ -1,5 +1,5 @@
 //dual swap algo
-while(cur>8){
+while(cur>2){
 A=fstgcols(B);B=fstgcols(A);
 info();//new iteration update
 dir=1;swapc(A,B);cur=countudiag();
