@@ -19,13 +19,17 @@ val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
 i64 swapt=0,swaps=0,checkb=0;
-size_t loops=0,fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
+size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
 
  static inline void swapc(val_t x,val_t y){
 val_t  clx,crx,cly,cry;
 tswaps++;swaps+=dir;//valid swaps total
+__builtin_prefetch(&diagL[board[x]+x],1,0);
+__builtin_prefetch(&diagL[board[y]+y],1,0);
+__builtin_prefetch(&diagR[board[x]+(N-x)],1,0);
+__builtin_prefetch(&diagR[board[y]+(N-y)],1,0);
 clx=diagL[board[x]+x]--;//current X pos Left
 cly=diagL[board[y]+y]--;//current y pos Left
 crx=diagR[board[x]+(N-x)]--;
@@ -39,6 +43,10 @@ sumR-=!!(cry-1);
 //swap
 swapq(board[x],board[y]);
 //updates sums
+__builtin_prefetch(&diagL[board[x]+x],1,0);
+__builtin_prefetch(&diagL[board[y]+y],1,0);
+__builtin_prefetch(&diagR[board[x]+(N-x)],1,0);
+__builtin_prefetch(&diagR[board[y]+(N-y)],1,0);
 clx=(++diagL[board[x]+x]);
 cly=(++diagL[board[y]+y]);;
 crx=(++diagR[board[x]+(N-x)]);
@@ -57,9 +65,12 @@ static inline val_t qccount(val_t P){
 //cannot be zero due being set from q[]
 val_t s=board[P];
 return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
-static inline int zerocols(val_t P){//1= no collision,0==has cols
+static inline int zerocols(val_t P){//1= no collision,>1 collisions
 const val_t s=board[P];
-return ((diagL[s+P])==1)&((diagR[s+(N-P)])==1);
+__builtin_prefetch(&diagL[s+P],0,1);
+__builtin_prefetch(&diagR[s+(N-P)],0,1);
+return ((diagL[s+P])==1) && (diagR[s+(N-P)]==1);
+//return !((((diagL[s+P]))+((diagR[s+(N-P)])))-2);
 }
 
   static inline val_t qccount2(val_t P,val_t P2){
@@ -97,8 +108,10 @@ fclose(in);}
  static inline val_t modreduce(val_t x, val_t N) {
 return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
 
- static inline val_t rndcell(){ return
-  modreduce((val_t)randuint64(),N);
+ static inline val_t rndcell(){
+ val_t r=modreduce((val_t)randuint64(),N);
+ __builtin_prefetch(&board[r],0,0);
+ return r;
  }
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
@@ -106,7 +119,7 @@ return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
  void info(){
   if(tsctime(cend)>NCYCLES ){
   clock_t Ntime=mstime();
-  print("\n cols=",cur,"A=",A,"valid/fail:",swaps,"/",(fail),"\nswap:",1.0*swapt/Ntime,"fail:",1.0*tfail/Ntime,"loops:",1.0*loops/Ntime);
+  print("\n cols=",cur,"A=",A,"valid/fail:",swaps,"/",(fail),"\nswap:",1.0*swapt/Ntime,"fail:",1.0*tfail/Ntime);
   print("\nT:",Ntime,"ms Col%",100.0*(cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps,"lcmax:",valr);cend=__rdtsc();fflush(stdout);}}
 //--------mainloop------
 void linearsolve(){
@@ -114,10 +127,11 @@ void linearsolve(){
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime());goto endl;/*presolved*/}
 print("\nT:",mstime()," ms Collisions:",cur);fflush(stdout);
 //--------Main loop-------------
-loop:;loops++;
+loop:;
 do{A=rndcell();}while(zerocols(A));
 loop2:;lc=0;
 do{B=rndcell(); lc++;}while( zerocols(B) & (lc<lcmax) );
+if(A==B)goto loop;
 valr+=lc==lcmax;
 //-------begin swap-----------
 dir=1;swapc(A,B);cur=countudiag();
