@@ -88,9 +88,9 @@ fclose(out);
 void fileloadfrom(char* name){
 FILE* in=fopen(name,"rb");
 if(!in){print("File:",name," cannot be opened");perror("");exit(111);}
-size_t vfqsize=fread(board,4,N,in);
+size_t vfqsize=fread(board,sizeof(val_t),N,in);
 if(vfqsize!=N){ print("File:",name,"reading failed at  queen#",vfqsize);perror("");exit(112);}
-print("Loaded:",name," N=",N);
+print("Loaded ",sizeof(val_t),"byte NQ file:",name," N=",N);
 fclose(in);}
 
 //https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
