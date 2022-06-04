@@ -1,7 +1,8 @@
-#include "Util/void.h"//https://github.com/FrozenVoid/C-headers
+#include "/home/user/Code/Util/void.h"//https://github.com/FrozenVoid/C-headers
 //linear ~O(N) NQueens  solver
 
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
+#define MINBOARD 8
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #ifdef BIGIRON
 #define val_t u64
@@ -83,10 +84,11 @@ return 1;
 
 
 static inline val_t fstcols(){
-for(size_t i=0;i<N;i++){if(qccount(i))return i;};return 0;}
+for(size_t i=0;i<N;i++){if(qccount(i))return i;};return N-1;}
 
 static inline val_t fstgcols(val_t G){//first greater then
-for(size_t i=G+1;i<N;i++){if(qccount(i))return i;};return 0;}
+for(size_t i=G+1;i<N;i++){
+if(qccount(i))return i;};return fstcols();}
 //--------------------------
 void printboard(char* sep){print("\n");for(size_t i=0;i<N-1;i++)print(board[i]+1,sep);print(board[N-1],"\n");}
 
@@ -126,72 +128,56 @@ return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
  void info(){
   if(__rdtsc()-cend>NCYCLES  ){
   clock_t Ntime=mstime();
-  print("\n cols=",cur,"A=",A,"B=",B,"valid/fail:",swaps,"/",(fail),"\nswap:",1.0*swapt/Ntime,"fail:",1.0*tfail/Ntime);
+  print("\n cols=",best,"A=",A,"B=",B,"valid/fail:",swaps,"/",(fail),"\nswap:",1.0*swapt/Ntime,"fail:",1.0*tfail/Ntime);
   print("\nT:",Ntime,"ms Col%",100.0*(cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps);cend=__rdtsc();fflush(stdout);}}
 #endif
 //--------mainloop------
 void linearsolve(){
  A=0,B=0;cend=__rdtsc();
  size_t NL=log2index(N);
- u64 lc=0,lcmax=(N*4)/NL,minstage2=(NL+8),endsearch=(NL/2)*(NL/2);
+ u64 lc=0,lcmax=(N*4)/NL,minstage2=(NL+8)*(NL+8),endsearch=(NL/2)*(NL/2);
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime());goto endl;/*presolved*/}
 print("\nT:",mstime()," ms Collisions:",cur);fflush(stdout);
 //--------Main loop-------------
-first:;//&& cur>stage1
+first:;val_t C;//&& cur>stage1
 for(size_t i=0;i<N ;i++){innerc:;
 if(zerocols(i))continue;
 A=i;
-second:;
+second:;lc=0;
 do{
-B=i+1+modreduce((val_t)randuint64(),N-i-1);}while(zerocols(B));
+B=i+1+modreduce((val_t)randuint64(),N-i-1);}while(lc++<lcmax &&zerocols(B));
+midloop:;
+info();//new iteration update
 dir=1;swapc(A,B);cur=countudiag();
 if(cur>best){dir=-1;fail++;
 swapc(A,B);goto second;}
 tfail+=fail;swapt+=swaps;
-info();//new iteration update
+
 fail=0;swaps=0;best=cur;//new record
 if(cur==0){goto fin;}
-if(cur<minstage2){
+if(cur>minstage2)goto innerc;
+print("\n\n\n\n\n\n\n\n\nEndsearch:",cur,"cols Time:",mstime(),"ms\n");
 endsearch:;
-print("\n\n\n\n\n\n\n\nEnd search:",mstime()," ms Collisions:",best);fflush(stdout);
-innerloop:;
-B=fstcols();
-innerloop2:;lc=0;
-if(cur>1){A=fstgcols(A>B?A:B);if(A==0)goto skip;}else{skip:;
-do{A=rndcell();lc++;}while(!qccount(A) & ( 	lc<endsearch) );
-if(A==B)goto innerloop2;}
-dir=1;
-swapc(A,B);cur=countudiag();
-if(cur==0){goto fin;}
-info();
-if(cur<=best){
-fail=0;
-best=cur;goto innerloop;}
-dir=-1;fail++;
-swapc(A,B);goto innerloop2;
+A=rndcell();
+B=fstgcols(A);
+for(int i=randuint64()&7;i--;)B=fstgcols(B);
+if(A==B)goto endsearch;
+info();//new iteration update
+dir=1;swapc(A,B);cur=countudiag();
+if(cur>best){dir=-1;fail++;
+swapc(A,B);goto endsearch;}
+tfail+=fail;swapt+=swaps;
+fail=0;swaps=0;best=cur;//new record
+if(cur==0)goto fin;
+/*if(cur<4){val_t mA=fstgcols(A);
+print("\nFInal array:",cur,"\n");
+print(mA);while(A!=mA){print(A);A=fstgcols(A);}
 
-/*
-print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnd search:",mstime()," ms Collisions:",best);fflush(stdout);
-while(cur){//end search is back
-innerloop:;;val_t C=B;B=fstcols();
-if(C==B)B=fstgcols(B);
-innerloop2:;lc=0;
-if(1){A=fstgcols(A>B?A:B);if(A==0)goto skip;}else{skip:;
-do{A=rndcell();lc++;}while(!qccount(A) & ( 	lc<endsearch) );
-if(A==B)goto innerloop2;}
-dir=1;
-swapc(A,B);cur=countudiag();
-if(cur==0){goto fin;}
-info();
-if(cur<=best){
-fail=0;
-best=cur;goto innerloop;}
-dir=-1;fail++;
-swapc(A,B);goto innerloop2;}
-
-//endsearch
-*/;}else{goto innerc;}
+goto fin;
+}*/
+goto endsearch;
 }
+if(cur!=0){info();goto first;}
 /*
 stage2:;print("\n\n\n","stage2 cols:",N-A);
 loop:;
@@ -273,7 +259,7 @@ for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
 int main(int argc,char**argv){
 if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32/u64 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
- N=atoi(argv[1]);if(N<8)goto syntax;
+ N=atoi(argv[1]);if(N<MINBOARD)goto syntax;
 
 
 int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
