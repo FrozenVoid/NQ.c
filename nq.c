@@ -26,7 +26,7 @@ val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
 i64 swapt=0,swaps=0,checkb=0;//valid swaps total(set if QDEBUG enabled)
 size_t loops=0,fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
-uint64_t log2index(size_t X){return ((unsigned) (63 - __builtin_clzll((X)) ))      ;}
+
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
 
  void swapc(val_t x,val_t y){
@@ -249,9 +249,8 @@ board[c9++]=0;board[c9++]=2;
 }}
 
 void scramble(size_t num){
-#if QDEBUG
  print("\nScrambling N=",N," Times:",num,"\n");fflush(stdout);
-#endif
+
 for(size_t z=0;z<num;z++){
 for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
 }}
@@ -261,7 +260,7 @@ int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with
  N=atoi(argv[1]);if(N<8)goto syntax;
 int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
 checkb=(argc>=3 && strchr(argv[2],'c'));//additional checks
-int scram=(argc>=4 && strchr(argv[2],'s'));//scramble rows
+int scram=(argc>=3 && strchr(argv[2],'s'));//scramble rows
 //u32 queen rows in sequence( queenrow 0-N) size N*4;
 
 board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
