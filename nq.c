@@ -168,7 +168,7 @@ innerloop:;
 B=fstcols();
 
 innerloop2:;lc=0;
-if(1){A=fstgcols(A>B?A:B);if(A==N)goto skip;}else{skip:;
+if(cur>1){A=fstgcols(A>B?A:B);if(A==N)goto skip;}else{skip:;
 do{A=rndcell();lc++;}while(!qccount(A) & ( 	lc<endsearch) );
 if(A==B)goto innerloop2;}
 
