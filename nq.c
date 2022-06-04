@@ -84,25 +84,13 @@ if(!in){print("File:",name," cannot be opened");perror("");exit(111);}
 size_t vfqsize=fread(board,4,N,in);
 if(vfqsize!=N){ print("File:",name,"reading failed at  queen#",vfqsize);perror("");exit(112);}
 print("Loaded:",name," N=",N);
-fclose(in);
-}
-
+fclose(in);}
 
 //https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
-
- val_t modreduce(uint32_t x, uint32_t N) {
-  return ((uint64_t) x * (uint64_t) N) >> 32 ;
-}
-
-//from https://arxiv.org/abs/1704.00358
-static uint32_t msws() {
-static uint64_t x = 266346241, w = 0, s = 0xb5ad4eceda1ce2a9;
-   x *= x; x += (w += s); return x = (x>>32) | (x<<32);}
-
-val_t rndcell(){if(cur>16)return modreduce(msws(),N);
-return modreduce(randuint32(),N);}
-
-//-----------linear collission count----------
+val_t modreduce(uint32_t x, uint32_t N) {
+return ((uint64_t) x * (uint64_t) N) >> 32;}
+val_t rndcell(){ return modreduce(randuint32(),N);}
+//----linear collission count----------
 #define countudiag() (sumL+sumR)
 //------------------------
  void info(){
@@ -114,16 +102,16 @@ return modreduce(randuint32(),N);}
 void linearsolve(){
  A=0,B=0;
  //large board speedup
- val_t minsearch=N>10000?log2index(N)/2:0,endsearch=minsearch*minsearch;
+ val_t minsearch=1+log2index(N);
 cend=__rdtsc();u64 lc=0,lcmax=(N/4)/log2index(N);
  cur=countudiag(),best=cur;if(cur==0){;goto endl;/*presolved*/}
- if(cur<minsearch)goto endsearch;
 print("\nT:",mstime()," ms Collisions:",cur," SearchLim:",minsearch);fflush(stdout);
 //--------Main loop-------------
 loop:;loops++;
 do{A=rndcell();}while(zerocols(A));
 loop2:;lc=0;
 do{B=rndcell(); lc++;}while( zerocols(B) & (lc<lcmax) );
+
 //-------begin swap-----------
 dir=1;
 swapc(A,B);cur=countudiag();//count diagonal intersects
@@ -137,27 +125,7 @@ info();//new iteration update
 fail=0;;swaps=0;
  if(cur==best){;goto loop;}
 //-----good swap------
-
 best=cur;
-//=================Search at ending========================
-
-endsearch:;
-if( best<minsearch ){//ending speedup for N > L2 cache
-print("\nEnd search:",mstime()," ms Collisions:",best);fflush(stdout);
-innerloop:;
-B=fstcols();
-innerloop2:;lc=0;
-if(cur>1){A=fstgcols(A>B?A:B);if(A==N)goto skip;}else{skip:;
-do{A=rndcell();lc++;}while(!qccount(A) & ( 	lc<endsearch) );
-if(A==B)goto innerloop2;}
-dir=1;
-swapc(A,B);cur=countudiag();
-if(cur==0){goto endl;}
-if(cur<=best){
-fail=0;info();
-best=cur;goto innerloop;}
-dir=-1;fail++;
-swapc(A,B);goto innerloop2;}
 if(cur>0){goto loop;;}
 //-----------Success-----
 endl:; //end loop
@@ -165,12 +133,12 @@ print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");ffl
 
 size_t diags(u32*board,size_t len){//first collision
 for(size_t i=0;i<len;i++){size_t cur=board[i];
-if(!(i&0xffff)){putchar('+');fflush(stdout);}
+if(!(i&0xfff)){putchar('+');fflush(stdout);}
  for(size_t z=i+1;z<len;z++){
   size_t zqueen=board[z];
  if(((z-i)==(zqueen-cur))||((z-i)==(cur-zqueen))){return i; };   }  }
 return 0;}
-//===================Solver===========================
+//======prefill counts and start solver===
 void solve(void){
 //fill queen location counts
 for(size_t i=0;i<N;i++){diagL[board[i]+i]++;}
@@ -233,9 +201,9 @@ fflush(stdout);
 diagL=malloc(sizeof(val_t)*(N+2)*2);
 diagR=malloc(sizeof(val_t)*(N+2)*2);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
-if(!nosolve){
+if(!nosolve){//fixed order file or
 if(fileload){fileloadfrom(argv[3]);
-}else{//normal order queens
+}else{//diagonal order queens
 for(size_t i=0;i<N;i++){board[i]=i;}}
 }else{ setpresolved();}
 
@@ -246,16 +214,12 @@ solve();
 size_t verify=0;
 for(size_t i=0;i<N;i++){
 verify+=(diagL[board[i]+i])!=1;
-verify+=(diagR[board[i]+(N-i)])!=1;
-}
+verify+=(diagR[board[i]+(N-i)])!=1;}
 //halt on error(stops nqtest.sh)
 if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();exit(89);}
 if(checkb){integrity();}
-
 if((argc>=3 && strchr(argv[2],'p'))){
 char* sep=argc>3?argv[3]:"\n";
 printboard(sep);return 250;}
-
 if((argc>=3 && strchr(argv[2],'f'))){fileboard();}
-
 return 0;}
