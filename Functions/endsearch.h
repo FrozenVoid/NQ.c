@@ -1,5 +1,7 @@
 
-print("\n\n\n\n\n\n\n\n\nEndsearch:",cur,"cols Time:",mstime(),"ms\n");
+print("\n\n\n\n\n\n\n\n\nStage2:",cur,"cols Time:",mstime(),"ms\n");
+#include "dualswap.h"
+print("\n\n\n\nSTage3:",cur,"cols Time:",mstime(),"ms\n");
 endsearch:;
 A=rndcell();
 if(!(randuint64()&127))A=fstgcols(B);
