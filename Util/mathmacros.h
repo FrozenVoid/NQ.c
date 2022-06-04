@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "lambda.h"
 /* mathmacros.h
 numberof(str) convert string to number
@@ -14,6 +14,9 @@ averagedamp(func) return function that returns average of x/func(x)
 tmin/tmax  min/max of two numbers
 derivative  - lambda of derivative(function)
 */
+//https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
+#define modxy(x,y) ((uint32_t)((((uint64_t) ((uint32_t)x) )*((uint64_t)y))>>32))
+
 #define numberof(str) strtoll(str,NULL,10)
 #define hexnumberof(str) strtoll(str,NULL,16)
 
@@ -21,7 +24,7 @@ derivative  - lambda of derivative(function)
 #define tmax(x,y) ({typeof(x) tminx=x,tminy=y,res=tminy>tminx?tminy:tminx;      ;res;})
 #define tabs(x) ({typeof(x) res=x;res<0?-res:res;})
 
-#define u64log2(X) ((unsigned) (8*sizeof (unsigned long long) - __builtin_clzll((X)) - 1))
+#define log2index(x)  (63 - __builtin_clzll((x)))
 #define issigned(x) (((typeof(x))-1)<((typeof(x))0))
 #define isinteger(x) ((typeof(x))1.1 == 1)
 //branchless bound
@@ -41,3 +44,6 @@ diff=thisdiff;current=result;} ;current;})
 
 #define newtontransform(gfunc) lambda(double,(double x),return x-( gfunc(x)/derivative(gfunc)(x)  ))
 #define newtonmethod(gfunc,guess) fixedpoint(newtontransform(gfunc),guess)
+
+#define intmin(x,y) (y ^ ((x ^ y) & -(x < y)))
+#define intmax(x,y) (x ^ ((x ^ y) & -(x < y)))
