@@ -66,8 +66,7 @@ sumR+=!!(cry-1);
 val_t s=board[P];
 return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
 int zerocols(u32 P){//1= no collision,0==has cols
-val_t s=board[P];
-
+const val_t s=board[P];
 return ((diagL[s+P])==1)&&((diagR[s+(N-P)])==1);
 }
 
@@ -117,7 +116,7 @@ val_t rndcell(){return modreduce(rndgen32(),N);}
   if(tsctime(cend)>NCYCLES ){
   clock_t Ntime=mstime();
   print("\n cols=",cur,"A=",A,"valid/fail:",swaps,"/",(fail),"\nswap:",1.0*swapt/Ntime,"fail:",1.0*tfail/Ntime,"loops:",1.0*loops/Ntime);
-  print("\nT:",Ntime,"ms Col%",100.0*(N-cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps);cend=__rdtsc();fflush(stdout);}}
+  print("\nT:",Ntime,"ms Col%",100.0*(cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps);cend=__rdtsc();fflush(stdout);}}
 //--------------------------------------------
 void linearsolve(){
  A=0,B=0;
