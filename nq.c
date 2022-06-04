@@ -1,9 +1,16 @@
 #include "Util/void.h"//https://github.com/FrozenVoid/C-headers
 //linear ~O(N) NQueens  solver
-#define NCYCLES 8 //report each NCYCLES
+
+size_t NCYCLES=8; //report each NCYCLES
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #define tsctime(c) ((__rdtsc()-c)>>30)
+#ifdef BIGIRON
+#define val_t u64
+#define sval_t unsigned __int128
+#else
 #define val_t u32
+#define sval_t u64
+#endif
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 #define rndgen64 randuint64
@@ -16,7 +23,7 @@ size_t loops=0,fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
 
- void swapc(val_t x,val_t y){
+ static inline void swapc(val_t x,val_t y){
 val_t  clx,crx,cly,cry;
 tswaps++;swaps+=dir;//valid swaps total
 clx=diagL[board[x]+x]--;//current X pos Left
@@ -46,30 +53,30 @@ sumR+=!!(cry-1);
 
 
 //queen collisons at position: 2=none,2+=collision
- val_t qccount(u32 P){
+static inline val_t qccount(val_t P){
 //cannot be zero due being set from q[]
 val_t s=board[P];
 return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
-int zerocols(u32 P){//1= no collision,0==has cols
+static inline int zerocols(val_t P){//1= no collision,0==has cols
 const val_t s=board[P];
 return ((diagL[s+P])==1)&((diagR[s+(N-P)])==1);
 }
 
- val_t qccount2(u32 P,u32 P2){
+  static inline val_t qccount2(val_t P,val_t P2){
 //cannot be zero due being set from q[]
 val_t s=board[P],s2=board[P2];
 return ((diagL[s+P]))+((diagR[s+(N-P)]))+ ((diagL[s2+P2]))+((diagR[s2+(N-P2)]))-4;}
 
-val_t fstcols(){
+static inline val_t fstcols(){
 for(size_t i=0;i<N;i++){if(qccount(i))return i;};return N;}
 
-val_t fstgcols(val_t G){//first greater then
+static inline val_t fstgcols(val_t G){//first greater then
 for(size_t i=G+1;i<N;i++){if(qccount(i))return i;};return N;}
 //--------------------------
 void printboard(char* sep){print("\n");for(size_t i=0;i<N-1;i++)print(board[i]+1,sep);print(board[N-1],"\n");}
 
 void fileboard(){char* fname=malloc(126);
-sprintf(fname,"%u.nq",N);
+sprintf(fname,"%"PRIu64".nq",(u64)N);
 FILE*out=fopen(fname,"wb");
 print("\nWriting board into",fname);
 size_t rfwout=fwrite(board,4,N,out);
@@ -87,9 +94,12 @@ print("Loaded:",name," N=",N);
 fclose(in);}
 
 //https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
-val_t modreduce(uint32_t x, uint32_t N) {
-return ((uint64_t) x * (uint64_t) N) >> 32;}
-val_t rndcell(){ return modreduce(randuint32(),N);}
+ static inline val_t modreduce(val_t x, val_t N) {
+return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
+
+ static inline val_t rndcell(){ return
+  modreduce((val_t)randuint64(),N);
+ }
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
 //------------------------
@@ -97,41 +107,34 @@ val_t rndcell(){ return modreduce(randuint32(),N);}
   if(tsctime(cend)>NCYCLES ){
   clock_t Ntime=mstime();
   print("\n cols=",cur,"A=",A,"valid/fail:",swaps,"/",(fail),"\nswap:",1.0*swapt/Ntime,"fail:",1.0*tfail/Ntime,"loops:",1.0*loops/Ntime);
-  print("\nT:",Ntime,"ms Col%",100.0*(cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps);cend=__rdtsc();fflush(stdout);}}
-//--------------------------------------------
+  print("\nT:",Ntime,"ms Col%",100.0*(cur)/N,"Swapt",swapt,"Valid%",100.0*swapt/tswaps,"lcmax:",valr);cend=__rdtsc();fflush(stdout);}}
+//--------mainloop------
 void linearsolve(){
- A=0,B=0;
- //large board speedup
- val_t minsearch=1+log2index(N);
-cend=__rdtsc();u64 lc=0,lcmax=(N/4)/log2index(N);
- cur=countudiag(),best=cur;if(cur==0){;goto endl;/*presolved*/}
-print("\nT:",mstime()," ms Collisions:",cur," SearchLim:",minsearch);fflush(stdout);
+ A=0,B=0;cend=__rdtsc();u64 lc=0,lcmax=(N*4)/log2index(N);
+ cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime());goto endl;/*presolved*/}
+print("\nT:",mstime()," ms Collisions:",cur);fflush(stdout);
 //--------Main loop-------------
 loop:;loops++;
 do{A=rndcell();}while(zerocols(A));
 loop2:;lc=0;
 do{B=rndcell(); lc++;}while( zerocols(B) & (lc<lcmax) );
-
+valr+=lc==lcmax;
 //-------begin swap-----------
-dir=1;
-swapc(A,B);cur=countudiag();//count diagonal intersects
+dir=1;swapc(A,B);cur=countudiag();
 //----bad swap-----
-if(cur>best){
-dir=-1;fail++;
-swapc(A,B);
-goto loop2;}
+if(cur>best){dir=-1;fail++;
+swapc(A,B);goto loop2;}
 tfail+=fail;swapt+=swaps;
 info();//new iteration update
-fail=0;;swaps=0;
- if(cur==best){;goto loop;}
-//-----good swap------
-best=cur;
+fail=0;;swaps=0;best=cur;//new record
 if(cur>0){goto loop;;}
 //-----------Success-----
-endl:; //end loop
-print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");fflush(stdout);}
 
-size_t diags(u32*board,size_t len){//first collision
+print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
+endl:; //end loop
+fflush(stdout);}
+
+size_t diags(val_t*board,size_t len){//first collision
 for(size_t i=0;i<len;i++){size_t cur=board[i];
 if(!(i&0xfff)){putchar('+');fflush(stdout);}
  for(size_t z=i+1;z<len;z++){
@@ -186,13 +189,15 @@ for(size_t z=0;z<num;z++){
 for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
 }}
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
+if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32/u64 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
  N=atoi(argv[1]);if(N<8)goto syntax;
+ if(N<1024)NCYCLES=0;//show verbose info
+
 int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
 checkb=(argc>=3 && strchr(argv[2],'c'));//additional checks
 int scram=(argc>=3 && strchr(argv[2],'s'));//scramble rows
-//u32 queen rows in sequence( queenrow 0-N) size N*4;
+//u32/u64 queen rows in sequence( queenrow 0-N) size N*4;
 
 board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
 
