@@ -122,7 +122,7 @@ val_t rndcell(){return modreduce(rndgen32(),N);}
 void linearsolve(){
  A=0,B=0;
  //large board speedup
- val_t minsearch=N>10000?log2index(N)/2:0,endsearch=minsearch<<7;
+ val_t minsearch=N>10000?log2index(N)/2:0,endsearch=minsearch*4;
 cend=__rdtsc();u64 lc=0,lcmax=(N*5)/log2index(N);
  cur=countudiag(),best=cur;if(cur==0){;goto endl;/*presolved*/}
  if(cur<minsearch)goto endsearch;
