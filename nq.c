@@ -135,7 +135,8 @@ return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
 void linearsolve(){
  A=0,B=0;cend=__rdtsc();
  size_t NL=log2index(N);
- u64 lc=0,lcmax=(N*4)/NL,minstage2=(NL+8)*(NL+8),endsearch=(NL/2)*(NL/2);
+ u64 lc=0,lcmax=(N*4)/NL,minstage2=((NL+8)*(NL+8)),endsearch=(NL/2)*(NL/2);
+
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime());goto endl;/*presolved*/}
 print("\nT:",mstime()," ms Collisions:",cur);fflush(stdout);
 //--------Main loop-------------
@@ -159,8 +160,9 @@ if(cur>minstage2)goto innerc;
 print("\n\n\n\n\n\n\n\n\nEndsearch:",cur,"cols Time:",mstime(),"ms\n");
 endsearch:;
 A=rndcell();
+if(!(randuint64()&127))A=fstgcols(B);
 B=fstgcols(A);
-for(int i=randuint64()&7;i--;)B=fstgcols(B);
+while(randuint64()&3)B=fstgcols(B);
 if(A==B)goto endsearch;
 info();//new iteration update
 dir=1;swapc(A,B);cur=countudiag();
