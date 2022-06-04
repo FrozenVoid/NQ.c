@@ -1,39 +1,24 @@
 #include "Util/void.h"//https://github.com/FrozenVoid/C-headers
 //linear ~O(N) NQueens  solver
-
 #define NCYCLES 8 //report each NCYCLES
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #define tsctime(c) ((__rdtsc()-c)>>30)
-#define QDEBUG 1//print debug/iteration data
 #define val_t u32
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 #define rndgen64 randuint64
-#define rndgen32 msws
-
-//from https://arxiv.org/abs/1704.00358
-static uint32_t msws() {
-static uint64_t x = 266346241, w = 0, s = 0xb5ad4eceda1ce2a9;
-   x *= x; x += (w += s); return x = (x>>32) | (x<<32);}
-
-
-
-
-
 val_t N,A=0,B=1;
 val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
-i64 swapt=0,swaps=0,checkb=0;//valid swaps total(set if QDEBUG enabled)
+i64 swapt=0,swaps=0,checkb=0;
 size_t loops=0,fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
 
  void swapc(val_t x,val_t y){
 val_t  clx,crx,cly,cry;
-#if QDEBUG
 tswaps++;swaps+=dir;//valid swaps total
-#endif
 clx=diagL[board[x]+x]--;//current X pos Left
 cly=diagL[board[y]+y]--;//current y pos Left
 crx=diagR[board[x]+(N-x)]--;
@@ -108,7 +93,15 @@ fclose(in);
  val_t modreduce(uint32_t x, uint32_t N) {
   return ((uint64_t) x * (uint64_t) N) >> 32 ;
 }
-val_t rndcell(){return modreduce(rndgen32(),N);}
+
+//from https://arxiv.org/abs/1704.00358
+static uint32_t msws() {
+static uint64_t x = 266346241, w = 0, s = 0xb5ad4eceda1ce2a9;
+   x *= x; x += (w += s); return x = (x>>32) | (x<<32);}
+
+val_t rndcell(){if(cur>16)return modreduce(msws(),N);
+return modreduce(randuint32(),N);}
+
 //-----------linear collission count----------
 #define countudiag() (sumL+sumR)
 //------------------------
@@ -125,84 +118,54 @@ void linearsolve(){
 cend=__rdtsc();u64 lc=0,lcmax=(N/4)/log2index(N);
  cur=countudiag(),best=cur;if(cur==0){;goto endl;/*presolved*/}
  if(cur<minsearch)goto endsearch;
-#if QDEBUG
 print("\nT:",mstime()," ms Collisions:",cur," SearchLim:",minsearch);fflush(stdout);
-#endif
 //--------Main loop-------------
-loop:;
-#if QDEBUG
-loops++;
-#endif
+loop:;loops++;
 do{A=rndcell();}while(zerocols(A));
 loop2:;lc=0;
 do{B=rndcell(); lc++;}while( zerocols(B) & (lc<lcmax) );
-
 //-------begin swap-----------
-#if QDEBUG
 dir=1;
-#endif
 swapc(A,B);cur=countudiag();//count diagonal intersects
 //----bad swap-----
 if(cur>best){
-#if QDEBUG
 dir=-1;fail++;
-#endif
 swapc(A,B);
 goto loop2;}
- if(cur==best){;goto loop;}
-//-----good swap------
-#if QDEBUG
 tfail+=fail;swapt+=swaps;
 info();//new iteration update
 fail=0;;swaps=0;
-#endif
+ if(cur==best){;goto loop;}
+//-----good swap------
+
 best=cur;
 //=================Search at ending========================
 
 endsearch:;
 if( best<minsearch ){//ending speedup for N > L2 cache
-#if QDEBUG
 print("\nEnd search:",mstime()," ms Collisions:",best);fflush(stdout);
-#endif
 innerloop:;
 B=fstcols();
-
 innerloop2:;lc=0;
 if(cur>1){A=fstgcols(A>B?A:B);if(A==N)goto skip;}else{skip:;
 do{A=rndcell();lc++;}while(!qccount(A) & ( 	lc<endsearch) );
 if(A==B)goto innerloop2;}
-
-#if QDEBUG
 dir=1;
-#endif
 swapc(A,B);cur=countudiag();
 if(cur==0){goto endl;}
 if(cur<=best){
-#if QDEBUG
-fail=0;if(cur<best)info();
-#endif
+fail=0;info();
 best=cur;goto innerloop;}
-#if QDEBUG
 dir=-1;fail++;
-#endif
-swapc(A,B);goto innerloop2;
-
-}
-
-
+swapc(A,B);goto innerloop2;}
 if(cur>0){goto loop;;}
 //-----------Success-----
 endl:; //end loop
-#if QDEBUG
- print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");fflush(stdout);
-#endif
-}
+print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");fflush(stdout);}
 
 size_t diags(u32*board,size_t len){//first collision
 for(size_t i=0;i<len;i++){size_t cur=board[i];
-#if QDEBUG
-if(!(i&0xff)){putchar('+');fflush(stdout);}
-#endif
+if(!(i&0xffff)){putchar('+');fflush(stdout);}
  for(size_t z=i+1;z<len;z++){
   size_t zqueen=board[z];
  if(((z-i)==(zqueen-cur))||((z-i)==(cur-zqueen))){return i; };   }  }
