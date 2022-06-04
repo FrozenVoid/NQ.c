@@ -30,7 +30,8 @@ the solution to file 1000.nq
 
 # Performance
 
-Solved N= 100000000  at: 599135 ms Swaps: 165237791 Fails: 98335857 
+Solved N= 100000000  at: 503954 ms Swaps: 165237705 Fails: 98371865 
+
 
 Solved N= 10000000  at: 40900 ms Swaps: 16522197 Fails: 9836546 
 
