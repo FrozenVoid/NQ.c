@@ -9,6 +9,11 @@ and the sums of DiagL/DiagR arrays,
 without further calculation:
 normally a loop through the arrays.
 
+new staged scheme:
+stage1 linear window search that accelarates
+first part(until ~50 collisions) 
+stage2(endsearch): randomly sample
+ cells for good swaps with a nearby 2+ collision cell.(much less optimized now)
 
 A critical factor
 reducing 
