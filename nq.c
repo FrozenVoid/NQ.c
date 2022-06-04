@@ -67,7 +67,7 @@ val_t s=board[P];
 return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
 int zerocols(u32 P){//1= no collision,0==has cols
 const val_t s=board[P];
-return ((diagL[s+P])==1)&&((diagR[s+(N-P)])==1);
+return ((diagL[s+P])==1)&((diagR[s+(N-P)])==1);
 }
 
  val_t qccount2(u32 P,u32 P2){
@@ -134,7 +134,10 @@ loop:;
 loops++;
 #endif
 do{A=rndcell();}while(zerocols(A));
-loop2:;lc=0;do{B=rndcell(); lc++;}while( zerocols(B) && (lc<lcmax) );
+loop2:;lc=0;
+B=rndcell(); lc++;
+//if(zerocols(B)&)goto loop2;
+do{B=rndcell(); lc++;}while( zerocols(B) & (lc<lcmax) );
 
 //-------begin swap-----------
 #if QDEBUG
@@ -168,7 +171,7 @@ B=fstcols();
 
 innerloop2:;lc=0;
 if(1){A=fstgcols(A);if(A==N)goto skip;}else{skip:;
-do{A=rndcell();lc++;}while(!qccount(A) && lc<endsearch );
+do{A=rndcell();lc++;}while(!qccount(A) & ( 	lc<endsearch) );
 if(A==B)goto innerloop2;}
 
 #if QDEBUG
