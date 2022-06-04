@@ -135,51 +135,14 @@ return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
 void linearsolve(){
  A=0,B=0;cend=__rdtsc();
  size_t NL=log2index(N);
- u64 lc=0,lcmax=(N*4)/NL,minstage2=((NL+8)*(NL+8)),endsearch=(NL/2)*(NL/2);
+ u64 lc=0,lcmax=(N)/NL,minstage2=((NL+8)*(NL+8)),endsearch=(NL/2)*(NL/2);
 
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime());goto endl;/*presolved*/}
 print("\nT:",mstime()," ms Collisions:",cur);fflush(stdout);
 //--------Main loop-------------
-first:;val_t C;//&& cur>stage1
-for(size_t i=0;i<N ;i++){innerc:;
-if(zerocols(i))continue;
-A=i;
-second:;lc=0;
-do{
-B=i+1+modreduce((val_t)randuint64(),N-i-1);}while(lc++<lcmax &&zerocols(B));
-midloop:;
-info();//new iteration update
-dir=1;swapc(A,B);cur=countudiag();
-if(cur>best){dir=-1;fail++;
-swapc(A,B);goto second;}
-tfail+=fail;swapt+=swaps;
-
-fail=0;swaps=0;best=cur;//new record
-if(cur==0){goto fin;}
-if(cur>minstage2)goto innerc;
-#include "Functions/endsearch.h"
-
-}
+#include "Functions/windowslide.h"
 if(cur!=0){info();goto first;}
-/*
-stage2:;print("\n\n\n","stage2 cols:",N-A);
-loop:;
-do{A=rndcell();}while(zerocols(A));
-loop2:;lc=0;
-do{B=rndcell(); lc++;}while( zerocols(B) & (lc<lcmax) );
-if(A==B)goto loop;
-valr+=lc==lcmax;
-//-------begin swap-----------
-dir=1;swapc(A,B);cur=countudiag();
-//----bad swap-----
-if(cur>best){dir=-1;fail++;
-swapc(A,B);goto loop2;}
-tfail+=fail;swapt+=swaps;
-info();//new iteration update
-fail=0;;swaps=0;best=cur;//new record
-if(cur>0){goto loop;;}
-//-----------Success-----
-*/
+
 fin:;
 print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
 endl:; //end loop
