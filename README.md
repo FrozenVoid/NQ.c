@@ -2,6 +2,7 @@
 
 Fast N-Queens Puzzle solver using iterative repair
 
+Note:currently under rewrite and will not work as fast as performance indicates.
 # Syntax
 
 nq N [[num]pcftsi] [filename]
