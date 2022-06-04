@@ -121,8 +121,8 @@ val_t rndcell(){return modreduce(rndgen32(),N);}
 void linearsolve(){
  A=0,B=0;
  //large board speedup
- val_t minsearch=N>10000?log2index(N)/2:0,endsearch=minsearch*4;
-cend=__rdtsc();u64 lc=0,lcmax=(N*5)/log2index(N);
+ val_t minsearch=N>10000?log2index(N)/2:0,endsearch=minsearch*minsearch;
+cend=__rdtsc();u64 lc=0,lcmax=(N/4)/log2index(N);
  cur=countudiag(),best=cur;if(cur==0){;goto endl;/*presolved*/}
  if(cur<minsearch)goto endsearch;
 #if QDEBUG
@@ -135,8 +135,6 @@ loops++;
 #endif
 do{A=rndcell();}while(zerocols(A));
 loop2:;lc=0;
-B=rndcell(); lc++;
-//if(zerocols(B)&)goto loop2;
 do{B=rndcell(); lc++;}while( zerocols(B) & (lc<lcmax) );
 
 //-------begin swap-----------
