@@ -1,5 +1,5 @@
 //queen collisons at position: 2=none,2+=collision
-val_t qccount(val_t P){
+static inline val_t qccount(val_t P){
 //cannot be zero due being set from q[]
 FETC(&board[P],0,0);
 val_t s=board[P];
