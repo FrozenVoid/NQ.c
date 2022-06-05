@@ -94,36 +94,15 @@ for(size_t i=0;i<N;i++){if(qccount(i))return i;};return N-1;}
 static inline val_t fstgcols(val_t G){//first greater then
 for(size_t i=G+1;i<N;i++){
 if(qccount(i))return i;};return fstcols();}
-//--------------------------
-void printboard(char* sep){print("\n");for(size_t i=0;i<N-1;i++)print(board[i]+1,sep);print(board[N-1],"\n");}
 
-void fileboard(){char* fname=malloc(126);
-sprintf(fname,"%"PRIu64".nq",(u64)N);
-FILE*out=fopen(fname,"wb");
-print("\nWriting board into",fname);
-size_t rfwout=fwrite(board,4,N,out);
-if(rfwout==N){print("\nFile:",fname,"\nRecorded board as file\n");}
-else{print("\nFile:",fname,"\nWrite mismatch\n",N,"!=",rfwout);}
-fclose(out);
-}
 
-void fileloadfrom(char* name){
-FILE* in=fopen(name,"rb");
-if(!in){print("File:",name," cannot be opened");perror("");exit(111);}
-size_t vfqsize=fread(board,sizeof(val_t),N,in);
-if(vfqsize!=N){ print("File:",name,"reading failed at  queen#",vfqsize);perror("");exit(112);}
-print("Loaded ",sizeof(val_t),"byte NQ file:",name," N=",N);
-fclose(in);}
 
-//https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
- static inline val_t modreduce(val_t x, val_t N) {
-return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
 
- static inline val_t rndcell(){
- val_t r=modreduce((val_t)randuint64(),N);
- FETC(&board[r],0,0);
- return r;
- }
+#include "Functions/printboard.h"
+#include "Functions/fileboard.h"
+#include "Functions/fileloadfrom.h"
+#include "Functions/modreduce.h"
+#include "Functions/rndcell.h"
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
 #include "Functions/info.h"
