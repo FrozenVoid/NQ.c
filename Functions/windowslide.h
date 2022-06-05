@@ -6,15 +6,16 @@ second:;lc=0;
 do{
 B=i+1+modreduce((val_t)randuint64(),N-i-1);}while(lc++<lcmax &&zerocols(B));
 midloop:;
-
+if(A==B)goto second;
 dir=1;swapc(A,B);cur=countudiag();
-if(cur>best){dir=-1;fail++;
+fail+=cur>=best;
+if(cur>best){dir=-1;
 swapc(A,B);goto second;}
 tfail+=fail;swapt+=swaps;
 info();//new iteration update
-fail=0;swaps=0;best=cur;//new record
+fail=cur>=best?fail:0;swaps=0;best=cur;//new record
 if(cur==0){goto fin;}
-if(cur>minstage2)goto innerc;
+if(fail<minstage2)goto innerc;
 #include "endsearch.h"
 
 }
