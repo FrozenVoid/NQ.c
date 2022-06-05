@@ -1,6 +1,9 @@
 void windowslide(){
 first:;
 for(size_t i=0;i<N ;i++){innerc:;
+
+FETC(&diagL[board[i]+i],0,2);
+FETC(&diagR[board[i]+(N-i)],0,2);
 if(zerocols(i))continue;
 A=i;
 second:;lc=0;
