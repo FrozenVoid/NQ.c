@@ -41,7 +41,6 @@ Solved N= 100000  at: 81 ms Swaps: 167017 Fails: 693032
 
 # Compilation
 
-(included) C-headers /Util sub-directory
 
 gcc nq.c -Ofast -march=native -mtune=native -Wall -pipe -onq
 
