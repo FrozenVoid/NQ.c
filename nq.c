@@ -9,7 +9,7 @@ typedef uint32_t u32;
 //linear ~O(N) NQueens  solver
 #define log2index(x)  (63 - __builtin_clzll((x)))
 
-
+#define zerocols(P) (!qccount(P))
 
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
@@ -49,7 +49,6 @@ void info(char* data);
 #include "Functions/checkdup.h"
 #include "Functions/swapc.h"
 #include "Functions/qcccount.h"
-#include "Functions/zerocols.h"
 #include "Functions/fstcols.h"
 #include "Functions/fstgcols.h"
 #include "Functions/printboard.h"
