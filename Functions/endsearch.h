@@ -1,4 +1,4 @@
-
+endsearch3:;
 print("\n\n\n\n\n\n\n\n\nStage2:",cur,"cols Time:",mstime(),"ms\n");
 #include "dualswap.h"
 print("\n\n\n\nSTage3:",cur,"cols Time:",mstime(),"ms\n");
@@ -16,5 +16,5 @@ if(cur>best){dir=-1;fail++;
 swapc(A,B);goto end2;}
 tfail+=fail;swapt+=swaps;
 fail=0;swaps=0;best=cur;//new record
-if(cur==0)goto fin;
+if(cur==0){print("Endsearch:",cur,"cols\n");goto fin;}
 goto endsearch;
