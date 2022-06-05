@@ -21,6 +21,7 @@ dir=1;swapc(A,B);cur=countudiag();
 if(cur>best){dir=-1;fail++;
 swapc(A,B);goto end2;}
 tfail+=fail;swapt+=swaps;
+info("SwapE");
 fail=0;swaps=0;best=cur;//new record
 if(cur==0){info("Solved:");return;}
 goto endsearch;
