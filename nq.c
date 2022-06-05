@@ -52,7 +52,7 @@ size_t NL; u64 lc,lcmax,minstage2,endsearch;
 #include "Functions/scramble.h"
 #include "Functions/verifier.h"
 #include "Functions/syntax.h"
-
+#include "Functions/windowslide.h"
 int main(int argc,char**argv){
 
 if(argc<2){syntax();}
