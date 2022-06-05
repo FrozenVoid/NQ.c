@@ -3,6 +3,11 @@
 
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
+#ifdef PREFETCH
+#define FETC(a...) __builtin_prefetch(a)
+#else
+#define FETC(a...)
+#endif
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #ifdef BIGIRON
 #define val_t u64
@@ -26,10 +31,10 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
  static inline void swapc(val_t x,val_t y){
 val_t  clx,crx,cly,cry;
 tswaps++;swaps+=dir;//valid swaps total
-__builtin_prefetch(&diagL[board[x]+x],1,0);
-__builtin_prefetch(&diagL[board[y]+y],1,0);
-__builtin_prefetch(&diagR[board[x]+(N-x)],1,0);
-__builtin_prefetch(&diagR[board[y]+(N-y)],1,0);
+FETC(&diagL[board[x]+x],1,0);
+FETC(&diagL[board[y]+y],1,0);
+FETC(&diagR[board[x]+(N-x)],1,0);
+FETC(&diagR[board[y]+(N-y)],1,0);
 clx=diagL[board[x]+x]--;//current X pos Left
 cly=diagL[board[y]+y]--;//current y pos Left
 crx=diagR[board[x]+(N-x)]--;
@@ -43,10 +48,10 @@ sumR-=!!(cry-1);
 //swap
 swapq(board[x],board[y]);
 //updates sums
-__builtin_prefetch(&diagL[board[x]+x],1,0);
-__builtin_prefetch(&diagL[board[y]+y],1,0);
-__builtin_prefetch(&diagR[board[x]+(N-x)],1,0);
-__builtin_prefetch(&diagR[board[y]+(N-y)],1,0);
+FETC(&diagL[board[x]+x],1,0);
+FETC(&diagL[board[y]+y],1,0);
+FETC(&diagR[board[x]+(N-x)],1,0);
+FETC(&diagR[board[y]+(N-y)],1,0);
 clx=(++diagL[board[x]+x]);
 cly=(++diagL[board[y]+y]);;
 crx=(++diagR[board[x]+(N-x)]);
@@ -63,19 +68,19 @@ sumR+=!!(cry-1);
 //queen collisons at position: 2=none,2+=collision
 static inline val_t qccount(val_t P){
 //cannot be zero due being set from q[]
-__builtin_prefetch(&board[P],0,0);
+FETC(&board[P],0,0);
 val_t s=board[P];
-__builtin_prefetch(&diagL[s+P],0,0);
-__builtin_prefetch(&diagR[s+(N-P)],0,0);
+FETC(&diagL[s+P],0,0);
+FETC(&diagR[s+(N-P)],0,0);
 return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
 static inline int zerocols(val_t P){//1= no collision,>1 collisions
 
 
-__builtin_prefetch(&board[P],0,0);
+FETC(&board[P],0,0);
 const val_t s=board[P];
-__builtin_prefetch(&diagL[s+P],0,0);
+FETC(&diagL[s+P],0,0);
 if((diagL[s+P])!=1)return 0;
-__builtin_prefetch(&diagR[s+(N-P)],0,0);
+FETC(&diagR[s+(N-P)],0,0);
 if(diagR[s+(N-P)]!=1)return 0;
 return 1;
 //return !((((diagL[s+P])) +(diagR[s+(N-P)]))-2);//1:1=
@@ -116,7 +121,7 @@ return ((sval_t) x * (sval_t) N) >> (sizeof(val_t)*8);}
 
  static inline val_t rndcell(){
  val_t r=modreduce((val_t)randuint64(),N);
- __builtin_prefetch(&board[r],0,0);
+ FETC(&board[r],0,0);
  return r;
  }
 //----linear collission count----------
@@ -169,16 +174,8 @@ linearsolve();
 
 
 }
+#include "Functions/integrity.h"
 
-void integrity(){
-//pedantic checks
-char __attribute__((unused))  tt2;
-if(sumL+sumR){print("\nInvalid sumL+sumR to N=",N,"Collisions:",sumL+sumR);fflush(stdout); tt2=getchar();exit(31);}else{
-if(N>100000){print("\nWarning:",N," >100000 slow checks");}
-size_t fdg=diags(board,N);
-if(fdg){print("\nUnsolved collision at column:",fdg,"/",N,"Reported Collisions:",sumL+sumR);fflush(stdout); tt2=getchar();exit(32);}
-} print("\nAll checks passed!\n");
-}
 void setpresolved(){
 if(N%6<2||N%6>=4){// presolved: place knight diagonals
 for(size_t i=0,z=1;i<N;i++,z+=2){
