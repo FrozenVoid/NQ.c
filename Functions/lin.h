@@ -2,15 +2,14 @@
 
 void linearsolve(){
  cend=__rdtsc();
- size_t NL=log2index(N);
+ NL=log2index(N);
   lc=0,lcmax=(N)/NL,minstage2=((NL)*(NL)),endsearch=(NL/2)*(NL/2);
 
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"\n");goto endl;/*presolved*/}
 print("\nSTART:",mstime()," ms Collisions:",cur,"\n");fflush(stdout);
 //--------Main loop-------------
-#include "windowslide.h"
 
-fin:;
+windowslide();
 print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
 endl:; //end loop
 fflush(stdout);}
