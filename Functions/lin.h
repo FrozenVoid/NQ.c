@@ -8,7 +8,7 @@ void linearsolve(){
 print("\nSTART:",mstime()," ms Collisions:",cur,"\n");fflush(stdout);
 //--------Main loop-------------
 #include "windowslide.h"
-if(cur!=0){info();goto first;}
+if(cur!=0){info("Loop next:");goto first;}
 
 fin:;
 print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
