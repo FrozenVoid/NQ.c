@@ -49,38 +49,51 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 #include "Functions/presolve.h"
 #include "Functions/scramble.h"
 #include "Functions/verifier.h"
+#include "Functions/syntax.h"
 int main(int argc,char**argv){
-if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32/u64 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
-int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
- N=atoi(argv[1]);if(N<MINBOARD)goto syntax;
-
-
-int fileload= (argc>=4 && strchr(argv[2],'i'));//load file with
-checkb=(argc>=3 && strchr(argv[2],'c'));//additional checks
-int scram=(argc>=3 && strchr(argv[2],'s'));//scramble rows
-//u32/u64 queen rows in sequence( queenrow 0-N) size N*4;
-
-board=malloc(sizeof(val_t)*N);//queen row/cols(2^31-1 max)
-
+int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0;
+if(argc<2){syntax();}
+N=atoi(argv[1]);if(N<MINBOARD)syntax();
+size_t colsize=sizeof(val_t)*N;
+print("Queen board size=",colsize," bytes\n");
+board=malloc(sizeof(val_t)*N);//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 fflush(stdout);
-diagL=malloc(sizeof(val_t)*(N+2)*2);
-diagR=malloc(sizeof(val_t)*(N+2)*2);
+size_t diagsize=sizeof(val_t)*(N+2)*2;
+print("Diagonal arrays size=",2*diagsize," bytes\n");
+diagL=malloc(diagsize);
+diagR=malloc(diagsize);
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
-if(!nosolve){//fixed order file or
-if(fileload){fileloadfrom(argv[3]);
-}else{//diagonal order queens
-for(size_t i=0;i<N;i++){board[i]=i;}}
-}else{ setpresolved();}
 
+if(argc>=3){
+dofile= !!strchr(argv[2],'f');//file output
+doprint=!!strchr(argv[2],'p');//print
+ nosolve= !!strchr(argv[2],'t');//presolved
+checkb=!!strchr(argv[2],'c');//pedantic check
+scram=!! strchr(argv[2],'s');//scramble
+print("Options:",dofile?"\nfile output":"",
+doprint?"\nprint board rows":"",
+nosolve?"\ngenerate presolved board":"",
+checkb?"\npedantic checks":"",
+scram?"\nscramble board":"");}
+ if(argc==4){//file input
+ fileload=!!strchr(argv[2],'i');}
+//setup board
+if(nosolve){setpresolved();}
+else if(!fileload){for(size_t i=0;i<N;i++)board[i]=i;}
+
+//file input and scramble
+if(fileload){fileloadfrom(argv[3]);}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
-//for(size_t i=0;i<N;i++)board[i]=N-i-1;//r-diagonal
-solve();
-verifier();
+//main func
 
+solve();
+//check it
+verifier();
 if(checkb){integrity();}
-if((argc>=3 && strchr(argv[2],'p'))){
-char* sep=argc>3?argv[3]:"\n";
-printboard(sep);return 250;}
-if((argc>=3 && strchr(argv[2],'f'))){fileboard();}
+//output
+if(doprint){char sep=',';
+if(!fileload && argc==4)sep=argv[3][0];
+printboard(sep);}
+if(dofile){fileboard();}
 return 0;}
