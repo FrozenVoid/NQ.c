@@ -1,5 +1,14 @@
-#include "Util/void.h"//https://github.com/FrozenVoid/C-headers
+#include "standalone/print.h"
+#include <stdlib.h>
+#include <time.h>
+#include <x86intrin.h>//__rdtsc
+typedef uint64_t u64;
+typedef int64_t i64;
+typedef uint32_t u32;
 //linear ~O(N) NQueens  solver
+#define log2index(x)  (63 - __builtin_clzll((x)))
+
+
 
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
@@ -18,9 +27,11 @@
 #endif
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
+#define randuint64 xoroshiro128
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
-#define rndgen64 randuint64
+#include "misc/prng.h"
+
 int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0;
 val_t N,A=0,B=1;
 val_t * board;
