@@ -2,7 +2,6 @@
 
 Fast N-Queens Puzzle solver using iterative repair
 
-Note:currently under rewrite and will not work as fast as performance indicates.
 # Syntax
 
 nq N [[num]pcftsi] [filename]
@@ -32,17 +31,13 @@ the solution to file 1000.nq
 
 # Performance
 
-Solved N= 100000000  at: 617812 ms Swaps: 167393790 Fails: 118245445 
+Solved N= 100000000  at: 417708 ms Swaps: 167401101 Fails: 679418578 
 
+Solved N= 10000000  at: 24719 ms Swaps: 16734583 Fails: 67911304
 
-Solved N= 10000000  at: 52217 ms Swaps: 16736416 Fails: 11809388 
+Solved N= 1000000  at: 2028 ms Swaps: 1675992 Fails: 6861174 
 
-
-
-
-Solved N= 1000000  at: 6315 ms Swaps: 1673757 Fails: 1182885 
-
-
+Solved N= 100000  at: 81 ms Swaps: 167017 Fails: 693032
 
 # Compilation
 
