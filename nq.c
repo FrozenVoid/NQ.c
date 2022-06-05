@@ -28,73 +28,15 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
 
- static inline void swapc(val_t x,val_t y){
-val_t  clx,crx,cly,cry;
-tswaps++;swaps+=dir;//valid swaps total
-FETC(&diagL[board[x]+x],1,0);
-FETC(&diagL[board[y]+y],1,0);
-FETC(&diagR[board[x]+(N-x)],1,0);
-FETC(&diagR[board[y]+(N-y)],1,0);
-clx=diagL[board[x]+x]--;//current X pos Left
-cly=diagL[board[y]+y]--;//current y pos Left
-crx=diagR[board[x]+(N-x)]--;
-cry=diagR[board[y]+(N-y)]--;
-//reduce sums,first,last
-//if clx==1 0 clx>1=1  (clx-1)=0
-sumL-=!!(clx-1);//reduce sum if old collision
-sumL-=!!(cly-1);
-sumR-=!!(crx-1);
-sumR-=!!(cry-1);
-//swap
-swapq(board[x],board[y]);
-//updates sums
-FETC(&diagL[board[x]+x],1,0);
-FETC(&diagL[board[y]+y],1,0);
-FETC(&diagR[board[x]+(N-x)],1,0);
-FETC(&diagR[board[y]+(N-y)],1,0);
-clx=(++diagL[board[x]+x]);
-cly=(++diagL[board[y]+y]);;
-crx=(++diagR[board[x]+(N-x)]);
-cry=(++diagR[board[y]+(N-y)]);
 
-sumL+=!!(clx-1);//reduce sum if old collision
-sumL+=!!(cly-1);
-sumR+=!!(crx-1);
-sumR+=!!(cry-1);
-
-}
+#include "Functions/swapc.h"
+#include "Functions/qcccount.h"
+#include "Functions/zerocols.h"
+#include "Functions/fstcols.h"
 
 
-//queen collisons at position: 2=none,2+=collision
-static inline val_t qccount(val_t P){
-//cannot be zero due being set from q[]
-FETC(&board[P],0,0);
-val_t s=board[P];
-FETC(&diagL[s+P],0,0);
-FETC(&diagR[s+(N-P)],0,0);
-return ((diagL[s+P]))+((diagR[s+(N-P)]))-2;}
-static inline int zerocols(val_t P){//1= no collision,>1 collisions
 
-
-FETC(&board[P],0,0);
-const val_t s=board[P];
-FETC(&diagL[s+P],0,0);
-if((diagL[s+P])!=1)return 0;
-FETC(&diagR[s+(N-P)],0,0);
-if(diagR[s+(N-P)]!=1)return 0;
-return 1;
-//return !((((diagL[s+P])) +(diagR[s+(N-P)]))-2);//1:1=
-//return !((((diagL[s+P]))+((diagR[s+(N-P)])))-2);
-}
-
-
-static inline val_t fstcols(){
-for(size_t i=0;i<N;i++){if(qccount(i))return i;};return N-1;}
-
-static inline val_t fstgcols(val_t G){//first greater then
-for(size_t i=G+1;i<N;i++){
-if(qccount(i))return i;};return fstcols();}
-
+#include "Functions/fstgcols.h"
 
 
 
