@@ -75,7 +75,15 @@ print("Options:",dofile?"\nfile output":"",
 doprint?"\nprint board rows":"",
 nosolve?"\ngenerate presolved board":"",
 checkb?"\npedantic checks":"",
-scram?"\nscramble board":"");}
+scram?"\nscramble board":"");
+
+}
+#ifdef NOPREFETCH
+print("\nprefetch disabled");
+#endif
+#ifdef SILENCE
+print("\ninfo() disabled");
+#endif
  if(argc==4){//file input
  fileload=!!strchr(argv[2],'i');}
 //setup board
@@ -86,7 +94,7 @@ else if(!fileload){for(size_t i=0;i<N;i++)board[i]=i;}
 if(fileload){fileloadfrom(argv[3]);}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 //main func
-
+print("\nSolver:\n");
 solve();
 //check it
 verifier();
