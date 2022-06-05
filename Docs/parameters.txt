@@ -1,0 +1,14 @@
+First argument must be N= board size (NxN)
+
+Second [optional] argument is a command letter:
+p [sep] = printboard with optinal separator
+f = file output(as u32/u64 queen row array)
+t = test presolved board(generate solved)
+c = pedantic checks
+Xs = scramble (e.g. '12s' scramble 12 times)
+
+i filename = load filename(as in f output form)
+
+Third argument can be a:
+filename - for 'i'
+separator - for 'p'
