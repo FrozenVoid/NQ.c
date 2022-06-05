@@ -1,2 +1,2 @@
-critical functions are isolated to
+ functions are isolated to
  headers.
