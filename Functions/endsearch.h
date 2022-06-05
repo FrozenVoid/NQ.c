@@ -5,7 +5,7 @@ endsearch3:;
 if(checkb){
 print("\nverifying linear search");
 checkdup();}
-print("\n\n\n\nSTage3:",cur,"cols Time:",mstime(),"ms\n");
+print("\n\n\n\nSTage3:",fail,"fails",cur,"cols Time:",mstime(),"ms\n");
 endsearch:;
 A=fstgcols(A);;//switch randomly
 end2:;
