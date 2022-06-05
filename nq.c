@@ -78,10 +78,15 @@ solve();
 //verify no collisions (diagonals contain Q=1)
 size_t verify=0;
 for(size_t i=0;i<N;i++){
-verify+=(diagL[board[i]+i])!=1;
-verify+=(diagR[board[i]+(N-i)])!=1;}
 //halt on error(stops nqtest.sh)
-if(verify){print("Invalid solution to N=",N,"Collisions:",verify);fflush(stdout);char __attribute__((unused))  tt=getchar();exit(89);}
+val_t left=(diagL[board[i]+i]);
+val_t right=(diagR[board[i]+(N-i)]);;
+if(left||right)
+){print("Invalid solution to N=",N,"Collision at c,L,R:",i,left,right);
+fflush(stdout);
+char __attribute__((unused))  tt=getchar();exit(89);}
+}
+
 if(checkb){integrity();}
 if((argc>=3 && strchr(argv[2],'p'))){
 char* sep=argc>3?argv[3]:"\n";
