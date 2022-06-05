@@ -1,6 +1,7 @@
-endsearch3:;
+
 print("\n\n\n\n\n\n\n\n\nStage2:",cur,"cols Time:",mstime(),"ms\n");
 #include "dualswap.h"
+endsearch3:;
 print("\n\n\n\nSTage3:",cur,"cols Time:",mstime(),"ms\n");
 endsearch:;
 A=fstgcols(A);;//switch randomly
