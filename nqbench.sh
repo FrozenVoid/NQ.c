@@ -1,2 +1,3 @@
-gcc nq.c -Ofast -march=native -mtune=native -Wall -pipe -onq
-time ./nq 20000000 
+gcc nq.c -Ofast -march=native -mtune=native -Wall -Wno-unused -pipe -onq -DSILENCE $*
+time ./nq 40000000
+
