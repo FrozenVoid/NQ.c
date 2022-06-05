@@ -13,7 +13,7 @@ p=print board as sequence of row addresses from 1+
 
 c= additional pedantic O(N^2) checks for diagonals and duplicates
 
-f=write board as sequence of uint32's to file N.nq
+f=write board as sequence of row values to file N.nq
 in working directory.
 
 t=generates presolved boards, use to test integrity(nqtest.sh)
