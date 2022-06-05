@@ -103,8 +103,8 @@ else if(!fileload){for(size_t i=0;i<N;i++)board[i]=i;}
 if(fileload){fileloadfrom(argv[3]);}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 //main func
-print("\nSolver:\n");
-if(checkb){checkdup();}
+print("Solver:\n");
+if(checkb){print("Pre-check duplicates\n");checkdup();}
 solve();
 //check it
 verifier();
