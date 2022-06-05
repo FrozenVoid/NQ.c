@@ -1,4 +1,4 @@
-void swapc(val_t x,val_t y){
+ static inline void swapc(val_t x,val_t y){
 val_t  clx,crx,cly,cry;
 tswaps++;swaps+=dir;//valid swaps total
 FETC(&diagL[board[x]+x],1,0);
@@ -16,7 +16,7 @@ sumL-=!!(cly-1);
 sumR-=!!(crx-1);
 sumR-=!!(cry-1);
 //swap
-swapq(board[x],board[y]);
+swapq(x,y);
 //updates sums
 FETC(&diagL[board[x]+x],1,0);
 FETC(&diagL[board[y]+y],1,0);
