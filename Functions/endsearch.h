@@ -1,4 +1,4 @@
-
+void esearch(){
 //print("\n\n\n\n\n\n\n\n\nStage2:",cur,"cols Time:",mstime(),"ms\n");
 //#include "dualswap.h"
 endsearch3:;
@@ -24,3 +24,4 @@ tfail+=fail;swapt+=swaps;
 fail=0;swaps=0;best=cur;//new record
 if(cur==0){info("Solved:");return;}
 goto endsearch;
+}
