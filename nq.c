@@ -48,6 +48,7 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 #include "Functions/integrity.h"
 #include "Functions/presolve.h"
 #include "Functions/scramble.h"
+#include "Functions/verifier.h"
 int main(int argc,char**argv){
 if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32/u64 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
@@ -75,17 +76,7 @@ for(size_t i=0;i<N;i++){board[i]=i;}}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 //for(size_t i=0;i<N;i++)board[i]=N-i-1;//r-diagonal
 solve();
-//verify no collisions (diagonals contain Q=1)
-size_t verify=0;
-for(size_t i=0;i<N;i++){
-//halt on error(stops nqtest.sh)
-val_t left=(diagL[board[i]+i]);
-val_t right=(diagR[board[i]+(N-i)]);;
-if(left||right)
-){print("Invalid solution to N=",N,"Collision at c,L,R:",i,left,right);
-fflush(stdout);
-char __attribute__((unused))  tt=getchar();exit(89);}
-}
+verifier();
 
 if(checkb){integrity();}
 if((argc>=3 && strchr(argv[2],'p'))){
