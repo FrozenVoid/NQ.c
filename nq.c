@@ -79,11 +79,11 @@ doprint=!!strchr(argv[2],'p');//print
 checkb=!!strchr(argv[2],'c');//pedantic check
 scram=!! strchr(argv[2],'s');//scramble
 
-print(dofile?"\nfile output":"",
-doprint?"\nprint board rows":"",
-nosolve?"\ngenerate presolved board":"",
-checkb?"\npedantic checks":"",
-scram?"\nscramble board":"");
+print(dofile?"\n[x]file output":"",
+doprint?"\n[x]print board rows":"",
+nosolve?"\n[x]generate presolved board":"",
+checkb?"\n[x]pedantic checks":"",
+scram?"\n[x]scramble board":"");
 
 }
 
