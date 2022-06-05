@@ -175,30 +175,11 @@ linearsolve();
 
 }
 #include "Functions/integrity.h"
+#include "Functions/presolve.h"
+#include "Functions/scramble.h"
 
-void setpresolved(){
-if(N%6<2||N%6>=4){// presolved: place knight diagonals
-for(size_t i=0,z=1;i<N;i++,z+=2){
-if(z>=N){z=0;}board[i]=z;;}
-}else if(N%6==2){
-for(size_t i=0,z=1;z<N;i++,z+=2){board[i]=z;}
-for(size_t i=N/2,z=2;z &&i<N;i++,z-=2){board[i]=z;}
-for(size_t i=2+N/2,z=6;z<N-1 &&i<N;i++,z+=2){board[i]=z;}
-board[N-1]=4;
-}else if(N%6==3){size_t c9,z;
 
-for(c9=0,z=3;z<N-1;c9++,z+=2){board[c9]=z;}
-board[c9++]=1;
-for(z=4;c9<N-2;c9++,z+=2){board[c9]=z;}
-board[c9++]=0;board[c9++]=2;
-}}
 
-void scramble(size_t num){
- print("\nScrambling N=",N," Times:",num,"\n");fflush(stdout);
-
-for(size_t z=0;z<num;z++){
-for(size_t i=0;i<N;i++){swapq(board[i],board[rndcell()]);}
-}}
 int main(int argc,char**argv){
 if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32/u64 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
