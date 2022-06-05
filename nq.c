@@ -27,7 +27,8 @@ val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
 i64 swapt=0,swaps=0,checkb=0;
-size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
+i64   fail=0,tfail=0,dir=1,tswaps=0;
+size_t cend,valr,cur,best;
 
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
 
