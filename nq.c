@@ -31,6 +31,8 @@ i64   fail=0,tfail=0,dir=1,tswaps=0;
 size_t cend,valr,cur,best;
 size_t NL; u64 lc,lcmax,minstage2,endsearch;
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
+void info(char* data);
+
 
 #include "Functions/checkdup.h"
 #include "Functions/swapc.h"
@@ -44,6 +46,7 @@ size_t NL; u64 lc,lcmax,minstage2,endsearch;
 #include "Functions/modreduce.h"
 #include "Functions/rndcell.h"
 #include "Functions/info.h"
+#include "Functions/windowslide.h"
 #include "Functions/lin.h"
 #include "Functions/diags.h"
 #include "Functions/solve.h"
@@ -52,7 +55,7 @@ size_t NL; u64 lc,lcmax,minstage2,endsearch;
 #include "Functions/scramble.h"
 #include "Functions/verifier.h"
 #include "Functions/syntax.h"
-#include "Functions/windowslide.h"
+
 int main(int argc,char**argv){
 
 if(argc<2){syntax();}
