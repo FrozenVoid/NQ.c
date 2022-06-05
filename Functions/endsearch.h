@@ -14,7 +14,7 @@ uint64_t rsw=randuint64();
 if(!(rsw&7))A=rndcell();
 B=rndcell();
 if(A==B)goto end2;
-#if VERBOSE
+#ifdef VERBOSE
 info("PreswapE:");//preswap
 #endif
 dir=1;swapc(A,B);cur=countudiag();
