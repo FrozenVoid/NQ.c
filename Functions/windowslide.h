@@ -1,4 +1,5 @@
-first:;val_t C;//&& cur>stage1
+void windowslide(){
+first:;
 for(size_t i=0;i<N ;i++){innerc:;
 if(zerocols(i))continue;
 A=i;
@@ -25,9 +26,10 @@ goto second;}
 tfail+=fail;swapt+=swaps;
 info(cur==best?"Swap0:":"Swap+:");//new iteration update
 fail=cur>=best?fail:0;swaps=0;best=cur;//new record
-if(cur==0){goto fin;}
+if(cur==0){return;}
 if(fail<minstage2)goto innerc;
 #include "endsearch.h"
 
 }
 if(cur!=0){info("Loop next:");goto first;}
+}
