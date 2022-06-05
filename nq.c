@@ -21,6 +21,7 @@
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 #define rndgen64 randuint64
+int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0;
 val_t N,A=0,B=1;
 val_t * board;
 val_t * diagL;i64 sumL=0;
@@ -50,8 +51,9 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 #include "Functions/scramble.h"
 #include "Functions/verifier.h"
 #include "Functions/syntax.h"
+#include "Functions/checkdup.h"
 int main(int argc,char**argv){
-int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0;
+
 if(argc<2){syntax();}
 N=atoi(argv[1]);if(N<MINBOARD)syntax();
 size_t colsize=sizeof(val_t)*N;
@@ -95,10 +97,11 @@ if(fileload){fileloadfrom(argv[3]);}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 //main func
 print("\nSolver:\n");
+if(checkb){checkdup();}
 solve();
 //check it
 verifier();
-if(checkb){integrity();}
+if(checkb){checkdup();integrity();}
 //output
 if(doprint){char sep=',';
 if(!fileload && argc==4)sep=argv[3][0];
