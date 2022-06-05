@@ -1,4 +1,4 @@
-#include "/home/user/Code/Util/void.h"//https://github.com/FrozenVoid/C-headers
+#include "Util/void.h"//https://github.com/FrozenVoid/C-headers
 //linear ~O(N) NQueens  solver
 
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
