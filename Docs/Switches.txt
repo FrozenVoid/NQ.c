@@ -1,0 +1,11 @@
+-DBIGIRON switch to 64-bit val_t arrays allowing
+ testing >2^32 N-queens(uses ~40 bytes per queen vs 20
+ for 32-bit val_t) 
+ 
+ -DSILENCE switch off all info() printing during 
+ work.
+ 
+ -DVERBOSE enable info() at some points where
+ it may harm performance
+ 
+-DNOPREFETCH disable prefetch of array cells 
