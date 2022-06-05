@@ -1,4 +1,5 @@
 #include "standalone/print.h"
+#include "standalone/random.h"
 #include <stdlib.h>
 #include <time.h>
 #include <x86intrin.h>//__rdtsc
@@ -27,10 +28,10 @@ typedef uint32_t u32;
 #endif
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
-#define randuint64 xoroshiro128
+#define randuint64 rnd1
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
-#include "misc/prng.h"
+
 
 int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0;
 val_t N,A=0,B=1;
@@ -90,12 +91,6 @@ doprint=!!strchr(argv[2],'p');//print
 checkb=!!strchr(argv[2],'c');//pedantic check
 scram=!! strchr(argv[2],'s');//scramble
 
-print(dofile?"\n[x]file output":"",
-doprint?"\n[x]print board rows":"",
-nosolve?"\n[x]generate presolved board":"",
-checkb?"\n[x]pedantic checks":"",
-scram?"\n[x]scramble board":"");
-
 }
 
 #ifdef NOPREFETCH
@@ -109,6 +104,12 @@ print("\ninfo() disabled");
 //setup board
 if(nosolve){setpresolved();}
 else if(!fileload){for(size_t i=0;i<N;i++)board[i]=i;}
+
+print(dofile?"\n[x]file output":"",
+doprint?"\n[x]print board rows":"",
+nosolve?"\n[x]generate presolved board":"",
+checkb?"\n[x]pedantic checks":"",
+scram?"\n[x]scramble board":"");
 
 //file input and scramble
 if(fileload){fileloadfrom(argv[3]);}
