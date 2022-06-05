@@ -46,6 +46,7 @@ void info(char* data);
 #include "Functions/modreduce.h"
 #include "Functions/rndcell.h"
 #include "Functions/info.h"
+#include "Functions/endsearch.h"
 #include "Functions/windowslide.h"
 #include "Functions/lin.h"
 #include "Functions/diags.h"
