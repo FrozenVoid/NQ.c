@@ -30,3 +30,4 @@ if(fail<minstage2)goto innerc;
 #include "endsearch.h"
 
 }
+if(cur!=0){info("Loop next:");goto first;}
