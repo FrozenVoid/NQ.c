@@ -3,3 +3,10 @@ static inline val_t rndcell(){
  FETC(&board[r],0,0);
  return r;
  }
+
+static inline val_t rndcell2(val_t start,val_t rangemax){
+ val_t r=start+modreduce((val_t)randuint64(),rangemax);
+ FETC(&board[r],0,0);
+
+ return r;
+ }
