@@ -74,13 +74,15 @@ doprint=!!strchr(argv[2],'p');//print
  nosolve= !!strchr(argv[2],'t');//presolved
 checkb=!!strchr(argv[2],'c');//pedantic check
 scram=!! strchr(argv[2],'s');//scramble
-print("Options:",dofile?"\nfile output":"",
+
+print(dofile?"\nfile output":"",
 doprint?"\nprint board rows":"",
 nosolve?"\ngenerate presolved board":"",
 checkb?"\npedantic checks":"",
 scram?"\nscramble board":"");
 
 }
+
 #ifdef NOPREFETCH
 print("\nprefetch disabled");
 #endif
