@@ -5,7 +5,7 @@ void linearsolve(){
  u64 lc=0,lcmax=(N)/NL,minstage2=N<10000?1000000:((NL)*(NL)),endsearch=(NL/2)*(NL/2);
 
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"\n");goto endl;/*presolved*/}
-print("\nT:",mstime()," ms Collisions:",cur,"\n");fflush(stdout);
+print("\nSTART:",mstime()," ms Collisions:",cur,"\n");fflush(stdout);
 //--------Main loop-------------
 #include "windowslide.h"
 if(cur!=0){info();goto first;}
