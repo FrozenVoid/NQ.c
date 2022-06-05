@@ -31,7 +31,7 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 
 #define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
 
-
+#include "Functions/checkdup.h"
 #include "Functions/swapc.h"
 #include "Functions/qcccount.h"
 #include "Functions/zerocols.h"
@@ -51,7 +51,7 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 #include "Functions/scramble.h"
 #include "Functions/verifier.h"
 #include "Functions/syntax.h"
-#include "Functions/checkdup.h"
+
 int main(int argc,char**argv){
 
 if(argc<2){syntax();}
