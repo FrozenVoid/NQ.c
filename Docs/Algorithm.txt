@@ -1,6 +1,6 @@
 The speed of algorithm depends 
 on minimizing the update of collision
-sums: all diagonal collisions are
+sums(swapc.h): all diagonal collisions are
 stored in two arrays(DiagL/R) and each 
 queen swap(x,y) (y,x) will 
 update('swapc' function)
