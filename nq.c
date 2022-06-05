@@ -30,10 +30,10 @@ i64 swapt=0,swaps=0,checkb=0;
 i64   fail=0,tfail=0,dir=1,tswaps=0;
 size_t cend,valr,cur,best;
 size_t NL; u64 lc,lcmax,minstage2,endsearch;
-#define swapq(x,y) ({val_t temp=x;x=y;y=temp;})
+
 void info(char* data);
 
-
+#include "Functions/swapq.h"
 #include "Functions/checkdup.h"
 #include "Functions/swapc.h"
 #include "Functions/qcccount.h"
