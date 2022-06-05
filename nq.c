@@ -3,10 +3,10 @@
 
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
-#ifdef PREFETCH
-#define FETC(a...) __builtin_prefetch(a)
-#else
+#ifdef NOPREFETCH
 #define FETC(a...)
+#else
+#define FETC(a...) __builtin_prefetch(a)
 #endif
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #ifdef BIGIRON
