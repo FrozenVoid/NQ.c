@@ -1,7 +1,10 @@
 
-print("\n\n\n\n\n\n\n\n\nStage2:",cur,"cols Time:",mstime(),"ms\n");
-#include "dualswap.h"
+//print("\n\n\n\n\n\n\n\n\nStage2:",cur,"cols Time:",mstime(),"ms\n");
+//#include "dualswap.h"
 endsearch3:;
+if(checkb){
+print("\nverifying linear search");
+checkdup();}
 print("\n\n\n\nSTage3:",cur,"cols Time:",mstime(),"ms\n");
 endsearch:;
 A=fstgcols(A);;//switch randomly
