@@ -5,6 +5,7 @@ if(zerocols(i))continue;
 A=i;
 second:;lc=0;
 do{lc++;
+ //reject cells without collisions(up to a limit)  
 B=i+modreduce((val_t)randuint64(),(val_t)(N-i-1));
 }while(lc<lcmax &&zerocols(B));
 midloop:;
