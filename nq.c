@@ -16,6 +16,8 @@
 #define val_t u32
 #define sval_t u64
 #endif
+//----linear collission count----------
+#define countudiag() (sumL+sumR)
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 #define rndgen64 randuint64
@@ -33,48 +35,19 @@ size_t  fail=0,tfail=0,dir=1,tswaps=0,cend,valr,cur,best;
 #include "Functions/qcccount.h"
 #include "Functions/zerocols.h"
 #include "Functions/fstcols.h"
-
-
-
 #include "Functions/fstgcols.h"
-
-
-
 #include "Functions/printboard.h"
 #include "Functions/fileboard.h"
 #include "Functions/fileloadfrom.h"
 #include "Functions/modreduce.h"
 #include "Functions/rndcell.h"
-//----linear collission count----------
-#define countudiag() (sumL+sumR)
 #include "Functions/info.h"
-//--------mainloop------
-void linearsolve(){
- A=0,B=0;cend=__rdtsc();
- size_t NL=log2index(N);
- u64 lc=0,lcmax=(N)/NL,minstage2=((NL+8)*(NL+8)),endsearch=(NL/2)*(NL/2);
-
- cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime());goto endl;/*presolved*/}
-print("\nT:",mstime()," ms Collisions:",cur);fflush(stdout);
-//--------Main loop-------------
-#include "Functions/windowslide.h"
-if(cur!=0){info();goto first;}
-
-fin:;
-print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
-endl:; //end loop
-fflush(stdout);}
-
-
+#include "Functions/lin.h"
 #include "Functions/diags.h"
-
 #include "Functions/solve.h"
 #include "Functions/integrity.h"
 #include "Functions/presolve.h"
 #include "Functions/scramble.h"
-
-
-
 int main(int argc,char**argv){
 if(argc<2){syntax:;puts("Syntax:nq N [p|f|t|c|i] [filename|sep]\n N=Board size min=8 \n p [string]=printboard [separator] \n f=write result as file \nt=test presolved array\n i filename=load u32/u64 queen array filename\n num+s =scramble rows num times(N*num)\nc= additional checks for integrity(slow)");exit(1);}
 int nosolve=(argc>=3 && strchr(argv[2],'t'));//(test function for integrity with presolved diagonals)
