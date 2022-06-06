@@ -113,7 +113,7 @@ if(fileload){fileloadfrom(argv[3]);}
 
 //main func
 print("Solver:\n");
-if(checkb ){;checkdup();}
+if(checkb||fileload ){;checkdup();}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 solve();
 //check it
