@@ -4,10 +4,12 @@ for(size_t i=0;i<N ;i++){innerc:;
 if(zerocols(i))continue;
 A=i;
 second:;lc=0;
+
+if(cur<Blim)B=rndcell();else{
 do{lc++;
  //reject cells without collisions(up to a limit)
 B=rndcell2(i,N-i-1);
-}while(lc<lcmax &&zerocols(B));
+}while(lc<lcmax &&zerocols(B));}
 midloop:;
 #ifdef VERBOSE
 info("Midloop:");//midloop test
