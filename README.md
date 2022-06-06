@@ -11,7 +11,7 @@ N=Board size 8+
 Optional:
 p=print board as sequence of row addresses from 1+
 
-c= additional pedantic O(N^2) checks for diagonals and duplicates
+c= additional pedantic checks for diagonals and duplicates
 
 f=write board as sequence of row values to file N.nq
 in working directory.
