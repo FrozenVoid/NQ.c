@@ -3,7 +3,7 @@
 void linearsolve(){
  cend=__rdtsc();
  NL=log2index(N);
-  lc=0,lcmax=(N)/NL,minstage2=100+((NL)*(NL)),endsearch=(NL/2)*(NL/2);
+  lc=0,lcmax=2+((N)/(NL*NL)),minstage2=160+((NL)),endsearch=(NL/2)*(NL/2);
 
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"\n");goto endl;/*presolved*/}
 print("\nSTART:",mstime()," ms Collisions:",cur,"\n");fflush(stdout);
