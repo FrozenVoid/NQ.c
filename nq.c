@@ -114,12 +114,12 @@ if(fileload){fileloadfrom(argv[3]);}
 
 //main func
 print("Solver:\n");
-if(checkb ){print("Pre-check duplicates(e.g. file)\n");checkdup_file();}
+if(checkb ){;checkdup();}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 solve();
 //check it
 verifier();
-if(checkb){integrity();checkdup_end();}
+if(checkb){integrity();checkdup();}
 //output
 if(doprint){char sep=',';
 if(!fileload && argc==4)sep=argv[3][0];
