@@ -15,9 +15,7 @@ midloop:;
 #ifdef VERBOSE
 info("Midloop:");//midloop test
 #endif
-if(A==B){fail++;
-if(fail>minstage2)return esearch();
-goto second;}
+
 dir=1;swapc(A,B);cur=countudiag();
 fail+=cur>=best;
 if(cur>best){dir=-1;
