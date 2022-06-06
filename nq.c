@@ -110,12 +110,10 @@ scram?"\n[x]scramble board":"");
 
 //file input and scramble
 if(fileload){fileloadfrom(argv[3]);}
-
 //main func
-print("Solver:\n");
 if(checkb||fileload ){;checkdup();}
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
-solve();
+print("\nSolver:\n");solve();
 //check it
 verifier();
 if(checkb){integrity();checkdup();}
