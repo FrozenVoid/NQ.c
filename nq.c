@@ -111,14 +111,15 @@ scram?"\n[x]scramble board":"");
 
 //file input and scramble
 if(fileload){fileloadfrom(argv[3]);}
-if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
+
 //main func
 print("Solver:\n");
-if(checkb && fileload){print("Pre-check duplicates(file-only)\n");checkdup();}
+if(checkb ){print("Pre-check duplicates(e.g. file)\n");checkdup_file();}
+if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 solve();
 //check it
 verifier();
-if(checkb){checkdup();integrity();}
+if(checkb){integrity();checkdup_end();}
 //output
 if(doprint){char sep=',';
 if(!fileload && argc==4)sep=argv[3][0];
