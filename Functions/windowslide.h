@@ -1,9 +1,6 @@
 void windowslide(){
 first:;
 for(size_t i=0;i<N ;i++){innerc:;
-
-FETC(&diagL[board[i]+i],0,2);
-FETC(&diagR[board[i]+(N-i)],0,2);
 if(zerocols(i))continue;
 A=i;
 second:;lc=0;
@@ -23,12 +20,14 @@ swapc(A,B);
 #ifdef VERBOSE
 info("Fail:");//fail test
 #endif
-if(fail>minstage2)return esearch();
+//if(fail>minstage2)goto first;//;return esearch();
 goto second;}
 tfail+=fail;swapt+=swaps;
 info(cur==best?"Swap0:":"Swap+:");//new iteration update
 fail=cur>=best?fail:0;swaps=0;best=cur;//new record
 if(cur==0){return;}
 if(fail<minstage2)goto innerc;
-return esearch();
-}}
+//goto first;//return esearch();
+}
+if(cur)goto first;
+}
