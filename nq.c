@@ -59,7 +59,6 @@ void info(char* data);
 #include "Functions/rndcell.h"
 #include "Functions/info.h"
 #include "Functions/lin.h"
-#include "Functions/diags.h"
 #include "Functions/solve.h"
 #include "Functions/integrity.h"
 #include "Functions/presolve.h"
