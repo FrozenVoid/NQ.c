@@ -72,9 +72,9 @@ int main(int argc,char**argv){
 if(argc<2){syntax();}
 N=atoi(argv[1]);if(N<MINBOARD)syntax();
 size_t colsize=sizeof(val_t)*N;
-size_t bitsize=(N/8)+1;
+size_t bitsize=((N/64)+1);
 print("Queen board size=",colsize," bytes,bitcache size=",bitsize,"\n");
-bitcols=calloc(bitsize,1);
+bitcols=calloc(bitsize,8);
 if(!bitcols){perror("Bitcache array size too large for calloc");exit(12);}
 board=calloc(sizeof(val_t)*N,1);//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
