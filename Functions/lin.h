@@ -1,5 +1,35 @@
 //--------mainloop------
 
+void fastdiagswap(){
+ size_t fastlim=NL;
+//quick swap for default linear diagonal(/)
+/* this code breaks the default
+diagL structure where all queens
+are on the same diagonal(the central / one)
+which create empty slots to be used by
+linear search(33% faster).
+
+*/
+#ifdef VERBOSE
+print("FastDiag:",mstime(),"ms\n");
+#endif
+fastdiag_start:;
+do{A=rndcell();	B=rndcell();}while(freediag(A,B)<2);
+#ifdef VERBOSE
+info("MidloopFDG:");//midloop
+#endif
+dir=1;swapdiag(A,B);cur=countudiag();
+if(cur>best){dir=-1;
+swapdiag(A,B);
+#ifdef VERBOSE
+info("FailFDG:");//fail test
+#endif
+goto fastdiag_start;}
+if(fastlim--)goto fastdiag_start;
+}
+
+//--------mainloop------
+
 void linearsolve(){
  cend=__rdtsc();
  NL=log2index(N);
@@ -10,6 +40,8 @@ void linearsolve(){
 print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",minstage2,"\n");fflush(stdout);
 //--------Main loop-------------
 
+fastdiagswap();
+print("Linear:",mstime(),"ms\n");
 first:;
 A=fstgcols(A);
 innerc:;
@@ -39,3 +71,4 @@ if(cur)goto first;
 fin:;
 print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
 endl:;fflush(stdout);}
+
