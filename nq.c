@@ -1,6 +1,7 @@
 #include "standalone/print.h"
 #include "standalone/random.h"
 #include "standalone/combsort.h"
+#include "standalone/hitstat.h"
 #include <stdlib.h>
 #include <time.h>
 #include <x86intrin.h>//__rdtsc
