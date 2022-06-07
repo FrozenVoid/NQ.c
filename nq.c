@@ -34,12 +34,12 @@ typedef uint32_t u32;
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 
 
-int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0;
+int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0,checkb=0;
 val_t N,A=0,B=1;
 val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
-i64 swapt=0,swaps=0,checkb=0;
+i64 swapt=0,swaps=0;
 i64   fail=0,tfail=0,dir=1,tswaps=0;
 size_t cend,valr,cur,best;
 size_t NL; u64 lc,lcmax,minstage2,endsearch;
