@@ -31,13 +31,13 @@ the solution to file 1000.nq
 
 # Performance
 
-Solved N= 100000000  at: 417708 ms Swaps: 167401101 Fails: 679418578 
+Solved N= 100000000  at: 189797 ms Swaps: 272750523 Fails: 3851044525
 
-Solved N= 10000000  at: 24719 ms Swaps: 16734583 Fails: 67911304
+Solved N= 10000000  at: 15266 ms Swaps: 27226067 Fails: 381683658 
 
-Solved N= 1000000  at: 2028 ms Swaps: 1675992 Fails: 6861174 
+Solved N= 1000000  at: 1182 ms Swaps: 2718841 Fails: 38418096 
 
-Solved N= 100000  at: 81 ms Swaps: 167017 Fails: 693032
+Solved N= 100000  at: 51 ms Swaps: 272447 Fails: 4091181 
 
 # Compilation
 
