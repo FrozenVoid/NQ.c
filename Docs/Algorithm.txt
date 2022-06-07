@@ -9,24 +9,9 @@ and the sums of DiagL/DiagR arrays,
 without further calculation:
 normally a loop through the arrays.
 
-new staged scheme:
-windowslide.h accelates search as window
-of random cells narrows towards end:
-it uses a fixed loop cell[A++] and
-a second random variable[B=A+x] inside the
-window of random cells.
+Functions/lin.h contains all search
 
-
-endsearch.h random cells are swapped with
-nearby collision cells() until all collisions
+endsearch: random cells are swapped with
+fstgcols() collision cells until all collisions
 reach 0.
   
-A critical factor
-reducing 
-useless queen swaps is testing
-each queen location(in diagonal arrays)
-for number 
-of collisions and rejecting swaps
-where queens have no collisions
-(start of main loop in windowslide.h).
-
