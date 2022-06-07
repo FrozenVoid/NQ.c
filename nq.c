@@ -51,7 +51,6 @@ void info(char* data);
 #include "Functions/checkdup.h"
 #include "Functions/swapc.h"
 #include "Functions/qcccount.h"
-#include "Functions/fstcols.h"
 #include "Functions/fstgcols.h"
 #include "Functions/printboard.h"
 #include "Functions/fileboard.h"
