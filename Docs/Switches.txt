@@ -3,7 +3,7 @@
  for 32-bit val_t) 
  
  -DSILENCE switch off all info() printing during 
- work.
+ work.(~3% faster)
  
  -DVERBOSE enable info() at some points where
  it may harm performance
