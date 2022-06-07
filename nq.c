@@ -75,7 +75,7 @@ print("Queen board size=",colsize," bytes\n");
 board=calloc(sizeof(val_t)*N,1);//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 fflush(stdout);
-size_t diagsize=sizeof(val_t)*(N+2)*2;
+size_t diagsize=sizeof(val_t)*(N)*2;
 print("Diagonal arrays size=",2*diagsize," bytes\n");
 diagL=calloc(diagsize,1);
 diagR=calloc(diagsize,1);
