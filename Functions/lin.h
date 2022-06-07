@@ -14,15 +14,13 @@ first:;
 A=fstgcols(A);
 innerc:;
 if(zerocols(A))A=fstgcols(A);
-second:;lc=0;
-
+second:;
 if(cur<Blim)B=rndcell();else{
-do{ B=fstgcols(B);}while(A==B);}
-midloop:;
+do{B=fstgcols(B);}while(A==B);
+}
 #ifdef VERBOSE
-info("Midloop:");//midloop test
+info("Midloop:");//midloop
 #endif
-
 dir=1;swapc(A,B);cur=countudiag();
 fail+=cur>=best;
 if(cur>best){dir=-1;
@@ -40,5 +38,4 @@ fail=0;
 if(cur)goto first;
 fin:;
 print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
-endl:; //end loop
-fflush(stdout);}
+endl:;fflush(stdout);}
