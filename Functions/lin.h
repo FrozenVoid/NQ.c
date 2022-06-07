@@ -4,7 +4,7 @@ void linearsolve(){
  cend=__rdtsc();
  NL=log2index(N);
   lc=0,lcmax=2+((N)/(NL*NL)),minstage2=160+((NL));
-  size_t Blim=8+NL;
+  size_t Blim=8+NL*NL;
 
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
 print("\nSTART:",mstime()," ms Collisions:",cur,"lcmax:",lcmax,"failmax:",minstage2,"\n");fflush(stdout);
@@ -15,11 +15,9 @@ A=fstgcols(A);
 innerc:;
 if(zerocols(A))A=fstgcols(A);
 second:;lc=0;
+
 if(cur<Blim)B=rndcell();else{
-do{lc++;
- //reject cells without collisions(up to a limit)
-B=rndcell2(A,N-A-1);
-}while(lc<lcmax &&zerocols(B));}
+do{ B=fstgcols(B);}while(A==B);}
 midloop:;
 #ifdef VERBOSE
 info("Midloop:");//midloop test
