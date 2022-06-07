@@ -14,7 +14,7 @@ typedef uint32_t u32;
 
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
-#ifdef NOPREFETCH
+#ifdef NOPREFETCH //rndcell() only
 #define FETC(a...)
 #else
 #define FETC(a...) __builtin_prefetch(a)
