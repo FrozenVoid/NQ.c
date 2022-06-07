@@ -2,7 +2,8 @@
 #include "standalone/random.h"
 #include "standalone/combsort.h"
 #include "standalone/hitstat.h"
-#include "standalone/bitmanip.h"
+#include "standalone/lemire/bitset.h"
+
 #include <stdlib.h>
 #include <time.h>
 #include <x86intrin.h>//__rdtsc
@@ -13,7 +14,7 @@ typedef uint32_t u32;
 #define log2index(x)  (63 - __builtin_clzll((x)))
 
 #define zerocols(P) (!qccount(P))
-
+//#define fstgcols(P)  bitfirstfrom(bitcols,P+1)
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
 #ifdef NOPREFETCH //rndcell() only
@@ -38,7 +39,9 @@ x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 
 int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0,checkb=0;
 val_t N,A=0,B=1;
-val_t * board;u64* bitcols;
+val_t * board;
+bitset_t * bitdiagL;
+bitset_t * bitdiagR;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
 i64 swapt=0,swaps=0;
@@ -47,15 +50,15 @@ size_t cend,valr,cur,best;
 size_t NL; u64 lc,lcmax,minstage2,endsearch;
 
 void info(char* data);
-
 #include "Functions/swapq.h"
 #include "Functions/checkdup.h"
-#include "Functions/swapc.h"
 #include "Functions/qcccount.h"
-#include "Functions/fstgcols.h"
+#include "Functions/swapc.h"
+#include "Functions/freediag.h"
 #include "Functions/printboard.h"
 #include "Functions/fileboard.h"
 #include "Functions/fileloadfrom.h"
+#include "Functions/fstgcols.h"
 #include "Functions/modreduce.h"
 #include "Functions/rndcell.h"
 #include "Functions/info.h"
@@ -72,10 +75,13 @@ int main(int argc,char**argv){
 if(argc<2){syntax();}
 N=atoi(argv[1]);if(N<MINBOARD)syntax();
 size_t colsize=sizeof(val_t)*N;
-size_t bitsize=((N/64)+1);
-print("Queen board size=",colsize," bytes,bitcache size=",bitsize,"\n");
-bitcols=calloc(bitsize,8);
-if(!bitcols){perror("Bitcache array size too large for calloc");exit(12);}
+size_t bitsize=(N*2);
+print("Queen board size=",colsize," bytes,bitcache size=",(bitsize*2)/8,"\n");
+bitdiagL=bitset_create_with_capacity(bitsize);
+bitdiagR=bitset_create_with_capacity(bitsize);
+if(!bitdiagL||!bitdiagR){perror("Bitcache array size too large for bitset_create_with_capacity");exit(12);}
+bitset_fill(bitdiagL);
+bitset_fill(bitdiagR);
 board=calloc(sizeof(val_t)*N,1);//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 fflush(stdout);
@@ -124,6 +130,8 @@ if(checkb){integrity();checkdup();}
 //output
 if(doprint){char sep=',';
 if(!fileload && argc==4)sep=argv[3][0];
-printboard(sep);}
+printboard(sep);
+if(N<64)printgraph();
+}
 if(dofile){fileboard();}
 return 0;}
