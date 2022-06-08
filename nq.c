@@ -70,11 +70,16 @@ void info(char* data);
 int main(int argc,char**argv){
 
 if(argc<2){syntax();}
-N=atoi(argv[1]);if(N<MINBOARD)syntax();
+#ifdef BIGIRON
+N=strtoull(argv[1],NULL,10);
+#else
+N=strtoul(argv[1],NULL,10);
+#endif
+if(N<MINBOARD)syntax();
 size_t colsize=sizeof(val_t)*N;
 print("Queen board size=",colsize," bytes\n");
 
-board=calloc(sizeof(val_t)*N,1);//columns
+board=calloc(colsize,1);//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 fflush(stdout);
 size_t diagsize=sizeof(val_t)*(N)*2;
