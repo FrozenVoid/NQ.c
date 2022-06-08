@@ -1,14 +1,14 @@
 
 static inline int freediag(val_t P,val_t S){//Swapped/Position cells diagonals
-FETC(&diagL[board[S]+P]);
-FETC(&diagR[board[S]+(N-P)]);
-FETC(&diagL[board[P]+S]);
-FETC(&diagR[board[P]+(N-S)]);
+FETC(&diagL[board[S]+P],0,0);
+FETC(&diagR[board[S]+(N-P)],0,0);
+FETC(&diagL[board[P]+S],0,0);
+FETC(&diagR[board[P]+(N-S)],0,0	);
 
- val_t lP=!diagL[board[S]+P];
- val_t rP=!!diagR[board[S]+(N-P)];
- val_t lS=!diagL[board[P]+S];
- val_t rS=!!diagR[board[P]+(N-S)];
+const int lP=!diagL[board[S]+P];
+const int rP=!!diagR[board[S]+(N-P)];
+const int lS=!diagL[board[P]+S];
+const int rS=!!diagR[board[P]+(N-S)];
 return lP+rP+lS+rS;
 ;}
 
