@@ -14,13 +14,13 @@ linear search(33% faster).
 print("FastDiag:",mstime(),"ms\n");
 #endif
 fastdiag_start:;
-do{A=rndcell();	B=rndcell();}while(freediag(A,B)<2);
+do{A=rndcell();	B=rndcell();}while(		freediag(A,B)<2);
 #ifdef VERBOSE
 info("MidloopFDG:");//midloop
 #endif
-dir=1;swapdiag(A,B);cur=countudiag();
+dir=1;swapc(A,B);cur=countudiag();
 if(cur>best){dir=-1;
-swapdiag(A,B);
+swapc(A,B);
 #ifdef VERBOSE
 info("FailFDG:");//fail test
 #endif
