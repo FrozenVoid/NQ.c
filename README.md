@@ -17,7 +17,8 @@ in working directory.
 t=generates presolved boards, use to test integrity(nqtest.sh)
 
 i filename=load nqueens file(u32/u64 sequence of row addresses(assumed valid))
-if -DBIGIRON nq.c uses u64 arrays/N upto 2^64-1 
+(if filename==stdin read string from stdin(e.g. "1 2 3")
+(if -DBIGIRON nq.c loads u64 arrays/N upto 2^64-1) 
 
 num+s  = scramble num times(N*num)
 
