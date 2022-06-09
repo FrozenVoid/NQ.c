@@ -33,9 +33,9 @@ typedef uint32_t u32;
 #define countudiag() (sumL+sumR)
 #define zerocols(P) (!qccount(P))
 #define randuint64 rnd1
-#define modreduce(a,b) ({sval_t x=a,y=b;\
- (x*y)  >> (sizeof(val_t)*8);})
+#define modreduce(a,b) ({sval_t x=(val_t)a,y=(val_t)b; (x*y)  >> (sizeof(val_t)*8);})
 #define rndcell()  modreduce((val_t)randuint64(),N)
+#define rndedgecell(X) ({val_t startX=X*(X+edge<N);startX+modreduce(rnd1(),N-startX-!!startX);})
 #define swapq(x,y) ({val_t temp=board[x];board[x]=board[y];board[y]=temp;})
 #ifndef SILENCE
 #define incswap() swapt++;
