@@ -5,6 +5,8 @@
  -DSILENCE switch off all info() printing during 
  work.(~3% faster)
  
+ -DNOINTEGRITY disable integrity/checkduplicates
+ 
  -DVERBOSE enable info() at some points where
  it may harm performance
  
