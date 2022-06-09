@@ -35,6 +35,8 @@ typedef uint32_t u32;
 #define modreduce(a,b) ({sval_t x=a,y=b;\
  (x*y)  >> (sizeof(val_t)*8);})
 #define rndcell()  modreduce((val_t)randuint64(),N)
+#define swapq(x,y) ({val_t temp=board[x];
+board[x]=board[y];board[y]=temp;})
 #ifndef SILENCE
 #define incswap() swapt++;
 #define incfails() tfail++;
@@ -61,7 +63,6 @@ size_t cend,cur,best;
 size_t NL; u64 failmax;
 
 void info(char* data);
-#include "Functions/swapq.h"
 #include "Functions/checkdup.h"
 #include "Functions/qcccount.h"
 #include "Functions/swapc.h"
