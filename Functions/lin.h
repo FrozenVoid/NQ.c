@@ -17,7 +17,7 @@ do{A=rndcell();	B=rndcell();}while(freediag(A,B)<2);
 info("MidloopFDG:");//midloop
 #endif
 setdir(1);swapc(A,B);cur=countudiag();
-if(cur>best){setdir(-1);
+if(cur>best){setdir(-1);incfails();
 swapc(A,B);
 #ifdef VERBOSE
 info("FailFDG:");//fail test
@@ -53,20 +53,19 @@ info("Midloop:");//midloop
 #endif
 setdir(1);swapc(A,B);cur=countudiag();
 if(unlikely(cur>best)){setdir(-1);
-fail++;
+fail++;incfails();
 swapc(A,B);
 #ifdef VERBOSE
 info("Fail:");//fail test
 #endif
 goto second;}
-addfail(fail);addswap(swaps);
-
-info(cur==best?"Swap0:":"Swap+:");//new iteration update
-setswaps(0);
+;addswap(swaps);
 fail=cur>=best?fail:0;
+info("Swap:");//fail==0 -> goodswap
+setswaps(0);
 best=cur;//new record
 if(unlikely(cur==0)){goto fin;}
-if(fail<failmax)goto innerc;
+if((fail<failmax))goto innerc;
 fail=0;//reset fails at late search
 if(cur)goto first;
 fin:;
