@@ -10,6 +10,7 @@
  -DNOSCRAMBLE remove scramble
  -DNOPRINTBOARD remove printgraph/printboard
  -DNOINTEGRITY remove integrity/checkduplicates
+ -DNOVERIFIER remove basic verification scan
  //additional debug info
  -DVERBOSE enable info() at some points where
  it may harm performance
