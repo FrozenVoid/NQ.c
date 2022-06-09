@@ -1,4 +1,4 @@
-#ifdef NOBOARDOUTPUT
+#ifdef NOFILEOUTPUT
 #define fileboard() ;
 #else
 void fileboard(){char* fname=malloc(126);
