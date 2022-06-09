@@ -14,7 +14,7 @@ typedef uint32_t u32;
 
 #define unlikely(x) __builtin_expect(x,0)
 #define likely(x) __builtin_expect(x,1)
-#define zerocols(P) (!qccount(P))
+
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
 //NOPREFETCH disabled
@@ -31,6 +31,7 @@ typedef uint32_t u32;
 #endif
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
+#define zerocols(P) (!qccount(P))
 #define randuint64 rnd1
 #define modreduce(a,b) ({sval_t x=a,y=b;\
  (x*y)  >> (sizeof(val_t)*8);})
@@ -51,7 +52,7 @@ typedef uint32_t u32;
 #define verbinfo info
 #endif
 
-int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0,checkb=0;
+int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0;
 val_t N,A=0,B=1;
 val_t * board;
 val_t * diagL;i64 sumL=0;
