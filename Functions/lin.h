@@ -7,17 +7,16 @@ fstB:;B=fstgcols(B);
 if(unlikely(A==B))goto fstB;}
 //A==B allowed if cur<Blim(to failmax)
 verbinfo("Midloop:");//midloop
-setdir(1);swapc(A,B);cur=countudiag();
-if(unlikely(cur>best)){setdir(-1);
+swapc(A,B);cur=countudiag();
+if(unlikely(cur>best)){
 fail++;incfails();swapc(A,B);
 verbinfo("Fail:");//fail test
 goto second;}
-addswap(swaps);fail=cur>=best?fail:0;
+incswap();fail=cur>=best?fail:0;
 info("Swap:");//fail==0 -> goodswap
 setswaps(0);best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
-
 if((fail>=failmax)||zerocols(A))A=fstgcols(A);
 fail=0;goto second;
 }
