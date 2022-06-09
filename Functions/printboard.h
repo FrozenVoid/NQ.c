@@ -1,6 +1,6 @@
 #ifdef NOBOARDOUTPUT
-#define printboard() ;
-#define printgraph() ;
+#define printboard(...)
+#define printgraph()
 #else
 void printboard(char sep){
  printf("\n%"PRIu64"",(uint64_t)board[0]);
