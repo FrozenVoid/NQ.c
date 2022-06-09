@@ -18,7 +18,7 @@ if(fail>=failmax||zerocols(A)){goto resetA;}
 goto second;
 //control flow: jumps are cheap.
 rndB:;
-B=rndcell();
+B=rndedgecell(A);
 goto nextt;
 nfail://new fail
 fail++;incfails();swapc(A,B);
