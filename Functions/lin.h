@@ -47,14 +47,13 @@ A=fstgcols(A);
 innerc:;
 if(zerocols(A))A=fstgcols(A);
 second:;
-if(cur<Blim)B=rndcell();else{
-do{B=fstgcols(B);}while(A==B);
-}
+B=cur<Blim?rndcell():fstgcols(B);
 #ifdef VERBOSE
 info("Midloop:");//midloop
 #endif
+if(unlikely(A==B))goto second;
 dir=1;swapc(A,B);cur=countudiag();
-fail+=cur>=best;
+fail+=(cur>=best);
 if(cur>best){dir=-1;
 swapc(A,B);
 #ifdef VERBOSE
