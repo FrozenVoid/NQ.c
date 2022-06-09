@@ -17,6 +17,7 @@ info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
-if((fail>=failmax)||zerocols(A))A=fstgcols(A);
-fail=0;goto second;
+if(fail>=failmax||zerocols(A)){fail=0;A=fstgcols(A);goto second;}
+goto second;
+
 }
