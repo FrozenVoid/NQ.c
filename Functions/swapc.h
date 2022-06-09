@@ -1,5 +1,6 @@
 
  static inline void swapc(val_t x,val_t y){
+ if(unlikely(x==y))return;
 i64  clx,crx,cly,cry;
 #ifndef SILENCE
 tswaps++;// swaps total(all)
