@@ -35,8 +35,7 @@ typedef uint32_t u32;
 #define modreduce(a,b) ({sval_t x=a,y=b;\
  (x*y)  >> (sizeof(val_t)*8);})
 #define rndcell()  modreduce((val_t)randuint64(),N)
-#define swapq(x,y) ({val_t temp=board[x];
-board[x]=board[y];board[y]=temp;})
+#define swapq(x,y) ({val_t temp=board[x];board[x]=board[y];board[y]=temp;})
 #ifndef SILENCE
 #define incswap() swapt++;
 #define incfails() tfail++;
