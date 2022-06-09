@@ -21,11 +21,8 @@ scram=!! strchr(argv[2],'s');//scramble
 
 }
 
-#ifdef NOPREFETCH
-print("\nprefetch disabled");
-#endif
 #ifdef SILENCE
-print("\ninfo() disabled");
+verbprint("\ninfo() disabled");
 #endif
  if(argc==4){//file input
  fileload=!!strchr(argv[2],'i');}
