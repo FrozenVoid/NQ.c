@@ -16,8 +16,8 @@ do{A=rndcell();	B=rndcell();}while(freediag(A,B)<2);
 #ifdef VERBOSE
 info("MidloopFDG:");//midloop
 #endif
-setdir(1);swapc(A,B);cur=countudiag();
-if(cur>best){setdir(-1);incfails();
+swapc(A,B);cur=countudiag();
+if(cur>best){incfails();
 swapc(A,B);
 #ifdef VERBOSE
 info("FailFDG:");//fail test
