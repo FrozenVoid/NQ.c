@@ -46,7 +46,7 @@ innerc:;
 if(zerocols(A))A=fstgcols(A);
 second:;
 ///do(fstgcols) while(A==B) prevents infinite loop
-if(cur<Blim)B=rndcell();else {do{B=fstgcols(B);}while(unlikely(A==B));}
+if(unlikely(cur<Blim))B=rndcell();else {do{B=fstgcols(B);}while(unlikely(A==B));}
 //A==B allowed if cur<Blim(to failmax)
 #ifdef VERBOSE
 info("Midloop:");//midloop
