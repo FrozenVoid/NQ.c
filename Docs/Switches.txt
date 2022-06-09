@@ -5,6 +5,7 @@
  -DSILENCE switch off all info() printing during 
  work.(~3% faster)
  //executable size control
+ -DNOFILEINPUT remove fileloadfrom
  -DNOSCRAMBLE remove scramble
  -DNOBOARDOUTPUT remove fileboard/printboard
  -DNOINTEGRITY remove integrity/checkduplicates
