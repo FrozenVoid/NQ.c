@@ -10,9 +10,9 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
 
  cend=__rdtsc();
  NL=log2index(N);
-  failmax=160+NL;
+  failmax=160+NL;edge=N/64+128;
   Blim=8+NL*NL*NL;
-  edge=N/64+1;
+
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
 print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"edge:",edge,"\n");fflush(stdout);
 
@@ -20,11 +20,11 @@ fastdiagswap();
 clock_t linear_begin=mstime();
 verbprint("Linear:",linear_begin,"ms\n");
 linearsolve();//main func
-clock_t linear_end=mstime();
+clock_t linear_end=mstime()-linear_begin;
 #ifndef SILENCE
-print("\nSolved N=",N," in",linear_end-linear_begin,"ms(linear solver only)\n Swaps:",swapt,"Fails:",tfail,"\n");
+print("\nSolved N=",N," in",linear_end,"ms(linear solver only)\n Swaps:",swapt,"Fails:",tfail,"\n");
 #else
-print("\nSolved N=",N," in ",linear_end-linear_begin,"ms(linear solver only)\n");
+print("\nSolved N=",N," in ",linear_end,"ms(linear solver only)\n");
 #endif
 endl:;fflush(stdout);
 }
