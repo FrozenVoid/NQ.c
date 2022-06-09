@@ -14,7 +14,7 @@ verbinfo("Fail:");//fail test
 goto second;}
 incswap();fail=cur>=best?fail:0;
 info("Swap:");//fail==0 -> goodswap
-setswaps(0);best=cur;//new record
+best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
 if((fail>=failmax)||zerocols(A))A=fstgcols(A);
