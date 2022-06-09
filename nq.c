@@ -15,7 +15,9 @@ typedef uint32_t u32;
 #define unlikely(x) __builtin_expect(x,0)
 #define likely(x) __builtin_expect(x,1)
 
- size_t NCYCLES=1ULL<<32; //report each NCYCLES
+#ifndef NCYCLES
+#define NCYCLES (1ULL<<32) //report each NCYCLES
+#endif
 #define MINBOARD 8
 //NOPREFETCH disabled
 #define FETC(a...)
