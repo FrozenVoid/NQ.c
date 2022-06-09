@@ -2,7 +2,6 @@
 #include "standalone/random.h"
 #include "standalone/combsort.h"
 #include "standalone/hitstat.h"
-
 #include <stdlib.h>
 #include <time.h>
 #include <x86intrin.h>//__rdtsc
@@ -44,6 +43,13 @@ typedef uint32_t u32;
 #define setdir(x) ;
 #define addswap(x) ;
 #define incfails() ;
+#endif
+#ifndef VERBOSE
+#define verbprint(...)
+#define verbinfo(...)
+#else
+#define verbprint print
+#define verbinfo info
 #endif
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
