@@ -12,7 +12,7 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
  NL=log2index(N);
   failmax=160+NL;edge=N/64+128;
   Blim=9+NL*NL*NL*NL;
-
+if(N<1024)Blim=N;//fix smallboard infinite loops
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
 print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"edge:",edge,"\n");fflush(stdout);
 
