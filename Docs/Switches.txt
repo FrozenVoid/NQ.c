@@ -1,13 +1,14 @@
 -DBIGIRON switch to 64-bit val_t arrays allowing
  testing >2^32 N-queens(uses ~40 bytes per queen vs 20
  for 32-bit val_t) 
- 
+ //extra speed
  -DSILENCE switch off all info() printing during 
  work.(~3% faster)
- 
- -DNOBOARDOUTPUT disable fileboard/printboard
- -DNOINTEGRITY disable integrity/checkduplicates
- 
+ //executable size control
+ -DNOSCRAMBLE remove scramble
+ -DNOBOARDOUTPUT remove fileboard/printboard
+ -DNOINTEGRITY remove integrity/checkduplicates
+ //additional debug info
  -DVERBOSE enable info() at some points where
  it may harm performance
  
