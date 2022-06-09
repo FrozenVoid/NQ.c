@@ -1,3 +1,6 @@
+#ifdef NOINTEGRITY
+#define checkdup() ;
+#else
 void printboard(char sep);
 void checkdup(){int hasdups=0;
 print("Beginning duplicate check:N=",N,"\n");
@@ -13,3 +16,4 @@ memset(diagL,0,N*sizeof(val_t));//zero used
 print(hasdups?"":"No duplicates found\n");
 
 }
+#endif
