@@ -6,8 +6,9 @@
  work.(~3% faster)
  //executable size control
  -DNOFILEINPUT remove fileloadfrom
+ -DNOFILEOUTPUT remove fileboard
  -DNOSCRAMBLE remove scramble
- -DNOBOARDOUTPUT remove fileboard/printboard
+ -DNOPRINTBOARD remove printgraph/printboard
  -DNOINTEGRITY remove integrity/checkduplicates
  //additional debug info
  -DVERBOSE enable info() at some points where
