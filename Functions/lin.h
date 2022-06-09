@@ -49,11 +49,11 @@ A=fstgcols(A);
 innerc:;
 if(zerocols(A))A=fstgcols(A);
 second:;
-B=cur<Blim?rndcell():fstgcols(B);
+// while(A==B) prevents infinite loop
+if(cur<Blim)B=rndcell();else {do{B=fstgcols(B);}while(unlikely(A==B));}
 #ifdef VERBOSE
 info("Midloop:");//midloop
 #endif
-if(unlikely(A==B))goto second;
 setdir(1);swapc(A,B);cur=countudiag();
 fail+=(cur>=best);
 if(cur>best){setdir(-1);
@@ -70,6 +70,7 @@ fail=cur>=best?fail:0;
 best=cur;//new record
 if(cur==0){goto fin;}
 if(fail<failmax)goto innerc;
+fail=0;
 if(cur)goto first;
 fin:;
 #ifndef SILENCE
@@ -78,4 +79,8 @@ print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
 print("\nSolved N=",N," at:",mstime(),"ms\n");
 #endif
 endl:;fflush(stdout);}
+
+
+
+
 
