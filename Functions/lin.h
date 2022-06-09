@@ -1,5 +1,3 @@
-//--------mainloop------
-
 void fastdiagswap(){
  size_t fastlim=NL;
 //quick swap for default linear diagonal(/)
@@ -14,7 +12,7 @@ linear search(33% faster).
 print("FastDiag:",mstime(),"ms\n");
 #endif
 fastdiag_start:;
-do{A=rndcell();	B=rndcell();}while(		freediag(A,B)<2);
+do{A=rndcell();	B=rndcell();}while(freediag(A,B)<2);
 #ifdef VERBOSE
 info("MidloopFDG:");//midloop
 #endif
@@ -28,8 +26,7 @@ goto fastdiag_start;}
 if(fastlim--)goto fastdiag_start;
 }
 
-//--------mainloop------
-
+//----------------main solver func--------
 void linearsolve(){
  cend=__rdtsc();
  NL=log2index(N);
@@ -38,7 +35,6 @@ void linearsolve(){
 
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
 print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"\n");fflush(stdout);
-//--------Main loop-------------
 
 fastdiagswap();
 #ifdef VERBOSE
@@ -49,8 +45,9 @@ A=fstgcols(A);
 innerc:;
 if(zerocols(A))A=fstgcols(A);
 second:;
-// while(A==B) prevents infinite loop
+///do(fstgcols) while(A==B) prevents infinite loop
 if(cur<Blim)B=rndcell();else {do{B=fstgcols(B);}while(unlikely(A==B));}
+//A==B allowed if cur<Blim(to failmax)
 #ifdef VERBOSE
 info("Midloop:");//midloop
 #endif
@@ -79,7 +76,6 @@ print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
 print("\nSolved N=",N," at:",mstime(),"ms\n");
 #endif
 endl:;fflush(stdout);}
-
 
 
 
