@@ -15,7 +15,6 @@ typedef uint32_t u32;
 #define unlikely(x) __builtin_expect(x,0)
 #define likely(x) __builtin_expect(x,1)
 #define zerocols(P) (!qccount(P))
-//#define fstgcols(P)  bitfirstfrom(bitcols,P+1)
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
 //NOPREFETCH disabled
@@ -47,9 +46,6 @@ typedef uint32_t u32;
 #define verbprint print
 #define verbinfo info
 #endif
-#define rotate(num,bits) ({ typeof(num) x=num;\
-x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
-
 
 int nosolve=0,fileload=0,scram=0,doprint=0,dofile=0,checkb=0;
 val_t N,A=0,B=1;
