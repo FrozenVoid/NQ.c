@@ -1,3 +1,6 @@
+#ifdef NOVERIFIER
+#define verifier()
+#else
 //verify no collisions (diagonals contain Q=1)
 void verifier(){
 verbprint("Scanning for diagonal collisions: T:",mstime(),"ms\n");
@@ -13,3 +16,4 @@ exit(93);
 }
 verbprint("Verified zero collisions: T:",mstime(),"ms\n");
 }
+#endif
