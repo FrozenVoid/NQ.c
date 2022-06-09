@@ -6,7 +6,6 @@ if(unlikely(cur<Blim))goto rndB;
 fstB:;B=fstgcols(B);
 if(unlikely(A==B))goto fstB;
 nextt:;
-//A==B allowed if cur<Blim(to failmax)
 verbinfo("Midloop:");//midloop
 swapc(A,B);cur=countudiag();
 if(unlikely(cur>best))goto nfail;
@@ -17,8 +16,9 @@ if(unlikely(cur==0)){return;}
 //next iteration:
 if(fail>=failmax||zerocols(A)){goto resetA;}
 goto second;
-rndB:;//endsearch Blim reached
-;B=rndcell();
+//control flow: jumps are cheap.
+rndB:;//A==B allowed if cur<Blim(to failmax)
+;B=rndcell2(A,N-A);
 goto nextt;
 nfail://new fail
 fail++;incfails();swapc(A,B);
