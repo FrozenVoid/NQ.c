@@ -6,6 +6,16 @@ FETC(&diagR[board[r]+(N-r)],0,2);
  return r;
  }
 
+static inline val_t rndcellfrom(val_t start){
+const val_t interval=N-start;
+if(interval<edge)return rndcell();
+val_t r=start+modreduce((val_t)randuint64(),N-start-1);
+FETC(&board[r],0,2);
+FETC(&diagL[board[r]+r],0,2);
+FETC(&diagR[board[r]+(N-r)],0,2);
+ return r;
+ }
+
 static inline val_t rndcell2(val_t start,val_t rangemax){
  val_t r=start+modreduce((val_t)randuint64(),rangemax);
 //prefetch earlier for diagonal data
