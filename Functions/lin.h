@@ -1,8 +1,8 @@
 //----------------main solver func--------
-void linearsolve(){first:; A=fstgcols(A);
+void linearsolve(){A=fstgcols(A);
 second:;
 ///do(fstgcols) while(A==B) prevents infinite loop
-if(unlikely(cur<Blim))B=rndcell();else {
+if(unlikely(cur<Blim))B=rndcell();else{
 fstB:;B=fstgcols(B);
 if(unlikely(A==B))goto fstB;}
 //A==B allowed if cur<Blim(to failmax)
@@ -16,7 +16,8 @@ addswap(swaps);fail=cur>=best?fail:0;
 info("Swap:");//fail==0 -> goodswap
 setswaps(0);best=cur;//new record
 if(unlikely(cur==0)){return;}
-if(fail<failmax){A=zerocols(A)?fstgcols(A):A;
-goto second;}
-fail=0;//reset fails at late search
-goto first;}
+//next iteration:
+
+if((fail>=failmax)||zerocols(A))A=fstgcols(A);
+fail=0;goto second;
+}
