@@ -73,6 +73,7 @@ void info(char* data);
 #include "Functions/modreduce.h"
 #include "Functions/rndcell.h"
 #include "Functions/info.h"
+#include "Functions/fastdiagswap.h"
 #include "Functions/lin.h"
 #include "Functions/solve.h"
 #include "Functions/integrity.h"
