@@ -8,20 +8,14 @@ which create empty slots to be used by
 linear search(33% faster).
 
 */
-#ifdef VERBOSE
-print("FastDiag:",mstime(),"ms\n");
-#endif
+verbprint("FastDiag:",mstime(),"ms\n");
 fastdiag_start:;
 do{A=rndcell();	B=rndcell();}while(freediag(A,B)<2);
-#ifdef VERBOSE
-info("MidloopFDG:");//midloop
-#endif
+verbinfo("MidloopFDG:");//midloop
 swapc(A,B);cur=countudiag();
 if(cur>best){incfails();
 swapc(A,B);
-#ifdef VERBOSE
-info("FailFDG:");//fail test
-#endif
+verbinfo("FailFDG:");//fail test
 goto fastdiag_start;}
 if(fastlim--)goto fastdiag_start;
 }
