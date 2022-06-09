@@ -38,9 +38,13 @@ typedef uint32_t u32;
 #ifndef SILENCE
 #define setdir(x) dir=x;
 #define addswap(x) swapt+=x;
+#define setswaps(x) swaps=x;
+#define addfail(x) tfail+=x;
 #else
+#define setswaps(x) ;
 #define setdir(x) ;
 #define addswap(x) ;
+#define addfail(x) ;
 #endif
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
