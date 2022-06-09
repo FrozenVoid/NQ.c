@@ -1,7 +1,9 @@
 
  static inline void swapc(val_t x,val_t y){
 i64  clx,crx,cly,cry;
+#ifndef SILENCE
 tswaps++;swaps+=dir;//valid swaps total
+#endif
 //prefetch at rndcell()
 clx=diagL[board[x]+x]--;//current X pos Left
 cly=diagL[board[y]+y]--;//current y pos Left
