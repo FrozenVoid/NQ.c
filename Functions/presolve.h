@@ -1,3 +1,6 @@
+#ifdef NOPRESOLVED
+#define setpresolved()
+#else
 void setpresolved(){
 if(N%6<2||N%6>=4){// presolved: place knight diagonals
 for(size_t i=0,z=1;i<N;i++,z+=2){
@@ -14,3 +17,4 @@ board[c9++]=1;
 for(z=4;c9<N-2;c9++,z+=2){board[c9]=z;}
 board[c9++]=0;board[c9++]=2;
 }}
+#endif
