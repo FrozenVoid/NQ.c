@@ -12,6 +12,9 @@ typedef uint32_t u32;
 //linear ~O(N) NQueens  solver
 #define log2index(x)  (63 - __builtin_clzll((x)))
 
+
+#define unlikely(x) __builtin_expect(x,0)
+#define likely(x) __builtin_expect(x,1)
 #define zerocols(P) (!qccount(P))
 //#define fstgcols(P)  bitfirstfrom(bitcols,P+1)
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
