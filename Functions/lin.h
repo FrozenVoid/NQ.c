@@ -52,8 +52,8 @@ if(unlikely(cur<Blim))B=rndcell();else {do{B=fstgcols(B);}while(unlikely(A==B));
 info("Midloop:");//midloop
 #endif
 setdir(1);swapc(A,B);cur=countudiag();
-fail+=(cur>=best);
 if(unlikely(cur>best)){setdir(-1);
+fail++;
 swapc(A,B);
 #ifdef VERBOSE
 info("Fail:");//fail test
