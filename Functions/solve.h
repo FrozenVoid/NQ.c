@@ -11,7 +11,7 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
  cend=__rdtsc();
  NL=log2index(N);
   failmax=160+NL;edge=N/64+128;
-  Blim=8+NL*NL*NL;
+  Blim=9+NL*NL*NL*NL;
 
  cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
 print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"edge:",edge,"\n");fflush(stdout);
