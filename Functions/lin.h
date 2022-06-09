@@ -54,21 +54,28 @@ B=cur<Blim?rndcell():fstgcols(B);
 info("Midloop:");//midloop
 #endif
 if(unlikely(A==B))goto second;
-dir=1;swapc(A,B);cur=countudiag();
+setdir(1);swapc(A,B);cur=countudiag();
 fail+=(cur>=best);
-if(cur>best){dir=-1;
+if(cur>best){setdir(-1);
 swapc(A,B);
 #ifdef VERBOSE
 info("Fail:");//fail test
 #endif
 goto second;}
-tfail+=fail;swapt+=swaps;
+addfail(fail);addswap(swaps);
+
 info(cur==best?"Swap0:":"Swap+:");//new iteration update
-fail=cur>=best?fail:0;swaps=0;best=cur;//new record
+setswaps(0);
+fail=cur>=best?fail:0;
+best=cur;//new record
 if(cur==0){goto fin;}
 if(fail<failmax)goto innerc;
 if(cur)goto first;
 fin:;
+#ifndef SILENCE
 print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
+#else
+print("\nSolved N=",N," at:",mstime(),"ms\n");
+#endif
 endl:;fflush(stdout);}
 
