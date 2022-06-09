@@ -1,5 +1,5 @@
 #pass any parameters to nq $*
-gcc nq.c -gdwarf -Ofast -march=native -mtune=native -pipe -onq -DVERBOSE
+gcc nq.c -Ofast -march=native -mtune=native -pipe -onq -DVERBOSE -DNOFILEINPUT -DNOFILEOUTPUT
 for (( n=8;n<11111111;n++ ))
 do
   echo "============Test N-Queens= $n ======="
