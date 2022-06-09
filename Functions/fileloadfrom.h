@@ -1,3 +1,6 @@
+#ifdef NOFILEINPUT
+#define fileloadfrom(...)
+#else
 void fileloadfrom(char* name){
 FILE* in=fopen(name,"rb");
 if(!in){print("File:",name," cannot be opened");perror("");exit(111);}
@@ -12,3 +15,4 @@ exit(99);
 
 print("Loaded ",sizeof(val_t),"byte NQ file:",name," N=",N);
 fclose(in);}
+#endif
