@@ -18,4 +18,4 @@ if(fail<failmax){
 A=zerocols(A)?fstgcols(A):A;
 goto second;}
 fail=0;//reset fails at late search
-if(cur)goto first;}
+goto first;}
