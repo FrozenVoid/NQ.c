@@ -8,6 +8,7 @@
  -DNOFILEINPUT remove fileloadfrom
  -DNOFILEOUTPUT remove fileboard
  -DNOSCRAMBLE remove scramble
+ -DNOPRESOLVED remove setpresolved
  -DNOPRINTBOARD remove printgraph/printboard
  -DNOINTEGRITY remove integrity/checkduplicates
  -DNOVERIFIER remove basic verification scan
