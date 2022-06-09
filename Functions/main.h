@@ -3,12 +3,12 @@ int main(int argc,char**argv){
 if(argc<2){syntax();}
 N=(val_t)strtoull(argv[1],NULL,10);
 if(N<MINBOARD)syntax();
-print("Queen board size=",sizeof(val_t)*N," bytes\n");
+verbprint("Queen board size=",sizeof(val_t)*N," bytes\n");
 
 board=calloc(N,sizeof(val_t));//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 fflush(stdout);
-print("Diagonal arrays size=",sizeof(val_t)*(N)*2," bytes\n");
+verbprint("Diagonal arrays size=",sizeof(val_t)*(N)*2," bytes\n");
 diagL=calloc((N),2*sizeof(val_t));
 diagR=calloc((N),2*sizeof(val_t));
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
@@ -30,7 +30,7 @@ verbprint("\ninfo() disabled");
 if(nosolve){setpresolved();}
 else if(!fileload){for(size_t i=0;i<N;i++)board[i]=i;}
 
-print(dofile?"\n[x]file output":"",
+verbprint(dofile?"\n[x]file output":"",
 doprint?"\n[x]print board rows":"",
 nosolve?"\n[x]generate presolved board":"",
 scram?"\n[x]scramble board":"");
@@ -40,7 +40,7 @@ if(fileload){fileloadfrom(argv[3]);}
 //main func
 ;checkdup();//enable all pedantic checks
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
-print("\nSolver:\n");solve();
+verbprint("\nSolver started: T:",mstime(),"ms\n");solve();
 //enable all pedantic checks
 verifier();integrity();checkdup();
 //output
