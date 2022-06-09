@@ -17,9 +17,7 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
 print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"\n");fflush(stdout);
 
 fastdiagswap();
-#ifdef VERBOSE
-print("Linear:",mstime(),"ms\n");
-#endif
+verbprint("Linear:",mstime(),"ms\n");
 linearsolve();//main func
 #ifndef SILENCE
 print("\nSolved N=",N," at:",mstime(),"ms Swaps:",swapt,"Fails:",tfail,"\n");
