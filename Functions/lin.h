@@ -17,8 +17,8 @@ if(unlikely(cur==0)){return;}
 if(fail>=failmax||zerocols(A)){goto resetA;}
 goto second;
 //control flow: jumps are cheap.
-rndB:;//A==B allowed if cur<Blim(to failmax)
-;B=rndcell2(A,N-A);
+rndB:;
+B=rndcell();
 goto nextt;
 nfail://new fail
 fail++;incfails();swapc(A,B);
