@@ -1,4 +1,4 @@
-#ifdef NOBOARDOUTPUT
+#ifdef NOPRINTBOARD
 #define printboard(...)
 #define printgraph()
 #else
