@@ -14,7 +14,7 @@ info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
-if(fail>=failmax||zerocols(A)){goto resetA;}
+if(fail>=failmax||zerocols2(A)){goto resetA;}
 goto second;
 //control flow: jumps are cheap.
 rndB:;
