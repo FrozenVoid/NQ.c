@@ -32,6 +32,8 @@ typedef uint32_t u32;
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
 #define randuint64 rnd1
+#define modreduce(a,b) ({sval_t x=a,y=b;\
+ (x*y)  >> (sizeof(val_t)*8);})
 #define rndcell()  modreduce((val_t)randuint64(),N)
 #ifndef SILENCE
 #define incswap() swapt++;
@@ -68,7 +70,6 @@ void info(char* data);
 #include "Functions/fileboard.h"
 #include "Functions/fileloadfrom.h"
 #include "Functions/fstgcols.h"
-#include "Functions/modreduce.h"
 #include "Functions/info.h"
 #include "Functions/fastdiagswap.h"
 #include "Functions/lin.h"
