@@ -37,8 +37,10 @@ typedef uint32_t u32;
 #define randuint64 rnd1
 #ifndef SILENCE
 #define setdir(x) dir=x;
+#define addswap(x) swapt+=x;
 #else
 #define setdir(x) ;
+#define addswap(x) ;
 #endif
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
