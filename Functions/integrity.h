@@ -1,3 +1,6 @@
+#ifdef NOINTEGRITY
+#define integrity()
+#else
 void integrity(){
 //pedantic checks
 int hasdups=0,hasdupsR=0,hasdupsL=0;
@@ -22,3 +25,4 @@ if(N<64)printgraph();
  char __attribute__((unused))  tt3=getchar();exit(32);}
  print("\nIntegrity checks passed!\n");
 }
+#endif
