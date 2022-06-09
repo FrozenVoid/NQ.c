@@ -1,5 +1,6 @@
 //----------------main solver func--------
-void linearsolve(){A=fstgcols(A);
+void linearsolve(){if(!cur)return;
+A=fstgcols(A);
 second:;
 ///do(fstgcols) while(A==B) prevents infinite loop
 if(unlikely(cur<Blim))goto rndB;
