@@ -18,7 +18,9 @@ typedef uint32_t u32;
 #ifndef NCYCLES
 #define NCYCLES (1ULL<<32) //report each NCYCLES
 #endif
-#define MINBOARD 8
+#ifndef MINBOARD
+#define MINBOARD 4//minimum solved
+#endif
 //NOPREFETCH disabled
 #define FETC(a...)
 //#define FETC(a...) __builtin_prefetch(a)
