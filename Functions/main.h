@@ -3,16 +3,14 @@ int main(int argc,char**argv){
 if(argc<2){syntax();}
 N=(val_t)strtoull(argv[1],NULL,10);
 if(N<MINBOARD)syntax();
-size_t colsize=sizeof(val_t)*N;
-print("Queen board size=",colsize," bytes\n");
+print("Queen board size=",sizeof(val_t)*N," bytes\n");
 
-board=calloc(colsize,1);//columns
+board=calloc(N,sizeof(val_t));//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 fflush(stdout);
-size_t diagsize=sizeof(val_t)*(N)*2;
-print("Diagonal arrays size=",2*diagsize," bytes\n");
-diagL=calloc(diagsize,1);
-diagR=calloc(diagsize,1);
+print("Diagonal arrays size=",sizeof(val_t)*(N)*2," bytes\n");
+diagL=calloc((N),2*sizeof(val_t));
+diagR=calloc((N),2*sizeof(val_t));
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
 
 if(argc>=3){
