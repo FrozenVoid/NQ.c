@@ -35,6 +35,11 @@ typedef uint32_t u32;
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
 #define randuint64 rnd1
+#ifndef SILENCE
+#define setdir(x) dir=x;
+#else
+#define setdir(x) ;
+#endif
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
 
