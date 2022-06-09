@@ -3,7 +3,7 @@ int main(int argc,char**argv){
 if(argc<2){syntax();}
 N=(val_t)strtoull(argv[1],NULL,10);
 switch(N){
-case 1:;print("1");exit(0);
+case 1:;print("0\n");exit(0);
 case 0:;case 2:;case 3:;print("No solution\n");exit(0);
 default:;break;
 }
