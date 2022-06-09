@@ -65,9 +65,9 @@ info(cur==best?"Swap0:":"Swap+:");//new iteration update
 setswaps(0);
 fail=cur>=best?fail:0;
 best=cur;//new record
-if(cur==0){goto fin;}
+if(unlikely(cur==0)){goto fin;}
 if(fail<failmax)goto innerc;
-fail=0;
+fail=0;//reset fails at late search
 if(cur)goto first;
 fin:;
 #ifndef SILENCE
