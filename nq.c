@@ -19,11 +19,10 @@ typedef uint32_t u32;
 //#define fstgcols(P)  bitfirstfrom(bitcols,P+1)
  size_t NCYCLES=1ULL<<32; //report each NCYCLES
 #define MINBOARD 8
-#ifdef NOPREFETCH //rndcell() only
+//NOPREFETCH disabled
 #define FETC(a...)
-#else
-#define FETC(a...) __builtin_prefetch(a)
-#endif
+//#define FETC(a...) __builtin_prefetch(a)
+
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #ifdef BIGIRON
 #define val_t u64
@@ -85,11 +84,7 @@ void info(char* data);
 int main(int argc,char**argv){
 
 if(argc<2){syntax();}
-#ifdef BIGIRON
-N=strtoull(argv[1],NULL,10);
-#else
-N=strtoul(argv[1],NULL,10);
-#endif
+N=(val_t)strtoull(argv[1],NULL,10);
 if(N<MINBOARD)syntax();
 size_t colsize=sizeof(val_t)*N;
 print("Queen board size=",colsize," bytes\n");
