@@ -19,7 +19,6 @@ if(argc>=3){
 dofile= !!strchr(argv[2],'f');//file output
 doprint=!!strchr(argv[2],'p');//print
  nosolve= !!strchr(argv[2],'t');//presolved
-checkb=!!strchr(argv[2],'c');//pedantic check
 scram=!! strchr(argv[2],'s');//scramble
 
 }
@@ -39,18 +38,16 @@ else if(!fileload){for(size_t i=0;i<N;i++)board[i]=i;}
 print(dofile?"\n[x]file output":"",
 doprint?"\n[x]print board rows":"",
 nosolve?"\n[x]generate presolved board":"",
-checkb?"\n[x]pedantic checks":"",
 scram?"\n[x]scramble board":"");
 
 //file input and scramble
 if(fileload){fileloadfrom(argv[3]);}
 //main func
-if(checkb||fileload ){;checkdup();}
+;checkdup();//enable all pedantic checks
 if(scram){size_t scrnum=atoi(argv[2]);scramble(scrnum);}
 print("\nSolver:\n");solve();
-//check it
-verifier();
-if(checkb){integrity();checkdup();}
+//enable all pedantic checks
+verifier();integrity();checkdup();
 //output
 if(doprint){char sep=',';
 if(!fileload && argc==4)sep=argv[3][0];
