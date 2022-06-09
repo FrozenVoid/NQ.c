@@ -55,7 +55,7 @@ val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
 i64 swapt=0,swaps=0;
-u64 tfail=0,tswaps=0;
+u64 tfail=0,tswaps=0,Blim;
 i64   fail=0,dir=1;
 size_t cend,valr,cur,best;
 size_t NL; u64 lc,lcmax,failmax,endsearch;
