@@ -1,3 +1,6 @@
+#ifdef NOBOARDOUTPUT
+#define fileboard() ;
+#else
 void fileboard(){char* fname=malloc(126);
 sprintf(fname,"%"PRIu64".nq",(u64)N);
 FILE*out=fopen(fname,"wb");
@@ -7,3 +10,4 @@ if(rfwout==N){print("\nFile:",fname,"\nRecorded board as file\n");}
 else{print("\nFile:",fname,"\nWrite mismatch\n",N,"!=",rfwout);}
 fclose(out);
 }
+#endif
