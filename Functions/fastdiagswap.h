@@ -1,9 +1,5 @@
 void fastdiagswap(){
-#if MINBOARD<8
-size_t fastlim=1000000000;
-#else
- size_t fastlim=NL;
-#endif
+ size_t fastlim=N<8?100000:NL;
 //quick swap for default linear diagonal(/)
 /* this code breaks the default
 diagL structure where all queens
@@ -21,6 +17,7 @@ if(cur>best+1){incfails();
 swapc(A,B);
 verbinfo("FailFDG:");//fail test
 goto fastdiag_start;}
-best=cur;if(!cur)return;
+if(N<8){best=cur;}
+if(!cur)return;
 if(fastlim--)goto fastdiag_start;
 }
