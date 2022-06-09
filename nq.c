@@ -39,12 +39,12 @@ typedef uint32_t u32;
 #define setdir(x) dir=x;
 #define addswap(x) swapt+=x;
 #define setswaps(x) swaps=x;
-#define addfail(x) tfail+=x;
+#define incfails() tfail++;
 #else
 #define setswaps(x) ;
 #define setdir(x) ;
 #define addswap(x) ;
-#define addfail(x) ;
+#define incfails() ;
 #endif
 #define rotate(num,bits) ({ typeof(num) x=num;\
 x=(x>>bits)|(x<<((sizeof(x)*8)-bits));x;})
@@ -56,7 +56,8 @@ val_t * board;
 val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
 i64 swapt=0,swaps=0;
-i64   fail=0,tfail=0,dir=1,tswaps=0;
+u64 tfail=0,tswaps=0;
+i64   fail=0,dir=1;
 size_t cend,valr,cur,best;
 size_t NL; u64 lc,lcmax,failmax,endsearch;
 
