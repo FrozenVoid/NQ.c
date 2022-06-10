@@ -1,0 +1,48 @@
+#define log2index(x)  (63 - __builtin_clzll((x)))
+#define unlikely(x) __builtin_expect(x,0)
+#define likely(x) __builtin_expect(x,1)
+
+#ifndef NCYCLES
+#define NCYCLES (1ULL<<32) //report each NCYCLES
+#endif
+
+
+#ifdef USEPREFETCH
+#define FETC(a...) __builtin_prefetch(a)
+#else
+#define FETC(a...)
+#endif
+
+#define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
+#ifdef BIGIRON
+#define val_t u64
+#define sval_t unsigned __int128
+#define sortmethod combsort
+#else
+#define val_t u32
+#define sval_t u64
+#define sortmethod combsort
+#endif
+//----linear collission count----------
+#define countudiag() (sumL+sumR)
+#define zerocols(P) (!qccount(P))
+#define randuint64 rnd1
+#define modreduce(a,b) ({sval_t x=(val_t)a,y=(val_t)b; (x*y)  >> (sizeof(val_t)*8);})
+#define rndcell()  modreduce((val_t)randuint64(),N)
+#define rndedgecell(X) ({val_t startX=X*(X+edge<N);startX+modreduce(rnd1(),N-startX);})
+#define swapq(x,y) ({val_t temp=board[x];board[x]=board[y];board[y]=temp;})
+#ifndef SILENCE
+#define incswap() swapt++;
+#define incfails() tfail++;
+void info(char* data);
+#else
+#define incfails() ;
+#define incswap() ;
+#endif
+#ifndef VERBOSE
+#define verbprint(...)
+#define verbinfo(...)
+#else
+#define verbprint print
+#define verbinfo info
+#endif
