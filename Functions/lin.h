@@ -1,10 +1,9 @@
 //----------------main solver func--------
 void linearsolveend(){if(!cur)return;
 esecond:;B=(rndedgecell(A));
-enextt:;
 verbinfo("EMidloop:");//midloop
 swapc(A,B);cur=countudiag();
-if(unlikely(cur>best))goto enfail;
+if(likely(cur>best))goto enfail;
 incswap();fail=(cur==best)?fail:0;
 info("ESwap:");//fail==0 -> goodswap
 best=cur;//new record
@@ -16,7 +15,7 @@ goto esecond;
 
 enfail://new fail
 fail++;incfails();swapc(A,B);
-verbinfo("Fail:");//fail test
+verbinfo("EFail:");//fail test
 
 goto esecond;
 
@@ -25,7 +24,7 @@ fail=0;A=fstgcols(A);
 goto esecond;
 }
 
-
+//pre Blim func
 void linearsolve(){if(!cur)return;
 A=fstgcols(A);second:;
 if(unlikely(cur<Blim))return linearsolveend();
