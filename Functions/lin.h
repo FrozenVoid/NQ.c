@@ -5,7 +5,7 @@ void linearsolveend(){if(!cur)return;
 esecond:;B=(rndedgecell(A));
 verbinfo("EMidloop:");//midloop
 swapc(A,B);cur=countudiag();
-if(unlikely(cur<best)||fail>failmax)goto egoodswap;
+if(unlikely(cur<best)||likely(fail>failmax))goto egoodswap;
 fail++;incfails();swapc(A,B);
 verbinfo("EFail:");//fail test
 goto esecond;egoodswap:;
