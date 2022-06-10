@@ -1,7 +1,7 @@
 
  static inline void swapc(val_t x,val_t y){
  if(unlikely(x==y))return;
-val_t  clx,crx,cly,cry;
+val_t clx,crx,cly,cry;//current:right/left:x/y
 #ifndef SILENCE
 tswaps++;// swaps total(all)
 #endif
