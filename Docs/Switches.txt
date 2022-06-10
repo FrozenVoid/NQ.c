@@ -11,7 +11,8 @@
  -DNOSCRAMBLE remove scramble
  -DNOPRESOLVED remove setpresolved
  -DNOPRINTBOARD remove printgraph/printboard
- -DNOINTEGRITY remove integrity/checkduplicates
+ -DNOINTEGRITY remove integrity
+ -DDUPCHECK enable check for duplicates(slow)
  -DNOVERIFIER remove basic verification scan
  //additional debug info
  -DVERBOSE enable info() at some points where
