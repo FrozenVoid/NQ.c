@@ -1,11 +1,11 @@
 
  static inline void swapc(val_t x,val_t y){
  if(unlikely(x==y))return;
-i64  clx,crx,cly,cry;
+val_t  clx,crx,cly,cry;
 #ifndef SILENCE
 tswaps++;// swaps total(all)
 #endif
-//prefetch at rndcell()
+
 clx=diagL[board[x]+x]--;//current X pos Left
 cly=diagL[board[y]+y]--;//current y pos Left
 crx=diagR[board[x]+(N-x)]--;
