@@ -1,8 +1,35 @@
 //----------------main solver func--------
+void linearsolveend(){if(!cur)return;
+esecond:;B=(rndedgecell(A));
+enextt:;
+verbinfo("EMidloop:");//midloop
+swapc(A,B);cur=countudiag();
+if(unlikely(cur>best))goto enfail;
+incswap();fail=(cur==best)?fail:0;
+info("ESwap:");//fail==0 -> goodswap
+best=cur;//new record
+if(unlikely(cur==0)){return;}
+//next iteration:
+if(unlikely(fail>=failmax)||zerocols2(A)){goto eresetA;}
+
+goto esecond;
+
+enfail://new fail
+fail++;incfails();swapc(A,B);
+verbinfo("Fail:");//fail test
+
+goto esecond;
+
+eresetA:;//reset A
+fail=0;A=fstgcols(A);
+goto esecond;
+}
+
+
 void linearsolve(){if(!cur)return;
 A=fstgcols(A);second:;
-if(unlikely(cur<Blim))goto rndB;
-fstB:;B=fstgcols(B);
+if(unlikely(cur<Blim))return linearsolveend();
+B=fstgcols(B);
 nextt:;
 verbinfo("Midloop:");//midloop
 swapc(A,B);cur=countudiag();
@@ -15,10 +42,7 @@ if(unlikely(cur==0)){return;}
 if(unlikely(fail>=failmax)||zerocols2(A)){goto resetA;}
 
 goto second;
-//control flow: jumps are cheap.
-rndB:;
-B=(rndedgecell(A));
-goto nextt;
+
 
 nfail://new fail
 fail++;incfails();swapc(A,B);
