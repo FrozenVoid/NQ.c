@@ -21,10 +21,8 @@
 #define val_t u64
 #define sortmethod combsort
 #define modreduce range
-#define randuint rnd1
 #else
 #define val_t u32
-#define randuint msws
 #define modreduce mswsrange32
 #define sortmethod combsort
 #endif
