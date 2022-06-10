@@ -6,8 +6,6 @@ void scramble(size_t num){
 
 for(size_t z=0;z<num;z++){
 for(size_t i=0;i<N;i++){
-val_t cell=rndcell();
-if(cell==i)continue;
-swapq(i,cell);}
+swapq(i,rndcell());}
 }}
 #endif
