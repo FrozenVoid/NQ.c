@@ -30,20 +30,7 @@ the solution to file 1000.nq
 
 # Performance
 
-Solved N= 100000000  in 54252 ms(linear solver only)
- Swaps: 208180948 Fails: 123338682 
-
-
-Solved N= 10000000  in 6042 ms(linear solver only)
- Swaps: 21482393 Fails: 19665379 
-
- 
-Solved N= 1000000  in 956 ms(linear solver only)
- Swaps: 2293277 Fails: 5268206 
-
-
-Solved N= 100000  in 42 ms(linear solver only)
- Swaps: 243299 Fails: 440580 
+Solved N= 100000000  in  52998 ms(linear solver only)
  
 
 # Compilation
