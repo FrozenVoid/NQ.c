@@ -9,7 +9,7 @@ info("ESwap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
-if(unlikely(fail>=failmax)||zerocols2(A)){goto eresetA;}
+if(unlikely(fail>=failmax)||likely(zerocols2(A))){goto eresetA;}
 
 goto esecond;
 
