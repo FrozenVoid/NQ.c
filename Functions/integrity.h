@@ -10,8 +10,8 @@ for(size_t i=0;i<N;i++){
 diagL[i]=board[i]+i;
 diagR[i]=board[i]+(N-i);}
 verbprint("Sorting diagonals T:",mstime(),"ms\n");
-combsort(diagL,N);
-combsort(diagR,N);
+sortmethod(diagL,N);
+sortmethod(diagR,N);
 verbprint("Scanning for duplicate data in DiagL array T:",mstime(),"ms\n");
 for(size_t i=1;i<N;i++){
 if(diagL[i]==diagL[i-1]){hasdups=1;hasdupsL=i;print("\nDuplicate left diagonal  data (",diagL[i],")at:",i,i-1,"\n");
