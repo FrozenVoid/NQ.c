@@ -17,7 +17,5 @@ if(cur>best+1){incfails();
 swapc(A,B);
 verbinfo("FailFDG:");//fail test
 goto fastdiag_start;}
-if(N<8){best=cur;}
-if(!cur)return;
-if(fastlim--)goto fastdiag_start;
+if(likely(fastlim--))goto fastdiag_start;
 }
