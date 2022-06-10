@@ -14,8 +14,9 @@ static inline uint64_t rotl(const uint64_t x, int k) {
 	return (x << k) | (x >> (64 - k));
 }
 
-static inline uint64_t rnd(uint64_t a){
-static uint64_t a=a,b=~a+17;
+static inline uint64_t rnd(uint64_t a1){
+static uint64_t a,b;
+a+=a1;b+=~a+17;
 a+=rotl(b,17)^rotl(a,3);
 b+=rotl(a,13)^rotl(b,8);
 return b;}
