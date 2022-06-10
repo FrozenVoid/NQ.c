@@ -32,7 +32,7 @@ nextt:;
 verbinfo("Midloop:");//midloop
 swapc(A,B);cur=countudiag();
 if(likely(cur>best))goto nfail;
-incswap();fail=(cur==best)?fail:0;
+incswap();fail=0;
 info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur==0)){return;}
