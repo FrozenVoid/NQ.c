@@ -22,9 +22,7 @@ goto esecond;
 
 //pre Blim func
 void linearsolve(){if(!cur)return;
-A=fstgcols(A);second:;
-B=fstgcols(B);
-nextt:;
+A=fstgcols(A);second:;B=fstgcols(B);
 verbinfo("Midloop:");//midloop
 swapc(A,B);cur=countudiag();
 if(unlikely(cur<=best)){goto goodswap;}
@@ -40,6 +38,4 @@ if(unlikely(cur<Blim))return linearsolveend();
 if(unlikely(fail>=failmax)||zerocols2(A)){A=fstgcols(A);;}
 
 goto second;
-
-
 }
