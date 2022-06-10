@@ -1,32 +1,32 @@
-//----------------main solver func--------
-void linearsolve(){if(!cur)return;
-A=fstgcols(A);second:;
-if(unlikely(cur<Blim))goto rndB;
-fstB:;B=fstgcols(B);
-nextt:;
-verbinfo("Midloop:");//midloop
-swapc(A,B);cur=countudiag();
-if(unlikely(cur>best))goto nfail;
-incswap();fail=(cur==best)?fail:0;
-info("Swap:");//fail==0 -> goodswap
-best=cur;//new record
-if(unlikely(cur==0)){return;}
-//next iteration:
-if(unlikely(fail>=failmax)||zerocols2(A)){goto resetA;}
+//======prefill counts and start solver===
+void solve(void){
+if(N==2||N==3){print("No solution for N=",N,"\n");exit(0);}
+//fill queen location counts
+verbprint("Filling diagonals: T:",mstime(),"ms\n");
+for(size_t i=0;i<N;i++){diagL[board[i]+i]++;}
+for(size_t i=0;i<N;i++){diagR[board[i]+(N-i)]++;}
+verbprint("Summing diagonals: T:",mstime(),"ms\n");
+//calculate Sums of collisions
+for(size_t i=0;i<N*2;i++){sumL+=(diagL[i]-1)*(diagL[i]>1);}
+for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
 
-goto second;
-//control flow: jumps are cheap.
-rndB:;
-B=(rndedgecell(A));
-goto nextt;
+ cend=__rdtsc();
+ NL=log2index(N);
+  failmax=N<100?20:NL*NL*NL;edge=N/64+128;
+  Blim=9+NL*NL*NL*NL;
+if(N<1024)Blim=N;//fix smallboard infinite loops
+ cur=countudiag(),best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
+print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"edge:",edge,"\n");fflush(stdout);
 
-nfail://new fail
-fail++;incfails();swapc(A,B);
-verbinfo("Fail:");//fail test
-
-goto second;
-
-resetA:;//reset A
-fail=0;A=fstgcols(A);
-goto second;
+fastdiagswap();
+clock_t linear_begin=mstime();
+verbprint("Linear:",linear_begin,"ms\n");
+linearsolve();//main func
+clock_t linear_end=mstime()-linear_begin;
+#ifndef SILENCE
+print("\nSolved N=",N," in",linear_end,"ms(linear solver only)\n Swaps:",swapt,"Fails:",tfail,"\n");
+#else
+print("\nSolved N=",N," in ",linear_end,"ms(linear solver only)\n");
+#endif
+endl:;fflush(stdout);
 }
