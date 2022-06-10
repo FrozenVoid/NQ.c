@@ -19,12 +19,10 @@
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #ifdef BIGIRON
 #define val_t u64
-#define sval_t unsigned __int128
 #define sortmethod combsort
 #define modreduce range
 #else
 #define val_t u32
-#define sval_t u64
 #define modreduce range32
 #define sortmethod combsort
 #endif
