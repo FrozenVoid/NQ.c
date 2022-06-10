@@ -21,15 +21,16 @@
 #define val_t u64
 #define sortmethod combsort
 #define modreduce range
+#define randuint rnd1
 #else
 #define val_t u32
-#define modreduce range32
+#define randuint msws
+#define modreduce mswsrange32
 #define sortmethod combsort
 #endif
 //----linear collission count----------
 #define countudiag() (sumL+sumR)
 #define zerocols(P) (!qccount(P))
-#define randuint64 rnd1
 
 #define rndcell()  modreduce(N)
 #define rndedgecell(X) ({val_t startX=X*(X+edge<N);startX+modreduce(N-startX);})
