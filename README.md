@@ -6,7 +6,7 @@ Fast N-Queens Puzzle solver using iterative repair
 
 nq N [[num]pftsi] [filename]
 
-N=Board size 8+
+N=Board size 
 
 Optional:
 p=print board as sequence of row addresses from 1+
