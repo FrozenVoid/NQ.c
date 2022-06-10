@@ -1,4 +1,4 @@
-static inline int zerocols2(const val_t P){
+static inline int zerocols2( val_t P){
 const val_t s=board[P];
 return likely(((diagL[s+P])+diagR[s+(N-P)])==2);
 }
