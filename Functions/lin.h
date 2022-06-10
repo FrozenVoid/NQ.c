@@ -28,7 +28,11 @@ B=fstgcols(B);
 nextt:;
 verbinfo("Midloop:");//midloop
 swapc(A,B);cur=countudiag();
-if(likely(cur>best))goto nfail;
+if(unlikely(cur<=best)){goto goodswap;}
+fail++;incfails();swapc(A,B);
+verbinfo("Fail:");//fail test
+goto second;
+goodswap:;
 incswap();fail=0;
 info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
@@ -39,9 +43,6 @@ if(unlikely(fail>=failmax)||zerocols2(A)){A=fstgcols(A);;}
 goto second;
 
 
-nfail://new fail
-fail++;incfails();swapc(A,B);
-verbinfo("Fail:");//fail test
-goto second;
+
 
 }
