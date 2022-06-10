@@ -10,7 +10,7 @@ linear search(33% faster).
 */
 verbprint("FastDiag:",mstime(),"ms\n");
 fastdiag_start:;
-do{A=rndcell();	B=rndcell();}while(freediag(A,B)<2);
+do{A=rndcell();	B=rndcell();}while(!freediag(A,B));
 verbinfo("MidloopFDG:");//midloop
 swapc(A,B);cur=countudiag();
 if(cur>best+1){incfails();
