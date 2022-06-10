@@ -2,8 +2,8 @@
 static inline const val_t fstgcols( val_t G){
 size_t i=G+1;const size_t maxN=N;;
 fstgcolsloop:;
-for(;unlikely(i<maxN);i++){
-if((qrcount(i)!=2))return i;};
+for(;likely(i<maxN) &&(qrcount(i)==2);i++){
+;};
 if((i==maxN)){i=0;goto fstgcolsloop;}
 return i;}
 
