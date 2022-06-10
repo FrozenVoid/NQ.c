@@ -32,7 +32,6 @@ goto second;goodswap:;
 incswap();fail=0;
 info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
-if(unlikely(cur==0)){return;}
 if(unlikely(cur<Blim))return linearsolveend();
 //next iteration:
 if(unlikely(fail>=failmax)||zerocols2(A)){A=fstgcols(A);;}
