@@ -1,4 +1,4 @@
-#ifdef NODUPCHECK
+#ifndef DUPCHECK
 #define checkdup() ;
 #else
 void printboard(char sep);
