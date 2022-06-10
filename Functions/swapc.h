@@ -1,6 +1,6 @@
 
  static inline void swapc(val_t x,val_t y){
- if(unlikely(x==y))goto endswap;
+ if(unlikely(x==y))return;
 i64  clx,crx,cly,cry;
 #ifndef SILENCE
 tswaps++;// swaps total(all)
@@ -30,5 +30,5 @@ sumL+=!!(clx-1);//reduce sum if old collision
 sumL+=!!(cly-1);
 sumR+=!!(crx-1);
 sumR+=!!(cry-1);
-endswap:;
+
 }
