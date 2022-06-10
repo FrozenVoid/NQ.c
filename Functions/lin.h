@@ -37,7 +37,7 @@ info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
-if(unlikely(fail>=failmax)||zerocols2(A)){goto resetA;}
+if(unlikely(fail>=failmax)||zerocols2(A)){A=fstgcols(A);;}
 
 goto second;
 
@@ -45,10 +45,6 @@ goto second;
 nfail://new fail
 fail++;incfails();swapc(A,B);
 verbinfo("Fail:");//fail test
-
 goto second;
 
-resetA:;//reset A
-fail=0;A=fstgcols(A);
-goto second;
 }
