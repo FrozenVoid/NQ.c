@@ -1,9 +1,11 @@
 //----------------main solver func--------
+
+
 void linearsolveend(){if(!cur)return;
 esecond:;B=(rndedgecell(A));
 verbinfo("EMidloop:");//midloop
 swapc(A,B);cur=countudiag();
-if(unlikely(cur<best))goto egoodswap;
+if(unlikely(cur<best)||fail>failmax)goto egoodswap;
 fail++;incfails();swapc(A,B);
 verbinfo("EFail:");//fail test
 goto esecond;egoodswap:;
@@ -15,8 +17,6 @@ if(unlikely(cur==0)){return;}
 if(unlikely(fail>=failmax)||likely(zerocols2(A))){goto eresetA;}
 
 goto esecond;
-
-
 
 eresetA:;//reset A
 fail=0;A=fstgcols(A);
