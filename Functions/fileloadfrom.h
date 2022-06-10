@@ -6,6 +6,7 @@ void pipestdin(){//assumed to be rows 0..N-1
 setbuf(stdin, NULL);
 for(size_t i=0;i<N;i++){
 uint64_t inp;scanf("%"SCNu64, &inp);
+getchar();
 board[i]=(val_t)inp;}}
 
 void fileloadfrom(char* name){
