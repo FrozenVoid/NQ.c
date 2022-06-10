@@ -31,7 +31,7 @@ B=fstgcols(B);
 nextt:;
 verbinfo("Midloop:");//midloop
 swapc(A,B);cur=countudiag();
-if(unlikely(cur>best))goto nfail;
+if(likely(cur>best))goto nfail;
 incswap();fail=(cur==best)?fail:0;
 info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
