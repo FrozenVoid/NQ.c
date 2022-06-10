@@ -3,7 +3,10 @@ void linearsolveend(){if(!cur)return;
 esecond:;B=(rndedgecell(A));
 verbinfo("EMidloop:");//midloop
 swapc(A,B);cur=countudiag();
-if(likely(cur>best))goto enfail;
+if(unlikely(cur<best))goto egoodswap;
+fail++;incfails();swapc(A,B);
+verbinfo("EFail:");//fail test
+goto esecond;egoodswap:;
 incswap();fail=(cur==best)?fail:0;
 info("ESwap:");//fail==0 -> goodswap
 best=cur;//new record
@@ -13,11 +16,7 @@ if(unlikely(fail>=failmax)||likely(zerocols2(A))){goto eresetA;}
 
 goto esecond;
 
-enfail://new fail
-fail++;incfails();swapc(A,B);
-verbinfo("EFail:");//fail test
 
-goto esecond;
 
 eresetA:;//reset A
 fail=0;A=fstgcols(A);
