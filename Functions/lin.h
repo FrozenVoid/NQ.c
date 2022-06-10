@@ -9,18 +9,15 @@ if(unlikely(cur<best)||fail>failmax)goto egoodswap;
 fail++;incfails();swapc(A,B);
 verbinfo("EFail:");//fail test
 goto esecond;egoodswap:;
-incswap();fail=(cur==best)?fail:0;
+incswap();fail=0;
 info("ESwap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
-if(unlikely(fail>=failmax)||likely(zerocols2(A))){goto eresetA;}
+if(unlikely(fail>=failmax)||likely(zerocols2(A))){A=fstgcols(A);;}
 
 goto esecond;
 
-eresetA:;//reset A
-fail=0;A=fstgcols(A);
-goto esecond;
 }
 
 //pre Blim func
