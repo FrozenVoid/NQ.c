@@ -23,7 +23,7 @@
 #define modreduce range
 #else
 #define val_t u32
-#define modreduce mswsrange32
+#define modreduce range32b
 #define sortmethod combsort
 #endif
 //----linear collission count----------
