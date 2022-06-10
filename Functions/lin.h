@@ -1,11 +1,8 @@
 //----------------main solver func--------
 void linearsolve(){if(!cur)return;
-A=fstgcols(A);
-second:;
-///do(fstgcols) while(A==B) prevents infinite loop
+A=fstgcols(A);second:;
 if(unlikely(cur<Blim))goto rndB;
-B=fstgcols(B);
-nextt:;
+B=fstgcols(B);nextt:;
 verbinfo("Midloop:");//midloop
 swapc(A,B);cur=countudiag();
 if(unlikely(cur>best))goto nfail;
