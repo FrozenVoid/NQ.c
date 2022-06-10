@@ -9,7 +9,7 @@ verbprint("Queen board size=",sizeof(val_t)*N," bytes\n");
 board=calloc(N,sizeof(val_t));//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 fflush(stdout);
-verbprint("Diagonal arrays size=",sizeof(val_t)*(N)*2," bytes\n");
+verbprint("Diagonal arrays size=",sizeof(val_t)*(N)*4," bytes\n");
 diagL=calloc((N),2*sizeof(val_t));
 diagR=calloc((N),2*sizeof(val_t));
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
