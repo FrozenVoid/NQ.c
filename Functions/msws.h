@@ -1,7 +1,3 @@
-static inline uint32_t msws() {
-static uint64_t x = 0, w = 0, s = 0xb5ad4eceda1ce2a9;
-   x *= x; x += (w += s); return x = (x>>32) | (x<<32);}
-
 //not really great distribution but faster
 static inline uint64_t rndbias(){
 static uint64_t a=17;
