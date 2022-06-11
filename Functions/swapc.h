@@ -38,6 +38,7 @@ cur=sumL+sumR;
  size_t prev=cur;
  swapreset:;
 swapc(x,y);
-if(cur>prev ){verbinfo("SwapReset");goto swapreset;}
+if(cur>prev ){verbinfo("SwapReset");
+fail++;goto swapreset;}
 
 }
