@@ -6,4 +6,4 @@ if(unlikely(i<maxN)){
 if(likely(zerocols2(i))){i++;goto fstgcolsloop;} return i;}
 
 if(likely(i==maxN)){i=0;goto fstgcolsloop;}
-return i;}
+return i;/*compiler likes end return struct*/}
