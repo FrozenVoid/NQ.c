@@ -1,9 +1,8 @@
 int main(int argc,char**argv){
-
 if(argc<2){syntax();}
 N=(val_t)strtoull(argv[1],NULL,10);
 if(!N){print("Invalid board configuration\n");exit(0);}
-
+setbuf(stdout,NULL);
 verbprint("Queen board size=",sizeof(val_t)*N," bytes\n");
 
 board=calloc(N,sizeof(val_t));//columns
