@@ -1,5 +1,5 @@
 void fastdiagswap(){
- size_t fastlim=N<8?100000:NL;
+ size_t fastlim=NL;
 //quick swap for default linear diagonal(/)
 /* this code breaks the default
 diagL structure where all queens
