@@ -1,7 +1,7 @@
 void NOINLINE edgecellsolver(){if(!cur)return;
 //failmax;
 print("\nStage3:",mstime(),"ms\n");
-esecond:;B=rndcell();
+esecond:;B=rndedgecell(A);
 emidloop:;verbinfo("EMidloop:");//midloop
 swapc(A,B);//cur update in swapc()
 if(unlikely(cur<best))goto egoodswap;
