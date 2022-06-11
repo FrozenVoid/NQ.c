@@ -27,7 +27,8 @@ goto emidloop;
 
 //pre Blim func
 void NOINLINE linearsolve(){if(!cur)return;
-goto resetA;second:;B=fstgcols(B);
+goto resetA;second:;goto resetB;
+failmaxjmp:;
 if(unlikely(fail>=failmax))goto resetA;
 verbinfo("Midloop:");//midloop
 midloop:;
@@ -35,7 +36,8 @@ swapc(A,B);cur=countudiag();
 if(unlikely(cur<=best)){goto goodswap;}
 fail++;incfails();swapc(A,B);
 verbinfo("Fail:");//fail test
-goto second;goodswap:;
+resetB:;
+B=fstgcols(B);goto failmaxjmp;goodswap:;
 incswap();fail=0;
 info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
