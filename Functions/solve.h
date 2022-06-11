@@ -13,17 +13,15 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
 
  cend=__rdtsc();
  NL=log2index(N);
-  failmax=N<100?20:NL*NL*NL*17;
-  failmax2=N<100?10:NL*NL*NL;
-  edge=N/64+128;
-  Blim=119+N/512;
+ edge=N/64+128;
+
 
 
  cur=sumL+sumR,best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
 
 
 fastdiagswap();
-print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"edge:",edge,"\n");FLUSH;
+print("\nSTART:",mstime()," ms Collisions:",cur,"edge:",edge,"\n");FLUSH;
 clock_t linear_begin=mstime();
 linearsolve();//main func
 clock_t linear_end=mstime()-linear_begin;
