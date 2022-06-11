@@ -6,6 +6,7 @@
  -DSILENCE switch off all info() printing during 
  work.(~3% faster)
  //executable size control
+ -DNOSYNTAX don't display syntax info
  -DNOFILEINPUT remove fileloadfrom
  -DNOFILEOUTPUT remove fileboard
  -DNOSCRAMBLE remove scramble
