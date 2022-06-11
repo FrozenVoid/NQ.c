@@ -9,7 +9,7 @@
 #define NCYCLES (1ULL<<32) //report each NCYCLES
 #endif
 
-
+#define NOINLINE __attribute__ ((noinline))
 #ifdef USEPREFETCH
 #define FETC(a...) __builtin_prefetch(a)
 #else
