@@ -23,25 +23,20 @@ swapfix:;swapc(A,B); goto esecond;
 
 //--------------------Stage2---------------
 void NOINLINE linearsolve(){if(!cur)return;
-goto resetA;second:;goto resetB;
-failmaxjmp:;
-if(unlikely(fail>failmax2))goto resetA;
-verbinfo("Midloop:");//midloop
-midloop:;
+goto resetA;midloop:;
+verbinfo("Midloop:");
 swapc(A,B);cur=countudiag();
-if(unlikely(cur<=best)){goto goodswap;}
-fail++;incfails();swapc(A,B);
-verbinfo("Fail:");//fail test
-resetB:;
-B=fstgcols(B);goto failmaxjmp;goodswap:;
-incswap();fail=0;
-info("Swap:");//fail==0 -> goodswap
-best=cur;//new record
+if(likely(cur>best))goto nfail;
+goodswap:;incswap();fail=0;
+info("Swap:");best=cur;//new record
 if(unlikely(cur<Blim))return linearsolveend();
-//next iteration:
-if(zerocols2(A)){goto resetA;}
-
-goto second;
-resetA:;fail=0;A=fstgcols(A);
-goto midloop;
+if(zerocols2(A)){
+resetA:;A=fstgcols(A);goto midloop;}
+goto resetB;//nextB.
+nfail:;fail++;incfails();
+verbinfo("Fail:");//fail test
+if(unlikely(fail>failmax2)){
+fail=0;goto resetA;}
+swapc(A,B);
+resetB:;B=fstgcols(B);goto midloop;
 }
