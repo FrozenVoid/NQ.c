@@ -1,7 +1,7 @@
 //----------------main solver func--------
 
 
-void linearsolveend(){if(!cur)return;
+void NOINLINE linearsolveend(){if(!cur)return;
 esecond:;B=(rndedgecell(A));
 if(unlikely(fail>=failmax))goto eresetA;
 emidloop:;
