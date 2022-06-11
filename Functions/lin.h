@@ -25,7 +25,7 @@ swapfix:;swapc(A,B); goto esecond;
 void NOINLINE linearsolve(){if(!cur)return;
 goto resetA;second:;goto resetB;
 failmaxjmp:;
-if(unlikely(fail>=failmax))goto resetA;
+if(unlikely(fail>failmax2))goto resetA;
 verbinfo("Midloop:");//midloop
 midloop:;
 swapc(A,B);cur=countudiag();
@@ -42,6 +42,6 @@ if(unlikely(cur<Blim))return linearsolveend();
 if(zerocols2(A)){goto resetA;}
 
 goto second;
-resetA:;A=fstgcols(A);
+resetA:;fail=0;A=fstgcols(A);
 goto midloop;
 }
