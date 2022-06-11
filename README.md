@@ -30,7 +30,8 @@ the solution to file 1000.nq
 
 # Performance
 
-Solved N= 100000000  in  52998 ms(linear solver only)
+Solved N= 100000000  in  31734 ms(linear solver only)
+
  
 
 # Compilation
