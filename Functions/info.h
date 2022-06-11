@@ -10,5 +10,5 @@ void info(char* data){
 #ifdef VERBOSE
 if(N<64)printgraph();
 #endif
-  fflush(stdout);}}
+  FLUSH;}}
 #endif
