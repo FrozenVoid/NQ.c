@@ -21,6 +21,7 @@
 #include "Functions/fstgcols.h"
 #include "Functions/info.h"
 #include "Functions/fastdiagswap.h"
+#include "Functions/edgesolver.h"
 #include "Functions/lin.h"
 #include "Functions/solve.h"
 #include "Functions/integrity.h"
