@@ -30,15 +30,14 @@ if(unlikely((crx-1)))sumR++;
 if(unlikely((cly-1)))sumL++;
 if(unlikely((cry-1)))sumR++;
 
-
+cur=sumL+sumR;
 }
 
  static inline void swapauto(val_t x,val_t y){
  if(unlikely(x==y))return;
- size_t prev=countudiag();
+ size_t prev=cur;
  swapreset:;
 swapc(x,y);
-cur=countudiag();
 if(cur>prev ){verbinfo("SwapReset");goto swapreset;}
 
 }
