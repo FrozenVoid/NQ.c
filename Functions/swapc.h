@@ -1,43 +1,3 @@
-
- static inline void swapauto(val_t x,val_t y){
- if(unlikely(x==y))return;
- swapreset:;
-val_t clx,crx,cly,cry;//current:right/left:x/y
-#ifndef SILENCE
-tswaps++;// swaps total(all)
-#endif
-
-clx=diagL[board[x]+x]--;//current X pos Left
-cly=diagL[board[y]+y]--;//current y pos Left
-crx=diagR[board[x]+(N-x)]--;
-cry=diagR[board[y]+(N-y)]--;
-
-//reduce sums,first,last
-//if clx==1 0 clx>1=1  (clx-1)=0
-if(unlikely((clx-1)))sumL--;
-if(unlikely((crx-1)))sumR--;
-if(unlikely((cly-1)))sumL--;
-if(unlikely((cry-1)))sumR--;
-//swap
-swapq(x,y);
-
-//updates sums
-clx=(++diagL[board[x]+x]);
-cly=(++diagL[board[y]+y]);;
-crx=(++diagR[board[x]+(N-x)]);
-cry=(++diagR[board[y]+(N-y)]);
-//0 1+
-if(unlikely((clx-1)))sumL++;
-if(unlikely((crx-1)))sumR++;
-if(unlikely((cly-1)))sumL++;
-if(unlikely((cry-1)))sumR++;
-
-cur=countudiag();
-if(cur>best){goto swapreset;}
-
-}
-
-
 static inline void swapc(val_t x,val_t y){
  if(unlikely(x==y))return;
 val_t clx,crx,cly,cry;//current:right/left:x/y
@@ -70,5 +30,15 @@ if(unlikely((crx-1)))sumR++;
 if(unlikely((cly-1)))sumL++;
 if(unlikely((cry-1)))sumR++;
 
+
+}
+
+ static inline void swapauto(val_t x,val_t y){
+ if(unlikely(x==y))return;
+ size_t prev=countudiag();
+ swapreset:;
+swapc(x,y);
+cur=countudiag();
+if(cur>prev ){verbinfo("SwapReset");goto swapreset;}
 
 }
