@@ -10,4 +10,4 @@ val_t * diagR;i64 sumR=0;
 u64 tfail=0, swapt=0,tswaps=0,Blim,edge;
 i64   fail=0;
 size_t cend,cur,best;
-size_t NL; u64 failmax;
+size_t NL; u64 failmax,failmax2;
