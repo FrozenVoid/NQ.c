@@ -27,7 +27,7 @@ goto emidloop;
 
 //pre Blim func
 void NOINLINE linearsolve(){if(!cur)return;
-A=fstgcols(A);second:;B=fstgcols(B);
+goto resetA;second:;B=fstgcols(B);
 if(unlikely(fail>=failmax))goto resetA;
 verbinfo("Midloop:");//midloop
 midloop:;
