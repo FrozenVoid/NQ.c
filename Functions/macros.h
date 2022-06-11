@@ -26,8 +26,7 @@
 #define modreduce range32b
 #define sortmethod combsort
 #endif
-//----linear collission count----------
-#define countudiag() (sumL+sumR)
+
 #define zerocols(P) (!qccount(P))
 
 #define rndcell()  modreduce(N)
