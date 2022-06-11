@@ -1,6 +1,6 @@
 //first greater than column(s) with collision
 static inline const val_t fstgcols( val_t G){
-size_t i=G+1; size_t maxN=N;;
+size_t i=G+1, maxN=N;;
 fstgcolsloop:;
 if(likely(i<maxN)){
 if(likely(zerocols2(i))){i++;goto fstgcolsloop;} return i;}else
