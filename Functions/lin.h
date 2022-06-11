@@ -1,16 +1,13 @@
-//----------------main solver func--------
-
-
+//----------------Stage 3--------
 void NOINLINE linearsolveend(){if(!cur)return;
 esecond:;B=(rndedgecell(A));
-if(unlikely(fail>=failmax))goto eresetA;
 emidloop:;
 verbinfo("EMidloop:");//midloop
 swapc(A,B);cur=countudiag();
 if(unlikely(cur<best))goto egoodswap;
-fail++;incfails();swapc(A,B);
-verbinfo("EFail:");//fail test
-goto esecond;egoodswap:;
+fail++;incfails();verbinfo("EFail:");//fail test
+if(unlikely(fail>=failmax)){fail=0;best=cur;goto eresetA;}
+goto swapfix;egoodswap:;
 incswap();fail=0;
 info("ESwap:");//fail==0 -> goodswap
 best=cur;//new record
@@ -19,13 +16,12 @@ if(unlikely(cur==0)){return;}
 if(unlikely(zerocols2(A))){goto eresetA;;}
 
 goto esecond;
-eresetA:;
-A=fstgcols(A);
-goto emidloop;
+eresetA:;A=fstgcols(A);goto emidloop;
+swapfix:;swapc(A,B); goto esecond;
 
 }
 
-//pre Blim func
+//--------------------Stage2---------------
 void NOINLINE linearsolve(){if(!cur)return;
 goto resetA;second:;goto resetB;
 failmaxjmp:;
