@@ -13,7 +13,9 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
 
  cend=__rdtsc();
  NL=log2index(N);
-  failmax=N<100?20:NL*NL*NL;edge=N/64+128;
+  failmax=N<100?20:NL*NL*NL*17;
+  failmax2=N<100?10:NL*NL*NL;
+  edge=N/64+128;
   Blim=119+N/512;
 
 
