@@ -14,4 +14,12 @@ Functions/lin.h contains all search
 endsearch: random cells are swapped with
 fstgcols() collision cells until all collisions
 reach 0.
+
+
+Historical versions:
+Besides commit history, the first   
+versions were derived from code in
+optimization experiments in 
+https://github.com/FrozenVoid/C-techniques/tree/master/optimization/random/nqueens
   
+(see linear.c for direct predecessor)
