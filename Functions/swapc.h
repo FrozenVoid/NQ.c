@@ -1,6 +1,7 @@
 
  static inline void swapc(val_t x,val_t y){
  if(unlikely(x==y))return;
+ swapreset:;
 val_t clx,crx,cly,cry;//current:right/left:x/y
 #ifndef SILENCE
 tswaps++;// swaps total(all)
@@ -31,5 +32,7 @@ if(unlikely((crx-1)))sumR++;
 if(unlikely((cly-1)))sumL++;
 if(unlikely((cry-1)))sumR++;
 
-
+cur=countudiag();
+if((cur>best))goto swapreset;
+best=cur;//update best
 }
