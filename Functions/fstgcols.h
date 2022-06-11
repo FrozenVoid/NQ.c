@@ -5,5 +5,5 @@ fstgcolsloop:;
 if(unlikely(i<maxN)){
 if(likely(zerocols2(i))){i++;goto fstgcolsloop;} return i;}
 
-if((i==maxN)){i=0;goto fstgcolsloop;}
+if(likely(i==maxN)){i=0;goto fstgcolsloop;}
 return i;}
