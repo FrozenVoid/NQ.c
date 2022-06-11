@@ -23,7 +23,9 @@ goto esecond;
 //pre Blim func
 void linearsolve(){if(!cur)return;
 A=fstgcols(A);second:;B=fstgcols(B);
+if(unlikely(fail>=failmax))goto resetA;
 verbinfo("Midloop:");//midloop
+midloop:;
 swapc(A,B);cur=countudiag();
 if(unlikely(cur<=best)){goto goodswap;}
 fail++;incfails();swapc(A,B);
@@ -34,7 +36,9 @@ info("Swap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur<Blim))return linearsolveend();
 //next iteration:
-if(unlikely(fail>=failmax)||zerocols2(A)){A=fstgcols(A);;}
+if(zerocols2(A)){goto resetA;}
 
 goto second;
+resetA:;A=fstgcols(A);
+goto midloop;
 }
