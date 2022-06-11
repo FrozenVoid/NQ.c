@@ -4,7 +4,7 @@
 
 #define unlikely(x) __builtin_expect(x,0)
 #define likely(x) __builtin_expect(x,1)
-
+#define SWAPLIMIT 8//below swapc ignores fails
 #ifndef NCYCLES
 #define NCYCLES (1ULL<<32) //report each NCYCLES
 #endif
