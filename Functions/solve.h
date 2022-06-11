@@ -21,7 +21,7 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
 
 
 fastdiagswap();
-print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"edge:",edge,"\n");fflush(stdout);
+print("\nSTART:",mstime()," ms Collisions:",cur,"Blim:",Blim,"failmax:",failmax,"edge:",edge,"\n");FLUSH;
 clock_t linear_begin=mstime();
 linearsolve();//main func
 clock_t linear_end=mstime()-linear_begin;
@@ -30,6 +30,6 @@ print("\nSolved N=",N," in",linear_end,"ms(linear solver only)\n Swaps:",swapt,"
 #else
 print("\nSolved N=",N," in ",linear_end,"ms(linear solver only)\n");
 #endif
-endl:;fflush(stdout);
+endl:;FLUSH;
 }
 
