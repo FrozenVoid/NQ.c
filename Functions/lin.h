@@ -16,7 +16,7 @@ info("ESwap:");//fail==0 -> goodswap
 best=cur;//new record
 if(unlikely(cur==0)){return;}
 //next iteration:
-if(likely(zerocols2(A))){goto eresetA;;}
+if(unlikely(zerocols2(A))){goto eresetA;;}
 
 goto esecond;
 eresetA:;
