@@ -39,6 +39,10 @@ cur=sumL+sumR;
  swapreset:;
 swapc(x,y);
 if(cur>prev ){verbinfo("SwapReset");
-fail++;incfails();swapt--;goto swapreset;}
+fail++;
+#ifndef SILENCE
+incfails();swapt--;
+#endif
+goto swapreset;}
 swapt++;//increment swaps(-1+1=0)
 }
