@@ -15,4 +15,3 @@ verbinfo("MidloopFDG:");//midloop
 swapauto(A,B);
 if(likely(fastlim--))goto fastdiag_start;
 }
-
