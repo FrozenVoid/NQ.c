@@ -1,3 +1,6 @@
+static inline void swapq(val_t x,val_t y){
+val_t temp=board[x];board[x]=board[y];board[y]=temp;
+}
 static inline void swapauto(val_t x,val_t y){
 if(unlikely(x==y))return;
  size_t prev=cur;
