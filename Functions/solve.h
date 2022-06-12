@@ -20,7 +20,6 @@ for(size_t i=0;i<N*2;i++){sumR+=(diagR[i]-1)*(diagR[i]>1);}
  cur=sumL+sumR,best=cur;if(cur==0){print("\nPre-Solved N=",N," at:",mstime(),"ms\n");goto endl;/*presolved*/}
 
 
-fastdiagswap();
 print("\nSTART:",mstime()," ms Collisions:",cur,"edge:",edge,"\n");FLUSH;
 clock_t linear_begin=mstime();
 linearsolve();//main func
