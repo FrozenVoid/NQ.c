@@ -13,7 +13,6 @@
 
 #include "Functions/checkdup.h"
 #include "Functions/qcccount.h"
-#include "Functions/swapc.h"
 #include "Functions/freediag.h"
 #include "Functions/printboard.h"
 #include "Functions/fileboard.h"
