@@ -33,7 +33,7 @@ if(unlikely((cly-1)))sumL++;
 if(unlikely((cry-1)))sumR++;
 
 cur=sumL+sumR;
-if(cur>prev ){verbinfo("SwapReset");
+if(cur>prev &&cur>2){verbinfo("SwapReset");
 fail++;incfails();decswap() ;
 
 goto swapreset;}
