@@ -5,8 +5,6 @@ void scramble(size_t num){
  print("\nScrambling N=",N," Times:",num,"\n");FLUSH;
 
 for(size_t z=0;z<num*N;z++){
-val_t c=rndcell();
-val_t d=rndcell();
-swapq(c,d);}}
+swapq(rndcell(),rndcell());}}
 
 #endif
