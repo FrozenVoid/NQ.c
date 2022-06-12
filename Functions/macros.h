@@ -18,11 +18,11 @@
 
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #ifdef BIGIRON
-#define val_t u64
+#define val_t uint64_t
 #define sortmethod combsort
 #define modreduce range
 #else
-#define val_t u32
+#define val_t uint32_t
 #define modreduce range32b
 #define sortmethod combsort
 #endif
@@ -31,7 +31,7 @@
 
 #define rndcell()  modreduce(N)
 #define rndedgecell(X) ({val_t startX=X*(X+edge<N);startX+modreduce(N-startX);})
-#define swapq(x,y) ({val_t temp=board[x];board[x]=board[y];board[y]=temp;})
+
 #ifndef SILENCE
 #define incswap() swapt++;
 #define decswap() swapt--;
