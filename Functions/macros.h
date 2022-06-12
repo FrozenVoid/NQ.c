@@ -30,7 +30,7 @@
 #define zerocols(P) (!qccount(P))
 
 #define rndcell()  modreduce(N)
-#define rndedgecell(X) ({val_t startX=X*(X+edge<N);startX+modreduce(N-startX);})
+
 
 #ifndef SILENCE
 #define incswap() swapt++;
