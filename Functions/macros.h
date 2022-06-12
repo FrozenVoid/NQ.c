@@ -34,12 +34,15 @@
 #define swapq(x,y) ({val_t temp=board[x];board[x]=board[y];board[y]=temp;})
 #ifndef SILENCE
 #define incswap() swapt++;
+#define decswap() swapt--;
 #define incfails() tfail++;
 void info(char* data);
 #else
 #define incfails() ;
 #define incswap() ;
+#define decswap() ;
 #endif
+
 #ifndef VERBOSE
 #define verbprint(...)
 #define verbinfo(...)
