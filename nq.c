@@ -20,6 +20,7 @@
 #include "Functions/fileloadfrom.h"
 #include "Functions/fstgcols.h"
 #include "Functions/info.h"
+#include "Functions/swapauto.h"
 #include "Functions/fastdiagswap.h"
 #include "Functions/edgesolver.h"
 #include "Functions/lin.h"
