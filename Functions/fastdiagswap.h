@@ -12,10 +12,7 @@ verbprint("FastDiag:",mstime(),"ms\n");
 fastdiag_start:;
 do{A=rndcell();	B=rndcell();}while(!freediag(A,B));
 verbinfo("MidloopFDG:");//midloop
-swapc(A,B);
-if(cur>best+1){incfails();
-swapc(A,B);
-verbinfo("FailFDG:");//fail test
-goto fastdiag_start;}
+swapauto(A,B);
 if(likely(fastlim--))goto fastdiag_start;
 }
+
