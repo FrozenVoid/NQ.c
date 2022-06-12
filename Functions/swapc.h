@@ -1,5 +1,5 @@
 static inline void swapc(val_t x,val_t y){
- if(unlikely(x==y))return;
+// if(unlikely(x==y))return;
 val_t clx,crx,cly,cry;//current:right/left:x/y
 #ifndef SILENCE
 tswaps++;// swaps total(all)
@@ -39,6 +39,6 @@ cur=sumL+sumR;
  swapreset:;
 swapc(x,y);
 if(cur>prev ){verbinfo("SwapReset");
-fail++;goto swapreset;}
-
+fail++;incfails();swapt--;goto swapreset;}
+swapt++;//increment swaps(-1+1=0)
 }
