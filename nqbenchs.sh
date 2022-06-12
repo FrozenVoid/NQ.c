@@ -3,7 +3,6 @@ function scramtest(){
 for (( n=0;n<10;n++ ))
   do
      echo "==========Bench Scram= $n s ======="
-     echo "./nq 10000000 $n s"
      ./nq 10000000 "$n s"
      ecode=$?
 #halt on non-zero code
