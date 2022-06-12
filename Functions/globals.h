@@ -9,5 +9,5 @@ val_t * diagL;i64 sumL=0;
 val_t * diagR;i64 sumR=0;
 u64 tfail=0, swapt=0,tswaps=0,edge;
 i64   fail=0;
-size_t cend,cur,best;
+size_t cend,cur,best,limswap=0;
 size_t NL;
