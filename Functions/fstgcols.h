@@ -7,3 +7,4 @@ if(unlikely(qccount(i)))return i;
 i++;goto fstgcolsloop;}else
 if(likely(i==maxN)){i=0;goto fstgcolsloop;}
 return i;/*compiler likes end return struct*/}
+
