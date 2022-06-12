@@ -5,7 +5,6 @@ return likely(((diagL[s+P])+diagR[s+(N-P)])==2);
 //queen collisons at position: 2=none,2+=collision
 static inline val_t qccount(val_t P){
 //cannot be zero due being set from q[]
-__builtin_prefetch(&board[P],0,0);
 const size_t s=board[P];
 __builtin_prefetch(&diagL[s+P],0,0);
 __builtin_prefetch(&diagR[s+(N-P)],0,0);
