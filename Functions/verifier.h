@@ -5,8 +5,8 @@
 void verifier(){
 verbprint("Scanning for diagonal collisions: T:",mstime(),"ms\n");
 for(size_t i=0;i<N;i++){
-val_t left=(diagL[board[i]+i]);
-val_t right=(diagR[board[i]+(N-i)]);;
+size_t left=(diagL[board[i]+i]);
+size_t right=(diagR[board[i]+(N-i)]);;
 if(left==1 && right==1)continue;
 
 print("Invalid solution to N=",N,"Collision at c,L,R:",i,left,right,"\n");
