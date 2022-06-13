@@ -5,7 +5,7 @@ void printboard(char sep);
 void checkdup(){int hasdups=0;
 verbprint("Beginning duplicate check:N=",N,"  T:",mstime(),"ms\n");
 //at this point DiagL array is unused/unset
-memcpy(diagL,board,N*sizeof(val_t));
+memcpy(diagL,board,N*sizeof(boardtype));
 verbprint("Copied temporary array  T:",mstime(),"ms\n");
 sortmethod(diagL,N);
 verbprint("Sorted temporary array  T:",mstime(),"ms\n");
@@ -15,7 +15,7 @@ if(diagL[i]!=diagL[i-1])continue;
 if(hasdups && N<1024){printboard('.');puts("");}
 exit(231);;}}
 
-memset(diagL,0,N*sizeof(val_t));//zero used
+memset(diagL,0,N*sizeof(boardtype));//zero used
 verbprint("No duplicates found  T:",mstime(),"ms\n");
 
 }
