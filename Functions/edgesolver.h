@@ -1,4 +1,4 @@
-static inline const val_t rndedgecell(val_t X) {val_t startX=X*(X+edge<N);return startX+modreduce(N-startX);}
+static inline const size_t rndedgecell(size_t X) {size_t startX=X*(X+edge<N);return startX+modreduce(N-startX);}
 void NOINLINE edgecellsolver(){
 const size_t edgefailmax=N<100?20:NL*NL*NL*17;
 if(!cur)return;
