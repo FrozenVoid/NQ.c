@@ -1,5 +1,5 @@
 //first greater than column(s) with collision
-static inline const val_t fstgcols( val_t G){
+static inline const size_t fstgcols( size_t G){
 size_t i=G+1, maxN=N;;
 fstgcolsloop:;
 if(likely(i==maxN)){i=0;goto fstgcolsloop;}
