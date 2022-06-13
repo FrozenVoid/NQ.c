@@ -7,13 +7,13 @@ setbuf(stdin, NULL);
 for(size_t i=0;i<N;i++){
 uint64_t inp;scanf("%"SCNu64, &inp);
 getchar();
-board[i]=(val_t)inp;}}
+board[i]=(boardtype)inp;}}
 
 void fileloadfrom(char* name){
 if(!strcmp(name,"stdin")){pipestdin();goto filever;}
 FILE* in=fopen(name,"rb");
 if(!in){print("File:",name," cannot be opened");perror("");exit(111);}
-size_t vfqsize=fread(board,sizeof(val_t),N,in);
+size_t vfqsize=fread(board,sizeof(boardtype),N,in);
 if(vfqsize!=N){ print("File:",name,"reading failed at  queen#",vfqsize);perror("");exit(112);}
 fclose(in);
 //verify values in range
@@ -24,6 +24,6 @@ exit(99);
 
 }}
 
-print("Loaded ",sizeof(val_t),"byte NQ file:",name," N=",N);
+print("Loaded ",sizeof(boardtype),"byte NQ file:",name," N=",N);
 }
 #endif
