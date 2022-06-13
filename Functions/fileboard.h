@@ -2,7 +2,7 @@
 #define fileboard() ;
 #else
 void fileboard(){char* fname=malloc(126);
-sprintf(fname,"%"PRIu64".nq",(u64)N);
+sprintf(fname,"%"PRIu64".nq",(uint64_t)N);
 FILE*out=fopen(fname,"wb");
 verbprint("\nWriting board into",fname);
 size_t rfwout=fwrite(board,4,N,out);
