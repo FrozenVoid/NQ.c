@@ -1,11 +1,11 @@
-static inline void swapq(val_t x,val_t y){
-val_t temp=board[x];board[x]=board[y];board[y]=temp;
+static inline void swapq(size_t x,size_t y){
+boardtype  temp=board[x];board[x]=board[y];board[y]=temp;
 }
-static inline void swapauto(val_t x,val_t y){
+static inline void swapauto(size_t x,size_t y){
 if(unlikely(x==y))return;
  size_t prev=cur;
  swapreset:;
-val_t clx,crx,cly,cry;//current:right/left:x/y
+size_t clx,crx,cly,cry;//current:right/left:x/y
 #ifndef SILENCE
 tswaps++;// swaps total(all)
 #endif
