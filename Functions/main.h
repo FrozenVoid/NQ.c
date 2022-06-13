@@ -1,16 +1,16 @@
 int main(int argc,char**argv){
 if(argc<2){syntax();}
-N=(val_t)strtoull(argv[1],NULL,10);
+N=(size_t)strtoull(argv[1],NULL,10);
 if(!N){print("Invalid board configuration\n");exit(0);}
 setbuf(stdout,NULL);
-verbprint("Queen board size=",sizeof(val_t)*N," bytes\n");
+verbprint("Queen board size=",sizeof(boardtype)*N," bytes\n");
 
-board=calloc(N,sizeof(val_t));//columns
+board=calloc(N,sizeof(boardtype));//columns
 if(!board){perror("Queen array size too large for malloc");exit(2);}
 FLUSH;
-verbprint("Diagonal arrays size=",sizeof(val_t)*(N)*4," bytes\n");
-diagL=calloc((N),2*sizeof(val_t));
-diagR=calloc((N),2*sizeof(val_t));
+verbprint("Diagonal arrays size=",sizeof(boardtype)*(N)*4," bytes\n");
+diagL=calloc((N),2*sizeof(boardtype));
+diagR=calloc((N),2*sizeof(boardtype));
 if(!diagR||!diagL){perror("Diag arrays size too large for malloc");exit(3);}
 
 if(argc>=3){
