@@ -1,7 +1,7 @@
 
 //--------------------Stage2---------------
 void NOINLINE linearsolve(){
-const val_t stage3lim=119+N/512;
+const size_t stage3lim=119+N/512;
 if(!cur)return;
 print("\nStage2: ",mstime(),"ms Stage3Lim:",stage3lim,"cols\n");
 goto resetA;midloop:;verbinfo("Midloop:");
