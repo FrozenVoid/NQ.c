@@ -21,10 +21,12 @@
 #define val_t uint64_t
 #define sortmethod combsort
 #define modreduce range
+#define boardtype uint64_t
 #else
 #define val_t uint32_t
 #define modreduce range32b
 #define sortmethod combsort
+#define boardtype uint32_t
 #endif
 
 #define zerocols(P) (!qccount(P))
