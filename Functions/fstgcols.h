@@ -1,8 +1,8 @@
 //first greater than column(s) with collision
-static inline const size_t fstgcols( size_t G){
+static inline size_t fstgcols( size_t G){
 size_t i=G+1, maxN=N;;
 fstgcolsloop:;
-if(likely(i==maxN)){i=0;goto fstgcolsloop;}
+i=i==maxN?0:i;
 const size_t s=board[i];
 __builtin_prefetch(&diagL[s+i],0,0);
 __builtin_prefetch(&diagR[s+(maxN-i)],0,0);
