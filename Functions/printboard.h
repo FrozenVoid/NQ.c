@@ -9,9 +9,9 @@ printf("%"PRIu64"",(uint64_t)board[i]);}}
 
 void printgraph(){//graphical view
 puts("");
-for(i64 zz=N-1;zz>-1;zz--){//row N-1/0
+for(int64_t zz=N-1;zz>-1;zz--){//row N-1/0
 //column ZZ:row cq
-for(i64 k=0;k<N;k++){
+for(int64_t k=0;k<N;k++){
 printf(zz==board[k]?"Q|":"_|");}puts("");}
 }
 #endif
