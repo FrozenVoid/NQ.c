@@ -18,12 +18,10 @@
 
 #define mstime() ((clock())/(CLOCKS_PER_SEC/1000))
 #ifdef BIGIRON
-#define val_t size_t
 #define sortmethod combsort
 #define modreduce range
 #define boardtype uint64_t
 #else
-#define val_t size_t
 #define modreduce range32b
 #define sortmethod combsort
 #define boardtype uint32_t
